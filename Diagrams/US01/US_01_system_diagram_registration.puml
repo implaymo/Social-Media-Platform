@@ -1,0 +1,16 @@
+@startuml
+
+
+
+User -> System: i want to register in the platform
+System --> User: What is your name?
+User -> System: name1
+System --> User: What is your email?
+User -> System: email1
+System --> User: What is your password?
+User -> System: password1
+System --> User: Everything is correct?
+User -> System: yes!
+System --> User: User registered successfully!
+
+@enduml
