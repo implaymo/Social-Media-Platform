@@ -1,0 +1,226 @@
+@startuml
+!pragma layout smetana
+
+' ======================
+' Domain Entities
+' ======================
+
+class User {
+  - uniqueID: int
+  - username: String
+  - email: String
+  - password: String
+  - bio: String
+  - profilePicture: String
+}
+
+class Post {
+  - contentID: int
+  - text: String
+  - timestamp: String
+}
+
+class Media {
+    - type: String
+    - url: String
+}
+
+class Comment {
+  - commentID: int
+  - text: String
+  - timestamp: String
+}
+
+class Like {
+  - likeID: int
+  - timestamp: String
+}
+
+class Follow {
+  - followID: int
+  - timestamp: String
+}
+
+class Chat {
+  - chatID: int
+  - timestamp: String
+}
+
+class Message {
+  - messageID: int
+  - text: String
+  - timestamp: String
+}
+
+class Notification {
+  - notificationID: int
+  - type: String
+  - content: String
+  - timestamp: String
+}
+
+' ----------------------
+' Domain Associations
+' ----------------------
+
+' A User creates many Post items
+User "1" -- "0..*" Post : creates
+Post "1" -- "0..1" Media : contains
+
+' A User writes many Comments; each Comment is written by 1 User and on 1 Post item
+User "1" -- "0..*" Comment : writes
+Comment "1" -- "1" Post : on
+
+' A User gives many Likes; each Like is by 1 User on 1 Post
+User "1" -- "0..*" Like : gives
+Like "1" -- "1" Post : on
+
+' A User receives many Notifications
+User "1" -- "0..*" Notification : receives
+
+' A User sends many Messages
+User "1" -- "0..*" Message : sends
+' Each Message belongs to 1 Chat
+Chat "1" -- "0..*" Message : comprises
+
+' A Chat is between (at least) 2 Users.
+' Here we model Chat participation using two associations for clarity.
+Chat "1" -- "1" User : participant1
+Chat "1" -- "1" User : participant2
+
+' A User participates in many Chats (this association is bidirectional)
+User "1" -- "0..*" Chat : participates
+
+' Self-association for following.
+' Using the Follow class as a link between two Users.
+User "1" -- "0..*" Follow : initiates
+Follow "1" -- "1" User : target
+
+' ======================
+' Repositories
+' ======================
+
+class UserRepository {
+    + saveUser(user: User): boolean
+    + removeUser(user: User): boolean
+}
+
+class MessageRepository {
+    + saveMessage(message: Message): boolean
+    + removeMessage(message: Message): boolean
+}
+
+class NotificationRepository {
+    + saveNotification(notification: Notification): boolean
+    + removeNotification(notification: Notification): boolean
+}
+
+class LikeRepository {
+    + saveLike(like: Like): boolean
+    + removeLike(like: Like): boolean
+}
+
+class ChatRepository {
+    + saveChat(chat: Chat): boolean
+    + removeChat(chat: Chat): boolean
+}
+
+class FollowRepository {
+    + saveFollow(follow: Follow): boolean
+    + removeFollow(follow: Follow): boolean
+}
+
+class CommentRepository {
+    + saveComment(comment: Comment): boolean
+    + removeComment(comment: Comment): boolean
+}
+
+' ======================
+' Services
+' ======================
+
+class UserService {
+    + registerUser(user: User): boolean
+    + loginUser(email: String, password: String): User
+    + updateUserProfile(user: User): boolean
+}
+
+class MessageService {
+    + createMessage(message: Message): boolean
+    + deleteMessage(message: Message): boolean
+    + editMessage(message: Message): boolean
+}
+
+class NotificationService {
+    + createNotification(notification: Notification): boolean
+    + deleteNotification(notification: Notification): boolean
+}
+
+class LikeService {
+    + createLike(like: Like): boolean
+    + removeLike(like: Like): boolean
+}
+
+class FollowService {
+    + addFollow(follow: Follow): boolean
+    + removeFollow(follow: Follow): boolean
+}
+
+class ChatService {
+    + createChat(chat: Chat): boolean
+    + deleteChat(chat: Chat): boolean
+}
+
+class CommentService {
+    + createComment(comment: Comment): boolean
+    + deleteComment(comment: Comment): boolean
+}
+
+' ======================
+' Controllers
+' ======================
+
+class UserController {
+}
+
+class MessageController {
+}
+
+class ChatController {
+}
+
+class CommentController {
+}
+
+class NotificationController {
+}
+
+class LikeController {
+}
+
+class FollowController {
+}
+
+' ----------------------
+' Dependency Associations
+' (These show typical "uses" relationships)
+' ----------------------
+
+UserService ..> UserRepository : uses
+MessageService ..> MessageRepository : uses
+NotificationService ..> NotificationRepository : uses
+LikeService ..> LikeRepository : uses
+FollowService ..> FollowRepository : uses
+ChatService ..> ChatRepository : uses
+CommentService ..> CommentRepository: uses
+
+
+UserController ..> UserService : calls
+MessageController ..> MessageService : calls
+ChatController ..> ChatService : calls
+CommentController ..> CommentService : calls   ' or a dedicated CommentService if created
+NotificationController ..> NotificationService : calls
+LikeController ..> LikeService : calls
+FollowController ..> FollowService : calls
+
+@enduml

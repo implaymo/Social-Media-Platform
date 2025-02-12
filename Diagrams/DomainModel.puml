@@ -15,7 +15,7 @@ entity User {
   profilePicture
 }
 
-entity Content {
+entity Post {
   contentID
   text
   image
@@ -60,11 +60,11 @@ entity Notification {
 }
 
 ' Relationships
-User "1" -- "*" Content : creates >
+User "1" -- "*" Post : creates >
 User "1" -- "*" Comment : writes >
-Content "1" -- "*" Comment : has >
+Post "1" -- "*" Comment : has >
 User "1" -- "*" Like : creates >
-Content "1" -- "*" Like : has >
+Post "1" -- "*" Like : has >
 User "1" -- "*" Follow : follows >
 User "1" -- "*" Chat : participates in >
 Chat "1" -- "*" Message : contains >
