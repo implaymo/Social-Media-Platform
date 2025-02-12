@@ -1,0 +1,13 @@
+@startuml
+
+actor User
+participant System
+
+User -> System: I want to send a message to another user
+System --> User: Displays list of available users
+User -> System: Selects a recipient
+System --> User: What's the message you want to send?
+User -> System: Writes and sends the message
+System --> User: Message sent successfully!
+
+@enduml
