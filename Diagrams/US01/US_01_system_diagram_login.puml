@@ -1,0 +1,14 @@
+@startuml
+
+
+
+User -> System: i want to log in in the platform
+System --> User: What is your email?
+User -> System: email1
+System --> User: What is your password?
+User -> System: password1
+System --> User: Everything is correct?
+User -> System: yes!
+System --> User: User log in successfully!
+
+@enduml
