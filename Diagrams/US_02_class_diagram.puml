@@ -1,0 +1,23 @@
+@startuml
+
+class MessageService {
+    + sendMessage(chatID: int, message: MessageDto): boolean
+    + retrieveChatHistory(chatID: int): List<Message>
+}
+
+class MessageController {
+    + createMessage(message: String)
+    + deleteMessage(messageID: int)
+    + editMessage(messageID: int)
+}
+
+class MessageDto {
+    - content: String
+}
+
+MessageDto ..> MessageController : sent to
+MessageController ..> MessageService : calls
+MessageService ..> MessageRepository : uses
+
+
+@enduml

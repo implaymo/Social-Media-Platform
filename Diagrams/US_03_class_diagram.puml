@@ -1,0 +1,30 @@
+@startuml
+
+class PostService {
+    + createPost(post: PostDto): boolean
+    + updatePost(postID: int): boolean
+    + deletePost(postID: int): boolean
+}
+
+
+class PostController {
+    + createPost(content: String, mediaURL: String)
+    + deletePost(postID: int)
+    + editPost(postID: int)
+}
+
+
+
+
+class PostDto {
+    -content: String
+    -mediaURL: String
+}
+
+
+PostDto ..> PostController: sent to
+PostController ..> PostService: calls
+PostService ..> PostRepository: uses
+
+
+@enduml

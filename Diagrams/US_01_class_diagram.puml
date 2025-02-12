@@ -1,0 +1,33 @@
+@startuml
+class AuthService {
+    + registerUser(user: UserRegisterDto): boolean
+    + loginUser(user: UserLoginDto): String ' Returns JWT token
+}
+
+
+class AuthController {
+    + register(user: UserRegisterDto)): boolean
+    + login(user: UserLoginDto): boolean
+}
+
+class UserRegisterDto {
+    - userID: int
+    - name: String
+    - email: String
+    - password: String
+    - List<Media>
+}
+
+class UserLoginDto {
+    - email: String
+    - password: String
+}
+
+UserLoginDto ..> AuthController : sent to
+AuthController ..> AuthService : calls
+AuthService ..> UserRepository : uses
+
+UserRegisterDto ..> AuthController : sent to
+AuthController ..> AuthService : calls
+AuthService ..> UserRepository : uses
+@enduml
