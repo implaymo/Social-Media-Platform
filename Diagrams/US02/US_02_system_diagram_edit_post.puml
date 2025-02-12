@@ -1,0 +1,15 @@
+@startuml
+
+actor User
+participant System
+
+User -> System: I want to edit a post in the platform
+System --> User: Displays list of User's posts
+User -> System: Selects a post to edit
+System --> User: Displays post content for editing
+User -> System: Makes changes to the post
+System --> User: Displays updated post and asks for confirmation
+User -> System: Confirms the changes
+System --> User: Post updated successfully!
+
+@enduml
