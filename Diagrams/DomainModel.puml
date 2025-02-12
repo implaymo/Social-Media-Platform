@@ -1,0 +1,74 @@
+@startuml
+skinparam linetype polyline
+left to right direction
+hide empty methods
+hide empty members
+title "Domain Diagram"
+
+' Entities
+entity User {
+  uniqueID
+  username
+  email
+  password
+  bio
+  profilePicture
+}
+
+entity Content {
+  contentID
+  text
+  image
+  video
+  timestamp
+}
+
+entity Comment {
+  commentID
+  content
+  timestamp
+}
+
+entity Like {
+  likeID
+  timestamp
+}
+
+entity Follow {
+  followID
+  timestamp
+}
+
+entity Chat {
+  chatID
+  user1ID
+  user2ID
+  timestamp
+}
+
+entity Message {
+  messageID
+  content
+  timestamp
+}
+
+entity Notification {
+  notificationID
+  type
+  content
+  timestamp
+}
+
+' Relationships
+User "1" -- "*" Content : creates >
+User "1" -- "*" Comment : writes >
+Content "1" -- "*" Comment : has >
+User "1" -- "*" Like : creates >
+Content "1" -- "*" Like : has >
+User "1" -- "*" Follow : follows >
+User "1" -- "*" Chat : participates in >
+Chat "1" -- "*" Message : contains >
+User "1" -- "*" Message : sends >
+User "1" -- "*" Message : receives >
+User "1" -- "*" Notification : receives >
+@enduml
