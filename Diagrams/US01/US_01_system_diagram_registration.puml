@@ -1,6 +1,6 @@
 @startuml
 
-
+actor User
 
 User -> System: i want to register in the platform
 System --> User: What is your name?

@@ -1,30 +1,23 @@
 @startuml
 
-class PostService {
-    + createPost(post: PostDto): boolean
-    + updatePost(postID: int): boolean
-    + deletePost(postID: int): boolean
+class MessageService {
+    + sendMessage(chatID: int, message: MessageDto): boolean
+    + retrieveChatHistory(chatID: int): List<Message>
 }
 
-
-class PostController {
-    + createPost(content: String, mediaURL: String)
-    + deletePost(postID: int)
-    + editPost(postID: int)
+class MessageController {
+    + createMessage(message: String)
+    + deleteMessage(messageID: int)
+    + editMessage(messageID: int)
 }
 
-
-
-
-class PostDto {
-    -content: String
-    -mediaURL: String
+class MessageDto {
+    - content: String
 }
 
-
-PostDto ..> PostController: sent to
-PostController ..> PostService: calls
-PostService ..> PostRepository: uses
+MessageDto ..> MessageController : sent to
+MessageController ..> MessageService : calls
+MessageService ..> MessageRepository : uses
 
 
 @enduml

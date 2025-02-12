@@ -1,0 +1,17 @@
+@startuml
+
+
+actor User
+participant System
+
+User -> System: I want to create a post in the platform
+System --> User: What do you want to write?
+User -> System: text1
+System --> User: Do you want to add any media? (Optional)
+User -> System: No
+System --> User: Everything is correct?
+User -> System: yes!
+System --> User: User created Post successfully!
+
+
+@enduml

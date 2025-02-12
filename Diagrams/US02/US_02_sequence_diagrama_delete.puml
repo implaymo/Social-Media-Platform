@@ -1,0 +1,13 @@
+@startuml
+
+
+actor User
+participant System
+
+User -> System: I want to delete a post in the platform
+System --> User: Displays list of User's posts
+User -> System: Selects a post to delete
+System --> User: Are you sure you want to delete this post?
+User -> System: Yes, delete the post
+System --> User: Post deleted successfully!
+@enduml

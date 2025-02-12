@@ -1,6 +1,6 @@
 @startuml
 
-
+actor User
 
 User -> System: i want to log in in the platform
 System --> User: What is your email?
