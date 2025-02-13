@@ -36,6 +36,7 @@ dependencies {
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	implementation("org.springframework.boot:spring-boot-starter-validation:3.4.2")
 	implementation("org.hibernate.validator:hibernate-validator:9.0.0.CR1")
+	implementation("jakarta.validation:jakarta.validation-api:3.1.1")
 }
 
 tasks.withType<Test> {

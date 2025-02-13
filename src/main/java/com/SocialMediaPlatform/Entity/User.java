@@ -2,6 +2,8 @@ package com.SocialMediaPlatform.Entity;
 
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,6 +18,8 @@ public class User {
 
     @NonNull
     @NotBlank(message = "Name can't be null or blank")
+    @Size(min = 3, max = 50, message = "Name must be between 3 and 50 characters")
+    @Pattern(regexp = "^[A-Za-z ]+$", message = "Name can only contain letters and spaces")
     private String name;
 
     @NonNull

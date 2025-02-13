@@ -25,13 +25,13 @@ class UserTest {
     void shouldReturnUserObjectAndFields() {
         // arrange
         User user = User.builder()
-                .name("John")
+                .name("John Cena")
                 .email("john123@gmail.com")
                 .password("john12345")
                 .build();
         // act + assert
         assertNotNull(user);
-        assertEquals("John", user.getName());
+        assertEquals("John Cena", user.getName());
         assertEquals("john123@gmail.com", user.getEmail());
         assertEquals("john12345", user.getPassword());
     }
@@ -116,6 +116,22 @@ class UserTest {
         assertFalse(violations.isEmpty());
         assertTrue(violations.stream().anyMatch(v ->
                 v.getMessage().equals("Password can't be null or blank")));
+    }
+
+    @Test
+    void shouldReturnFalseIfUserProvidesInvalidName() {
+        // arrange
+        User user = User.builder()
+                .name("John1010010!**")
+                .email("john123@gmail.com")
+                .password("john12345")
+                .build();
+        // act
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+        // assert
+        assertFalse(violations.isEmpty());
+        assertTrue(violations.stream().anyMatch(v ->
+                v.getMessage().equals("Name can only contain letters and spaces")));
     }
 
 }
