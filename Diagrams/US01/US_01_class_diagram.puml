@@ -11,11 +11,10 @@ class AuthController {
 }
 
 class UserRegisterDto {
-    - userID: int
+    - userID: String
     - name: String
     - email: String
     - password: String
-    - List<Media>
 }
 
 class UserLoginDto {
