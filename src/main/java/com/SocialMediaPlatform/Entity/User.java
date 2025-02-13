@@ -18,7 +18,7 @@ public class User {
 
     @NonNull
     @NotBlank(message = "Name can't be null or blank")
-    @Size(min = 3, max = 50, message = "Name must be between 3 and 50 characters")
+    @Size(min = 2, max = 50, message = "Name must be between 3 and 50 characters")
     @Pattern(regexp = "^[A-Za-z ]+$", message = "Name can only contain letters and spaces")
     private String name;
 
