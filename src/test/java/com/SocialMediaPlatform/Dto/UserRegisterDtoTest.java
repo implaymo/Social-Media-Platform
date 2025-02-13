@@ -45,36 +45,50 @@ class UserRegisterDtoTest {
 
     @Test
     void shouldReturnNullIfUserProvideNullNameField() {
-        // act + assert
-        assertThrows(NullPointerException.class, () -> {
-            UserRegisterDto.builder()
-                    .name(null)
-                    .email("john123@gmail.com")
-                    .password("john12345")
-                    .build();
-        });
+        // arrange
+        UserRegisterDto userRegisterDto = UserRegisterDto.builder()
+                .name(null)
+                .email("john123@gmail.com")
+                .password("john12345")
+                .build();
+        // act
+        Set<ConstraintViolation<UserRegisterDto>> violations = validator.validate(userRegisterDto);
+        // assert
+        assertFalse(violations.isEmpty());
+        assertTrue(violations.stream().anyMatch(v ->
+                v.getMessage().equals("Name can't be null or blank")));
     }
 
     @Test
     void shouldThrowExceptionIfEmailIsNull() {
-        assertThrows(NullPointerException.class, () -> {
-            UserRegisterDto.builder()
-                    .name("John")
-                    .email(null)
-                    .password("john12345")
-                    .build();
-        });
+        // arrange
+        UserRegisterDto userRegisterDto = UserRegisterDto.builder()
+                .name("John")
+                .email(null)
+                .password("john12345")
+                .build();
+        // act
+        Set<ConstraintViolation<UserRegisterDto>> violations = validator.validate(userRegisterDto);
+        // assert
+        assertFalse(violations.isEmpty());
+        assertTrue(violations.stream().anyMatch(v ->
+                v.getMessage().equals("Email can't be null or blank")));
     }
 
     @Test
     void shouldThrowExceptionIfPasswordIsNull() {
-        assertThrows(NullPointerException.class, () -> {
-            UserRegisterDto.builder()
-                    .name("John")
-                    .email("john123@gmail.com")
-                    .password(null)
-                    .build();
-        });
+        // arrange
+        UserRegisterDto userRegisterDto = UserRegisterDto.builder()
+                .name("John")
+                .email("john123@gmail.com")
+                .password(null)
+                .build();
+        // act
+        Set<ConstraintViolation<UserRegisterDto>> violations = validator.validate(userRegisterDto);
+        // assert
+        assertFalse(violations.isEmpty());
+        assertTrue(violations.stream().anyMatch(v ->
+                v.getMessage().equals("Password can't be null or blank")));
     }
 
     @Test
