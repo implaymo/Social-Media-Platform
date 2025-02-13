@@ -119,7 +119,7 @@ class UserTest {
     }
 
     @Test
-    void shouldReturnFalseIfUserProvidesInvalidName() {
+    void shouldReturnFalseIfUserProvidesNameWithSpecialCharacters() {
         // arrange
         User user = User.builder()
                 .name("John1010010!**")
@@ -133,5 +133,38 @@ class UserTest {
         assertTrue(violations.stream().anyMatch(v ->
                 v.getMessage().equals("Name can only contain letters and spaces")));
     }
+
+    @Test
+    void shouldReturnFalseIfUserProvidesNameWithMoreThanMaximumSize() {
+        // arrange
+        User user = User.builder()
+                .name("Johnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
+                .email("john123@gmail.com")
+                .password("john12345")
+                .build();
+        // act
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+        // assert
+        assertFalse(violations.isEmpty());
+        assertTrue(violations.stream().anyMatch(v ->
+                v.getMessage().equals("Name must be between 3 and 50 characters")));
+    }
+
+    @Test
+    void shouldReturnFalseIfUserProvidesNameWithLessThanMinimumSize() {
+        // arrange
+        User user = User.builder()
+                .name("Jo")
+                .email("john123@gmail.com")
+                .password("john12345")
+                .build();
+        // act
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+        // assert
+        assertFalse(violations.isEmpty());
+        assertTrue(violations.stream().anyMatch(v ->
+                v.getMessage().equals("Name must be between 3 and 50 characters")));
+    }
+
 
 }
