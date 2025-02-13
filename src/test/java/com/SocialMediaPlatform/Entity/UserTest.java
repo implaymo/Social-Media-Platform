@@ -27,13 +27,20 @@ class UserTest {
         User user = User.builder()
                 .name("John Cena")
                 .email("john123@gmail.com")
-                .password("john12345")
+                .password("John@12345")
                 .build();
-        // act + assert
+
+        // act
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+
+        // assert - validate that there are no constraint violations
+        assertTrue(violations.isEmpty(), "Expected no validation errors, but found: " + violations);
+
+        // assert - validate user fields
         assertNotNull(user);
         assertEquals("John Cena", user.getName());
         assertEquals("john123@gmail.com", user.getEmail());
-        assertEquals("john12345", user.getPassword());
+        assertEquals("John@12345", user.getPassword());
     }
 
     @Test
@@ -119,7 +126,7 @@ class UserTest {
     }
 
     @Test
-    void shouldReturnFalseIfUserProvidesNameWithSpecialCharacters() {
+    void shouldReturnTrueIfUserProvidesNameWithSpecialCharacters() {
         // arrange
         User user = User.builder()
                 .name("John1010010!**")
@@ -135,7 +142,7 @@ class UserTest {
     }
 
     @Test
-    void shouldReturnFalseIfUserProvidesNameWithMoreThanMaximumSize() {
+    void shouldReturnTrueIfUserProvidesNameWithMoreThanMaximumSize() {
         // arrange
         User user = User.builder()
                 .name("Johnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
@@ -151,23 +158,23 @@ class UserTest {
     }
 
     @Test
-    void shouldReturnFalseIfUserProvidesNameWithLessThanMinimumSize() {
+    void shouldReturnTrueIfUserProvidesNameWithLessThanMinimumSize() {
         // arrange
         User user = User.builder()
-                .name("Jo")
+                .name("J")
                 .email("john123@gmail.com")
-                .password("john12345")
+                .password("John@12345")
                 .build();
         // act
         Set<ConstraintViolation<User>> violations = validator.validate(user);
         // assert
         assertFalse(violations.isEmpty());
         assertTrue(violations.stream().anyMatch(v ->
-                v.getMessage().equals("Name must be between 3 and 50 characters")));
+                v.getMessage().equals("Name must be between 2 and 50 characters")));
     }
 
     @Test
-    void shouldReturnFalseIfUserProvidesInvalidEmailMissingAtSign() {
+    void shouldReturnTrueIfUserProvidesInvalidEmailMissingAtSign() {
         // arrange
         User user = User.builder()
                 .name("John")
@@ -183,7 +190,7 @@ class UserTest {
     }
 
     @Test
-    void shouldReturnFalseIfUserProvidesInvalidEmailMissingTopLevelDomain() {
+    void shouldReturnTrueIfUserProvidesInvalidEmailMissingTopLevelDomain() {
         // arrange
         User user = User.builder()
                 .name("John")
@@ -196,6 +203,39 @@ class UserTest {
         assertFalse(violations.isEmpty());
         assertTrue(violations.stream().anyMatch(v ->
                 v.getMessage().equals("Invalid email format")));
+    }
+
+    @Test
+    void shouldReturnTrueIfUserProvidesPasswordLengthLessThan8() {
+        // arrange
+        User user = User.builder()
+                .name("John")
+                .email("john123@gmail")
+                .password("john123")
+                .build();
+        // act
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+        // assert
+        assertFalse(violations.isEmpty());
+        assertTrue(violations.stream().anyMatch(v ->
+                v.getMessage().equals("Password must have at least 8 characters")));
+    }
+
+    @Test
+    void shouldReturnTrueIfUserProvidesPasswordThatNotFollowAllCharacterRules() {
+        // arrange
+        User user = User.builder()
+                .name("John")
+                .email("john123@gmail")
+                .password("john@1234")
+                .build();
+        // act
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+        // assert
+        assertFalse(violations.isEmpty());
+        assertTrue(violations.stream().anyMatch(v ->
+                v.getMessage().equals("Password must contain at least one uppercase letter," +
+                        " one lowercase letter, one number, and one special character.")));
     }
 
 
