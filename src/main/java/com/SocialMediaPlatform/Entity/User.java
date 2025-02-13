@@ -1,6 +1,7 @@
 package com.SocialMediaPlatform.Entity;
 
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -24,6 +25,8 @@ public class User {
 
     @NonNull
     @NotBlank(message = "Email can't be null or blank")
+    @Email(message = "Invalid email format")
+    @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", message = "Invalid email format")
     private String email;
 
     @NonNull

@@ -166,5 +166,37 @@ class UserTest {
                 v.getMessage().equals("Name must be between 3 and 50 characters")));
     }
 
+    @Test
+    void shouldReturnFalseIfUserProvidesInvalidEmailMissingAtSign() {
+        // arrange
+        User user = User.builder()
+                .name("John")
+                .email("john123gmail.com")
+                .password("john12345")
+                .build();
+        // act
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+        // assert
+        assertFalse(violations.isEmpty());
+        assertTrue(violations.stream().anyMatch(v ->
+                v.getMessage().equals("Invalid email format")));
+    }
+
+    @Test
+    void shouldReturnFalseIfUserProvidesInvalidEmailMissingTopLevelDomain() {
+        // arrange
+        User user = User.builder()
+                .name("John")
+                .email("john123@gmail")
+                .password("john12345")
+                .build();
+        // act
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+        // assert
+        assertFalse(violations.isEmpty());
+        assertTrue(violations.stream().anyMatch(v ->
+                v.getMessage().equals("Invalid email format")));
+    }
+
 
 }
