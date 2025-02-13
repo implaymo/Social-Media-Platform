@@ -154,7 +154,7 @@ class UserTest {
         // assert
         assertFalse(violations.isEmpty());
         assertTrue(violations.stream().anyMatch(v ->
-                v.getMessage().equals("Name must be between 3 and 50 characters")));
+                v.getMessage().equals("Name must be between 2 and 50 characters")));
     }
 
     @Test
