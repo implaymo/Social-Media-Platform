@@ -51,4 +51,5 @@ class PasswordHashTest {
         // assert
         assertNotEquals(hashedPassword1, hashedPassword2);
     }
+
 }

@@ -17,6 +17,7 @@ class PasswordSaltTest {
 
     @Test
     void shouldGenerateRandomSalt() {
+        // arrange
         // act
         byte[] salt = passwordSalt.generateRandomSalt();
         // assert
@@ -26,6 +27,7 @@ class PasswordSaltTest {
 
     @Test
     void shouldGenerateDifferentSalts() {
+        // arrange
         // act
         byte[] salt1 = passwordSalt.generateRandomSalt();
         byte[] salt2 = passwordSalt.generateRandomSalt();
@@ -34,4 +36,5 @@ class PasswordSaltTest {
         assertNotNull(salt2);
         assertNotEquals(salt1, salt2);
     }
+
 }

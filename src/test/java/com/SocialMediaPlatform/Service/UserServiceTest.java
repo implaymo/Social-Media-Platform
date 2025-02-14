@@ -1,6 +1,7 @@
 package com.SocialMediaPlatform.Service;
 
 import com.SocialMediaPlatform.Dto.UserRegisterDto;
+import com.SocialMediaPlatform.Entity.User;
 import com.SocialMediaPlatform.Mapper.UserRegisterMapper;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordHash;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordSalt;
@@ -10,23 +11,26 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
 
-    private UserRegisterMapper userRegisterMapper;
-    private PasswordSalt passwordSalt;
-    private PasswordHash passwordHash;
+    private UserService userService;
 
     @BeforeEach
     void setUp() {
-        passwordSalt = new PasswordSalt();
-        passwordHash = new PasswordHash();
-        userRegisterMapper = new UserRegisterMapper();
+        PasswordSalt passwordSalt = new PasswordSalt();
+        PasswordHash passwordHash = new PasswordHash();
+        UserRegisterMapper userRegisterMapper = new UserRegisterMapper();
         MockitoAnnotations.openMocks(this);
+        userService = new UserService(userRepository, userRegisterMapper, passwordHash, passwordSalt);
     }
 
     @Test
@@ -37,7 +41,6 @@ class UserServiceTest {
                 .email("john123@gmail.com")
                 .password("John@12345")
                 .build();
-        UserService userService = new UserService(userRepository, userRegisterMapper, passwordHash, passwordSalt);
         // act
         boolean registerUser = userService.registerUser(userRegisterDto);
         // assert
@@ -48,12 +51,9 @@ class UserServiceTest {
     void shouldReturnFalseIfUserRegisterDtoIsNull() {
         // arrange
         UserRegisterDto userRegisterDto = null;
-        UserService userService = new UserService(userRepository, userRegisterMapper, passwordHash, passwordSalt);
         // act
         boolean registerUser = userService.registerUser(userRegisterDto);
         // assert
         assertFalse(registerUser);
     }
-
-
 }
