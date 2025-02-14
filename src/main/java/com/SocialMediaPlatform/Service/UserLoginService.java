@@ -34,19 +34,17 @@ public class UserLoginService {
             return null;
         }
 
-        try {
-            User user = userLoginMapper.toEntityForLogin(userLoginDto);
-            Optional<User> userInDatabase = userRepository.findByEmail(user.getEmail());
-            if(userInDatabase.isPresent()){
-                User userEntity = userInDatabase.get();
-                byte[] saltFromUserInDatabase = transformBase64SaltIntoByte(userEntity);
-                String passwordProvidedInLoginHashed = hashPasswordProvidedToLogin(user, saltFromUserInDatabase);
-                if(Objects.equals(passwordProvidedInLoginHashed, userInDatabase.get().getPassword())) {
-                    return jwtUtil.generateToken(userInDatabase.get().getEmail());
-                }
+        User user = userLoginMapper.toEntityForLogin(userLoginDto);
+        Optional<User> userInDatabase = userRepository.findByEmail(user.getEmail());
+
+        if (userInDatabase.isPresent()) {
+            User userEntity = userInDatabase.get();
+            byte[] saltFromUserInDatabase = transformBase64SaltIntoByte(userEntity);
+            String passwordProvidedInLoginHashed = hashPasswordProvidedToLogin(user, saltFromUserInDatabase);
+
+            if (Objects.equals(passwordProvidedInLoginHashed, userEntity.getPassword())) {
+                return jwtUtil.generateToken(userEntity.getEmail());
             }
-        } catch (Exception e) {
-            return "";
         }
         return "";
     }

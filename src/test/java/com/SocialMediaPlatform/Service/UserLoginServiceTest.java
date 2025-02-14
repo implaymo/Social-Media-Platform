@@ -7,12 +7,10 @@ import com.SocialMediaPlatform.PasswordEncryption.PasswordHash;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordSalt;
 import com.SocialMediaPlatform.Repository.UserRepository;
 import com.SocialMediaPlatform.Security.JWTUtil;
-import org.apache.catalina.webresources.JarWarResource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.security.core.parameters.P;
 
 import java.util.Base64;
 import java.util.Optional;
@@ -76,7 +74,7 @@ class UserLoginServiceTest {
     void shouldReturnBlankIfUserNotLoginSuccessfully(){
         // arrange
         UserLoginDto userLoginDto = UserLoginDto.builder()
-                .email("john123@gmail.com")
+                .email("johnaTHanSIlva123@gmail.com")
                 .password("john12345")
                 .build();
         // act
