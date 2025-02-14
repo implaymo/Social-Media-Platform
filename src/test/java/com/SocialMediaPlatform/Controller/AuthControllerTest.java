@@ -3,11 +3,12 @@ package com.SocialMediaPlatform.Controller;
 import com.SocialMediaPlatform.Dto.UserRegisterDto;
 import com.SocialMediaPlatform.Entity.User;
 import com.SocialMediaPlatform.Mapper.UserRegisterMapper;
+import com.SocialMediaPlatform.PasswordEncryption.PasswordHash;
+import com.SocialMediaPlatform.PasswordEncryption.PasswordSalt;
 import com.SocialMediaPlatform.Repository.UserRepository;
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.UUID;
 
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.core.parameters.P;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,6 +25,8 @@ class AuthControllerTest {
 
     private UserService userService;
     private UserRegisterMapper userRegisterMapper;
+    private PasswordHash passwordHash;
+    private PasswordSalt passwordSalt;
 
     @Mock
     UserRepository userRepository;
@@ -30,12 +34,14 @@ class AuthControllerTest {
     @BeforeEach
     void setUp() {
         userRegisterMapper = new UserRegisterMapper();
-        userService = new UserService(userRepository, userRegisterMapper);
+        passwordHash = new PasswordHash();
+        passwordSalt = new PasswordSalt();
+        userService = new UserService(userRepository, userRegisterMapper,passwordHash, passwordSalt);
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void shouldReturnTrueIfUserRegistered() {
+    void shouldReturnTrueIfValidUserRegistration() {
         // arrange
         UserRegisterDto userRegisterDto = UserRegisterDto.builder()
                 .name("John Cena")
@@ -50,12 +56,12 @@ class AuthControllerTest {
         when(userRepository.save(any(User.class)))
                 .thenAnswer(invocation -> {
                     User savedUser = invocation.getArgument(0);
-                    savedUser.setId(UUID.randomUUID().toString()); // Manually set the id for the mock
+                    savedUser.setId(UUID.randomUUID().toString());
                     return savedUser;
                 });
 
         // Mock the UserService and inject the mocked repository
-        UserService userService = new UserService(userRepository, userRegisterMapper);
+        UserService userService = new UserService(userRepository, userRegisterMapper, passwordHash, passwordSalt);
         AuthController authController = new AuthController(userService);
 
         // act

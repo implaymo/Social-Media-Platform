@@ -36,7 +36,6 @@ public class User {
             "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.")
     private String password;
 
-    @NotBlank(message = "Salt can't be null or blank")
-    private String salt;
+    private byte[] salt;
 
 }
