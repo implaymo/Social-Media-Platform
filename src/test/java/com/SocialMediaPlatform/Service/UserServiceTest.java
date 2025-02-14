@@ -1,6 +1,7 @@
 package com.SocialMediaPlatform.Service;
 
 import com.SocialMediaPlatform.Dto.UserRegisterDto;
+import com.SocialMediaPlatform.Entity.User;
 import com.SocialMediaPlatform.Mapper.UserRegisterMapper;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordHash;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordSalt;
@@ -9,6 +10,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserServiceTest {
@@ -35,6 +40,12 @@ class UserServiceTest {
                 .email("john123@gmail.com")
                 .password("John@12345")
                 .build();
+        // Mock the repository's save method to simulate MongoDB generating an ID
+        when(userRepository.save(any(User.class))).thenAnswer(invocation -> {
+            User user = invocation.getArgument(0);
+            user.setId(UUID.randomUUID().toString());  // Simulate ID generation by MongoDB
+            return user;
+        });
         // act
         boolean registerUser = userService.registerUser(userRegisterDto);
         // assert
