@@ -18,7 +18,7 @@ class UserLoginMapperTest {
 
 
     @Test
-    void shouldTranformUserLoginDtoIntoUser(){
+    void shouldTransformUserLoginDtoIntoUser(){
         // arrange
         UserLoginDto userLoginDto = UserLoginDto.builder()
                 .email("john123@gmail.com")
