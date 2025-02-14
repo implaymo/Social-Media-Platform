@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 @Document(collection = "user")
 @Data
@@ -36,6 +37,6 @@ public class User {
             "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.")
     private String password;
 
-    private byte[] salt;
+    private String salt;
 
 }

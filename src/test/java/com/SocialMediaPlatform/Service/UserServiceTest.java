@@ -1,7 +1,6 @@
 package com.SocialMediaPlatform.Service;
 
 import com.SocialMediaPlatform.Dto.UserRegisterDto;
-import com.SocialMediaPlatform.Entity.User;
 import com.SocialMediaPlatform.Mapper.UserRegisterMapper;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordHash;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordSalt;
@@ -10,12 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 class UserServiceTest {
 

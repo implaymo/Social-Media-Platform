@@ -11,9 +11,9 @@ public class PasswordSalt {
 
     public byte[] generateRandomSalt() {
         try {
-            byte[] salt = new byte[16]; // Adjust the size of the salt as needed
+            salt = new byte[16];
             SecureRandom secureRandom = new SecureRandom();
-            secureRandom.nextBytes(salt); // Generates random bytes
+            secureRandom.nextBytes(salt);
             return salt;
         } catch (Exception e) {
             e.printStackTrace();

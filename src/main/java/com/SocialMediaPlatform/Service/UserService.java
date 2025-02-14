@@ -7,6 +7,9 @@ import com.SocialMediaPlatform.PasswordEncryption.PasswordHash;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordSalt;
 import com.SocialMediaPlatform.Repository.UserRepository;
 import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Base64;
 
 public class UserService {
 
@@ -23,6 +26,7 @@ public class UserService {
         this.passwordSalt = passwordSalt;
     }
 
+    @Transactional
     public boolean registerUser(UserRegisterDto userRegisterDto) {
         if (userRegisterDto == null) {
             return false;
@@ -31,7 +35,8 @@ public class UserService {
         try {
             User user = userRegisterMapper.toEntity(userRegisterDto);
             byte[] salt = passwordSalt.generateRandomSalt();
-            user.setSalt(salt);
+            String base64Salt = Base64.getEncoder().encodeToString(salt);
+            user.setSalt(base64Salt);
             String hashedPassword = passwordHash.generateHashPassword(user.getPassword(), salt);
             user.setPassword(hashedPassword);
             userRepository.save(user);
