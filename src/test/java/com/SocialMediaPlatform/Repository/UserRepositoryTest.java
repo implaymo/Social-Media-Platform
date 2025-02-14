@@ -21,7 +21,7 @@ class UserRepositoryTest {
     }
 
     @Test
-    void shouldReturnTrueIfEmailSearchedNotInDatabase() {
+    void shouldReturnTrueIfEmailSearchedInDatabase() {
         // arrange
         when(userRepository.existsByEmail("john123@gmail.com")).thenReturn(true);
 
@@ -42,5 +42,25 @@ class UserRepositoryTest {
 
         // assert
         assertFalse(userSearched);
+    }
+
+    @Test
+    void shouldReturnTrueIfPasswordInDatabase() {
+        // arrange
+        when(userRepository.passwordMatch("Password123!")).thenReturn(true);
+        // act
+        boolean userPassword = userRepository.passwordMatch("Password123!");
+        // assert
+        assertTrue(userPassword);
+    }
+
+    @Test
+    void shouldReturnFalseIfPasswordInDatabase() {
+        // arrange
+        when(userRepository.passwordMatch("Password123!")).thenReturn(true);
+        // act
+        boolean userPassword = userRepository.passwordMatch("Password1234!");
+        // assert
+        assertFalse(userPassword);
     }
 }
