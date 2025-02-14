@@ -1,11 +1,14 @@
 package com.SocialMediaPlatform.Repository;
 
+import com.SocialMediaPlatform.Dto.UserLoginDto;
 import com.SocialMediaPlatform.Entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -63,4 +66,34 @@ class UserRepositoryTest {
         // assert
         assertFalse(userPassword);
     }
+
+    @Test
+    void shouldReturnOptionalIfUserInDatabase() {
+        // arrange
+        User user = User.builder()
+                .email("john123@gmail.com")
+                .build();
+        // Mock the repository to return the user when searching for the specific email
+        when(userRepository.findByEmail("john123@gmail.com")).thenReturn(Optional.of(user));
+
+        // act
+        Optional<User> userInDatabase = userRepository.findByEmail("john123@gmail.com");
+
+        // assert
+        assertTrue(userInDatabase.isPresent());
+        assertEquals("john123@gmail.com", userInDatabase.get().getEmail());
+    }
+
+    @Test
+    void shouldReturnEmptyIfUserNotInDatabase() {
+        // arrange
+        when(userRepository.findByEmail("mickylauda@gmail.com")).thenReturn(Optional.empty());
+
+        // act
+        Optional<User> userInDatabase = userRepository.findByEmail("mickylauda@gmail.com");
+
+        // assert
+        assertTrue(userInDatabase.isEmpty());
+    }
+
 }

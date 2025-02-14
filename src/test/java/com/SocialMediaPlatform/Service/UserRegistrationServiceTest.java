@@ -1,7 +1,9 @@
 package com.SocialMediaPlatform.Service;
 
+import com.SocialMediaPlatform.Dto.UserLoginDto;
 import com.SocialMediaPlatform.Dto.UserRegisterDto;
 import com.SocialMediaPlatform.Entity.User;
+import com.SocialMediaPlatform.Mapper.UserLoginMapper;
 import com.SocialMediaPlatform.Mapper.UserRegisterMapper;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordHash;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordSalt;
@@ -16,12 +18,12 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UserServiceTest {
+class UserRegistrationServiceTest {
 
     @Mock
     private UserRepository userRepository;
 
-    private UserService userService;
+    private UserRegistrationService userRegistrationService;
 
     @BeforeEach
     void setUp() {
@@ -29,9 +31,10 @@ class UserServiceTest {
         PasswordHash passwordHash = new PasswordHash();
         UserRegisterMapper userRegisterMapper = new UserRegisterMapper();
         MockitoAnnotations.openMocks(this);
-        userService = new UserService(userRepository, userRegisterMapper, passwordHash, passwordSalt);
+        userRegistrationService = new UserRegistrationService(userRepository, userRegisterMapper, passwordHash, passwordSalt);
     }
 
+    // Registration method tests
     @Test
     void shouldReturnTrueIfUserRegistered() {
         // arrange
@@ -47,7 +50,7 @@ class UserServiceTest {
             return user;
         });
         // act
-        boolean registerUser = userService.registerUser(userRegisterDto);
+        boolean registerUser = userRegistrationService.registerUser(userRegisterDto);
         // assert
         assertTrue(registerUser);
     }
@@ -57,8 +60,9 @@ class UserServiceTest {
         // arrange
         UserRegisterDto userRegisterDto = null;
         // act
-        boolean registerUser = userService.registerUser(userRegisterDto);
+        boolean registerUser = userRegistrationService.registerUser(userRegisterDto);
         // assert
         assertFalse(registerUser);
     }
+
 }

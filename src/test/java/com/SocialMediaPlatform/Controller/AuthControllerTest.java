@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.UUID;
 
-import com.SocialMediaPlatform.Service.UserService;
+import com.SocialMediaPlatform.Service.UserRegistrationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AuthControllerTest {
 
-    private UserService userService;
+    private UserRegistrationService userRegistrationService;
     private UserRegisterMapper userRegisterMapper;
     private PasswordHash passwordHash;
     private PasswordSalt passwordSalt;
@@ -35,7 +35,7 @@ class AuthControllerTest {
         userRegisterMapper = new UserRegisterMapper();
         passwordHash = new PasswordHash();
         passwordSalt = new PasswordSalt();
-        userService = new UserService(userRepository, userRegisterMapper,passwordHash, passwordSalt);
+        userRegistrationService = new UserRegistrationService(userRepository, userRegisterMapper,passwordHash, passwordSalt);
         MockitoAnnotations.openMocks(this);
     }
 
@@ -60,8 +60,8 @@ class AuthControllerTest {
                 });
 
         // Mock the UserService and inject the mocked repository
-        UserService userService = new UserService(userRepository, userRegisterMapper, passwordHash, passwordSalt);
-        AuthController authController = new AuthController(userService);
+        UserRegistrationService userRegistrationService = new UserRegistrationService(userRepository, userRegisterMapper, passwordHash, passwordSalt);
+        AuthController authController = new AuthController(userRegistrationService);
 
         // act
         boolean registerUser = authController.registerUser(userRegisterDto);
@@ -75,7 +75,7 @@ class AuthControllerTest {
     void shouldReturnFalseIfUserRegisterDtoNull() {
         // arrange
         UserRegisterDto userRegisterDto = null;
-        AuthController authController = new AuthController(userService);
+        AuthController authController = new AuthController(userRegistrationService);
         // act
         boolean registerUser = authController.registerUser(userRegisterDto);
         // assert

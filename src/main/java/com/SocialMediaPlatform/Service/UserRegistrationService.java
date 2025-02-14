@@ -12,15 +12,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Base64;
 
-public class UserService {
+public class UserRegistrationService {
 
     private final UserRepository userRepository;
     private final UserRegisterMapper userRegisterMapper;
     private final PasswordHash passwordHash;
     private final PasswordSalt passwordSalt;
 
-    public UserService(UserRepository userRepository, UserRegisterMapper userRegisterMapper,
-                       PasswordHash passwordHash,PasswordSalt passwordSalt) {
+    public UserRegistrationService(UserRepository userRepository, UserRegisterMapper userRegisterMapper,
+                                   PasswordHash passwordHash, PasswordSalt passwordSalt) {
         this.userRepository = userRepository;
         this.userRegisterMapper = userRegisterMapper;
         this.passwordHash = passwordHash;
@@ -48,9 +48,4 @@ public class UserService {
             return false;
         }
     }
-//
-//    @Transactional
-//    public String loginUser(UserLoginDto userLoginDto) {
-//
-//    }
 }
