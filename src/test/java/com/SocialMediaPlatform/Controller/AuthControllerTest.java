@@ -17,7 +17,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.security.core.parameters.P;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -50,7 +49,7 @@ class AuthControllerTest {
                 .build();
 
         // Create the User entity (without id)
-        User user = userRegisterMapper.toEntity(userRegisterDto);
+        User user = userRegisterMapper.toEntityForRegistration(userRegisterDto);
 
         // Mock the repository's save method to return the user with a generated id
         when(userRepository.save(any(User.class)))

@@ -1,5 +1,6 @@
 package com.SocialMediaPlatform.Service;
 
+import com.SocialMediaPlatform.Dto.UserLoginDto;
 import com.SocialMediaPlatform.Dto.UserRegisterDto;
 import com.SocialMediaPlatform.Entity.User;
 import com.SocialMediaPlatform.Mapper.UserRegisterMapper;
@@ -33,7 +34,7 @@ public class UserService {
         }
 
         try {
-            User user = userRegisterMapper.toEntity(userRegisterDto);
+            User user = userRegisterMapper.toEntityForRegistration(userRegisterDto);
             byte[] salt = passwordSalt.generateRandomSalt();
             String base64Salt = Base64.getEncoder().encodeToString(salt);
             user.setSalt(base64Salt);
@@ -47,4 +48,9 @@ public class UserService {
             return false;
         }
     }
+//
+//    @Transactional
+//    public String loginUser(UserLoginDto userLoginDto) {
+//
+//    }
 }

@@ -1,12 +1,13 @@
 package com.SocialMediaPlatform.Mapper;
 
+import com.SocialMediaPlatform.Dto.UserLoginDto;
 import com.SocialMediaPlatform.Dto.UserRegisterDto;
 import com.SocialMediaPlatform.Entity.User;
 
 public class UserRegisterMapper {
 
 
-    public User toEntity(UserRegisterDto userRegisterDto) {
+    public User toEntityForRegistration(UserRegisterDto userRegisterDto) {
         if (userRegisterDto == null) {
             return null;
         }
