@@ -46,7 +46,7 @@ public class UserLoginService {
                 return jwtUtil.generateToken(userEntity.getEmail());
             }
         }
-        return "";
+        return null;
     }
 
     private byte[] transformBase64SaltIntoByte(User userInDatabase) {

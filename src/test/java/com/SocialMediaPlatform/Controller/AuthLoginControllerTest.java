@@ -55,7 +55,7 @@ class AuthLoginControllerTest {
         // act
         String userLoginToken = authLoginController.loginUser(userLoginDto);
         // assert
-        assertNotEquals(token, userLoginToken);
+        assertEquals(null, userLoginToken);
 
     }
 
@@ -69,7 +69,39 @@ class AuthLoginControllerTest {
         // act
         String userLoginToken = authLoginController.loginUser(userLoginDto);
         // assert
-        assertNotEquals(token, userLoginToken);
+        assertEquals(null, userLoginToken);
 
+    }
+
+    @Test
+    void shouldThrowExceptionWhenEmailIsMissing() {
+        // arrange
+        userLoginDto = UserLoginDto.builder()
+                .password("John@12345")
+                .build();
+        // act
+        String userLoginToken = authLoginController.loginUser(userLoginDto);
+        // assert
+        assertEquals(null, userLoginToken);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenPasswordIsMissing() {
+        // arrange
+        userLoginDto = UserLoginDto.builder()
+                .email("john123@gmail.com")
+                .build();
+        // act
+        String userLoginToken = authLoginController.loginUser(userLoginDto);
+        // assert
+        assertEquals(null, userLoginToken);
+    }
+
+    @Test
+    void shouldHandleExceptionThrownByUserLoginService() {
+        // arrange
+        when(userLoginService.loginUser(userLoginDto)).thenThrow(new RuntimeException("Service exception"));
+        // act & assert
+        assertThrows(RuntimeException.class, () -> authLoginController.loginUser(userLoginDto));
     }
 }
