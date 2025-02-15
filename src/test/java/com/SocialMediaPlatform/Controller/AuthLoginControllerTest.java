@@ -44,12 +44,26 @@ class AuthLoginControllerTest {
 
 
     @Test
-    void shouldReturnTrueIfUserLoginSuccessfully(){
+    void shouldReturnTokenWhenUserLogsInSuccessfully(){
         // arrange
         // act
         String userLoginToken = authLoginController.loginUser(userLoginDto);
         // assert
         assertEquals(token, userLoginToken);
+
+    }
+
+    @Test
+    void shouldReturnEmptyStringWhenUserNotInDatabase() {
+        // arrange
+        userLoginDto = UserLoginDto.builder()
+                .email("johnhatanluisdematos123@gmail.com")
+                .password("John@12345")
+                .build();
+        // act
+        String userLoginToken = authLoginController.loginUser(userLoginDto);
+        // assert
+        assertNotEquals(token, userLoginToken);
 
     }
 }
