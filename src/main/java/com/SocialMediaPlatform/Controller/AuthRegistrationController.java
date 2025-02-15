@@ -19,7 +19,4 @@ public class AuthRegistrationController {
         return userRegistrationService.registerUser(userRegisterDto);
     }
 
-    public String loginUser(@Valid @RequestBody UserLoginDto userLoginDto) {
-        return "";
-    }
 }

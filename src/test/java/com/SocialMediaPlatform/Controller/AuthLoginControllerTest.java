@@ -16,46 +16,40 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 class AuthLoginControllerTest {
 
-    private UserLoginService userLoginService;
-    private UserLoginMapper userLoginMapper;
-    private PasswordHash passwordHash;
-
-
     @Mock
-    UserRepository userRepository;
+    UserLoginService userLoginService;
 
-    @Mock
-    private JWTUtil jwtUtil;
-
+    private AuthLoginController authLoginController;
+    private UserLoginDto userLoginDto;
     private String token;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        userLoginMapper = new UserLoginMapper();
-        passwordHash = new PasswordHash();
-        jwtUtil = new JWTUtil();
-        userLoginService = new UserLoginService(userRepository, userLoginMapper, passwordHash,jwtUtil);
+        authLoginController = new AuthLoginController(userLoginService);
 
+        // Build UserLoginDto
+        userLoginDto = UserLoginDto.builder()
+                .email("john123@gmail.com")
+                .password("John@12345")
+                .build();
 
+        token = "dummy_token_12345";
+        when(userLoginService.loginUser(userLoginDto)).thenReturn(token);
     }
 
 
-//    @Test
-//    void shouldReturnTrueIfUserLoginSuccessfully(){
-//        // arrange
-//        UserLoginDto userLoginDto = UserLoginDto.builder()
-//                .email("john123@gmail.com")
-//                .password("John@12345")
-//                .build();
-//        User user = userLoginMapper.toEntityForLogin(userLoginDto);
-//
-//        // act
-//        String userLoginToken = authController.loginUser(userLoginDto);
-//        // assert
-//
-//    }
+    @Test
+    void shouldReturnTrueIfUserLoginSuccessfully(){
+        // arrange
+        // act
+        String userLoginToken = authLoginController.loginUser(userLoginDto);
+        // assert
+        assertEquals(token, userLoginToken);
+
+    }
 }

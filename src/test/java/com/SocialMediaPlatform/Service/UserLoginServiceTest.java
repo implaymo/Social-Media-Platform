@@ -34,7 +34,6 @@ class UserLoginServiceTest {
         UserLoginMapper userLoginMapper = new UserLoginMapper();
         PasswordHash passwordHash = new PasswordHash();
         PasswordSalt passwordSalt = new PasswordSalt();
-        jwtUtil = new JWTUtil();
         MockitoAnnotations.openMocks(this);
         userLoginService = new UserLoginService(userRepository, userLoginMapper, passwordHash, jwtUtil);
 
