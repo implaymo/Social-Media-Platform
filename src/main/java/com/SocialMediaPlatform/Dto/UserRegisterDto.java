@@ -24,10 +24,13 @@ public class UserRegisterDto {
     @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", message = "Invalid email format")
     private String email;
 
-    @NotBlank(message = "Password can't be null or blank")
-    @Size(min = 8, message = "Password must have at least 8 characters")
+    @NotBlank(message = "Your password must be at least 8 characters long and include a mix of uppercase, " +
+            "lowercase, numbers, and special characters.")
+    @Size(min = 8, message = "Your password must be at least 8 characters long and include a mix of uppercase, " +
+            "lowercase, numbers, and special characters.")
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{8,}$", message =
-            "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.")
+            "Your password must be at least 8 characters long and include a mix of uppercase, " +
+                    "lowercase, numbers, and special characters.")
     private String password;
 
 }

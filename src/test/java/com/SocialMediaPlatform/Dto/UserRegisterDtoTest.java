@@ -88,7 +88,8 @@ class UserRegisterDtoTest {
         // assert
         assertFalse(violations.isEmpty());
         assertTrue(violations.stream().anyMatch(v ->
-                v.getMessage().equals("Password can't be null or blank")));
+                v.getMessage().equals("Your password must be at least 8 characters long and include a mix of uppercase," +
+                        " lowercase, numbers, and special characters.")));
     }
 
     @Test
@@ -128,7 +129,7 @@ class UserRegisterDtoTest {
         // arrange
         UserRegisterDto userRegisterDto = UserRegisterDto.builder()
                 .name("John")
-                .email("john123@gmail.com")
+                .email("john123@gmail")
                 .password("")
                 .build();
         // act
@@ -136,7 +137,8 @@ class UserRegisterDtoTest {
         // assert
         assertFalse(violations.isEmpty());
         assertTrue(violations.stream().anyMatch(v ->
-                v.getMessage().equals("Password can't be null or blank")));
+                v.getMessage().equals("Your password must be at least 8 characters long and include a mix of uppercase, " +
+                        "lowercase, numbers, and special characters.")));
     }
 
     @Test
@@ -232,7 +234,8 @@ class UserRegisterDtoTest {
         // assert
         assertFalse(violations.isEmpty());
         assertTrue(violations.stream().anyMatch(v ->
-                v.getMessage().equals("Password must have at least 8 characters")));
+                v.getMessage().equals("Your password must be at least 8 characters long and include a mix of uppercase, " +
+                        "lowercase, numbers, and special characters.")));
     }
 
     @Test
@@ -248,7 +251,7 @@ class UserRegisterDtoTest {
         // assert
         assertFalse(violations.isEmpty());
         assertTrue(violations.stream().anyMatch(v ->
-                v.getMessage().equals("Password must contain at least one uppercase letter," +
-                        " one lowercase letter, one number, and one special character.")));
+                v.getMessage().equals("Your password must be at least 8 characters long and include a mix of uppercase, " +
+                        "lowercase, numbers, and special characters.")));
     }
 }
