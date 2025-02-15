@@ -1,6 +1,5 @@
 package com.SocialMediaPlatform.Controller;
 
-import com.SocialMediaPlatform.Dto.UserLoginDto;
 import com.SocialMediaPlatform.Dto.UserRegisterDto;
 import com.SocialMediaPlatform.Entity.User;
 import com.SocialMediaPlatform.Mapper.UserRegisterMapper;
@@ -21,23 +20,26 @@ import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AuthControllerTest {
+class AuthRegistrationControllerTest {
 
     private UserRegistrationService userRegistrationService;
     private UserRegisterMapper userRegisterMapper;
     private PasswordHash passwordHash;
     private PasswordSalt passwordSalt;
 
+
     @Mock
     UserRepository userRepository;
 
     @BeforeEach
     void setUp() {
+        MockitoAnnotations.openMocks(this);
         userRegisterMapper = new UserRegisterMapper();
         passwordHash = new PasswordHash();
         passwordSalt = new PasswordSalt();
         userRegistrationService = new UserRegistrationService(userRepository, userRegisterMapper,passwordHash, passwordSalt);
-        MockitoAnnotations.openMocks(this);
+
+
     }
 
     @Test
@@ -62,10 +64,10 @@ class AuthControllerTest {
 
         // Mock the UserService and inject the mocked repository
         UserRegistrationService userRegistrationService = new UserRegistrationService(userRepository, userRegisterMapper, passwordHash, passwordSalt);
-        AuthController authController = new AuthController(userRegistrationService);
+        AuthRegistrationController authRegistrationController = new AuthRegistrationController(userRegistrationService);
 
         // act
-        boolean registerUser = authController.registerUser(userRegisterDto);
+        boolean registerUser = authRegistrationController.registerUser(userRegisterDto);
 
         // assert
         assertTrue(registerUser);
@@ -76,25 +78,12 @@ class AuthControllerTest {
     void shouldReturnFalseIfUserRegisterDtoNull() {
         // arrange
         UserRegisterDto userRegisterDto = null;
-        AuthController authController = new AuthController(userRegistrationService);
+        AuthRegistrationController authRegistrationController = new AuthRegistrationController(userRegistrationService);
         // act
-        boolean registerUser = authController.registerUser(userRegisterDto);
+        boolean registerUser = authRegistrationController.registerUser(userRegisterDto);
         // assert
         assertFalse(registerUser);
     }
-
-//    @Test
-//    void shouldReturnTrueIfUserLoginSuccessfully(){
-//        // arrange
-//        UserLoginDto userLoginDto = UserLoginDto.builder()
-//                .email("john123@gmail.com")
-//                .password("John@12345")
-//                .build();
-//        // act
-//        String userLoginToken = authController.loginUser(userService);
-//        // assert
-//
-//    }
 
 
 }

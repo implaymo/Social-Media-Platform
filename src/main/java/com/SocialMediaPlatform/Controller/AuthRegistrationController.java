@@ -1,15 +1,16 @@
 package com.SocialMediaPlatform.Controller;
 
+import com.SocialMediaPlatform.Dto.UserLoginDto;
 import com.SocialMediaPlatform.Dto.UserRegisterDto;
 import com.SocialMediaPlatform.Service.UserRegistrationService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestBody;
 
-public class AuthController {
+public class AuthRegistrationController {
 
     private final UserRegistrationService userRegistrationService;
 
-    public AuthController(UserRegistrationService userRegistrationService) {
+    public AuthRegistrationController(UserRegistrationService userRegistrationService) {
         this.userRegistrationService = userRegistrationService;
     }
 
@@ -18,7 +19,7 @@ public class AuthController {
         return userRegistrationService.registerUser(userRegisterDto);
     }
 
-//    public String loginUser(@Valid @RequestBody UserLoginDto userLoginDto) {
-//        return "";
-//    }
+    public String loginUser(@Valid @RequestBody UserLoginDto userLoginDto) {
+        return "";
+    }
 }
