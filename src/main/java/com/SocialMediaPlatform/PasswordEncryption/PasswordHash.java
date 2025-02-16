@@ -1,10 +1,13 @@
 package com.SocialMediaPlatform.PasswordEncryption;
 
+import org.springframework.stereotype.Component;
+
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.security.spec.KeySpec;
 import java.util.Base64;
 
+@Component
 public class PasswordHash {
 
     private static final Integer iterationCount = 65536;

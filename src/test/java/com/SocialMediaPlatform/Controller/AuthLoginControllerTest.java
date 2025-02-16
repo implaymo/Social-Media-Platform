@@ -3,9 +3,7 @@ package com.SocialMediaPlatform.Controller;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-
 import com.SocialMediaPlatform.Dto.UserLoginDto;
-import com.SocialMediaPlatform.Entity.User;
 import com.SocialMediaPlatform.Service.UserLoginService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -26,9 +25,11 @@ public class AuthLoginControllerTest {
     private AuthLoginController authLoginController;
 
     private MockMvc mockMvc;
-
     private UserLoginDto validUserLoginDto;
-    private UserLoginDto invalidUserLoginDto;
+    private UserLoginDto invalidPasswordUserLoginDto;
+    private UserLoginDto invalidEmailUserLoginDto;
+    private UserLoginDto noEmailUserLoginDto;
+    private UserLoginDto noPasswordUserLoginDto;
     private String token;
 
     @BeforeEach
@@ -40,9 +41,23 @@ public class AuthLoginControllerTest {
                 .password("ValidPass123!")
                 .build();
 
-        invalidUserLoginDto = UserLoginDto.builder()
+        invalidPasswordUserLoginDto = UserLoginDto.builder()
                 .email("invaliduser@example.com")
                 .password("WrongPass")
+                .build();
+
+        invalidEmailUserLoginDto = UserLoginDto.builder()
+                .email("invaliduserexample.com")
+                .password("ValidPass123!")
+                .build();
+
+        noEmailUserLoginDto = UserLoginDto.builder()
+                .password("ValidPass123!")
+                .build();
+
+
+        noPasswordUserLoginDto = UserLoginDto.builder()
+                .email("invaliduser@example.com")
                 .build();
 
         token = "dummy_token_12345";
@@ -56,54 +71,64 @@ public class AuthLoginControllerTest {
         mockMvc.perform(post("/auth/login")
                         .contentType("application/json")
                         .content("{\"email\": \"validuser@example.com\", \"password\": \"ValidPass123!\"}"))
-                .andExpect(status().isOk())  // Expect HTTP 200 OK
+                .andExpect(status().isOk())
                 .andExpect(content().string(token));
     }
 
     @Test
-    void shouldReturnUnauthorizedWhenUserLogsInWithInvalidCredentials() throws Exception {
+    void shouldReturnUnauthorizedWhenUserLogsInWithInvalidPassword() throws Exception {
         // arrange
-        when(userLoginService.loginUser(invalidUserLoginDto)).thenThrow(new RuntimeException("Invalid credentials"));
+        when(userLoginService.loginUser(invalidPasswordUserLoginDto)).thenThrow(new RuntimeException("Invalid credentials"));
 
         // act & assert
         mockMvc.perform(post("/auth/login")
                         .contentType("application/json")
                         .content("{\"email\": \"invaliduser@example.com\", \"password\": \"WrongPass\"}"))
-                .andExpect(status().isUnauthorized())  // Expect HTTP 401 Unauthorized
+                .andExpect(status().isUnauthorized())
                 .andExpect(content().string("Invalid credentials: Invalid credentials"));
     }
 
-//    @Test
-//    void shouldReturnUnauthorizedWhenEmailIsMissing() throws Exception {
-//        // arrange
-//        UserLoginDto userLoginDto = UserLoginDto.builder()
-//                .password("ValidPass123!")
-//                .build();
-//
-//        when(userLoginService.loginUser(userLoginDto)).thenThrow(new RuntimeException("Invalid credentials"));
-//
-//        // act & assert
-//        mockMvc.perform(post("/auth/login")
-//                        .contentType("application/json")
-//                        .content("{\"password\": \"ValidPass123\"}"))
-//                .andExpect(status().isUnauthorized())  // Expect HTTP 401 Unauthorized
-//                .andExpect(content().string("Invalid credentials: Invalid credentials"));  // Expect the error message
-//    }
-//
-//    @Test
-//    void shouldReturnUnauthorizedWhenPasswordIsMissing() throws Exception {
-//        // arrange
-//        UserLoginDto userLoginDto = UserLoginDto.builder()
-//                .email("validuser@example.com")
-//                .build();
-//
-//        when(userLoginService.loginUser(userLoginDto)).thenThrow(new RuntimeException("Invalid credentials"));
-//
-//        // act & assert
-//        mockMvc.perform(post("/auth/login")
-//                        .contentType("application/json")
-//                        .content("{\"email\": \"validuser@example.com\"}"))
-//                .andExpect(status().isUnauthorized())  // Expect HTTP 401 Unauthorized
-//                .andExpect(content().string("Invalid credentials: Invalid credentials"));  // Expect the error message
-//    }
+    @Test
+    void shouldReturnUnauthorizedWhenUserLogsInWithInvalidEmail() throws Exception {
+        // arrange
+        when(userLoginService.loginUser(invalidEmailUserLoginDto)).thenThrow(new RuntimeException("Invalid credentials"));
+
+        // act & assert
+        mockMvc.perform(post("/auth/login")
+                        .contentType("application/json")
+                        .content("{\"email\": \"invaliduserexample.com\", \"password\": \"ValidPass123!\"}"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(content().string("Invalid credentials: Invalid credentials"));
+    }
+
+
+    @Test
+    void shouldReturnBadRequestWhenEmailIsMissing() throws Exception {
+        // arrange
+        // act & assert
+        mockMvc.perform(post("/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"password\": \"ValidPass123!\"}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenPasswordIsMissing() throws Exception {
+        // arrange
+        // act & assert
+        mockMvc.perform(post("/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"email\": \"invaliduser@example.com\"}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenCredentialsMissing() throws Exception {
+        // arrange
+        // act & assert
+        mockMvc.perform(post("/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{}"))
+                .andExpect(status().isBadRequest());
+    }
 }

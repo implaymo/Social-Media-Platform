@@ -2,7 +2,9 @@ package com.SocialMediaPlatform.Mapper;
 
 import com.SocialMediaPlatform.Dto.UserRegisterDto;
 import com.SocialMediaPlatform.Entity.User;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserRegisterMapper {
 
 

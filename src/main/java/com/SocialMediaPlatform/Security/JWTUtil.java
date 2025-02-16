@@ -13,7 +13,7 @@ import java.util.UUID;
 @Component
 public class JWTUtil {
 
-    private String secret;
+    private final String secret;
 
     public JWTUtil() {
         Dotenv dotenv = Dotenv.load();

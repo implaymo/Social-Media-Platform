@@ -39,6 +39,7 @@ dependencies {
 	implementation("jakarta.validation:jakarta.validation-api:3.1.1")
 	implementation("com.auth0:java-jwt:4.5.0")
 	implementation("io.github.cdimascio:java-dotenv:5.2.2")
+	implementation("org.springframework:spring-webmvc:6.2.3")
 }
 
 tasks.withType<Test> {

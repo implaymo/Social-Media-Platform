@@ -1,7 +1,10 @@
 package com.SocialMediaPlatform.PasswordEncryption;
 
+import org.springframework.stereotype.Component;
+
 import java.security.SecureRandom;
 
+@Component
 public class PasswordSalt {
 
     private byte[] salt;
