@@ -7,12 +7,14 @@ import com.SocialMediaPlatform.PasswordEncryption.PasswordHash;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordSalt;
 import com.SocialMediaPlatform.Repository.UserRepository;
 import com.SocialMediaPlatform.Security.JWTUtil;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Base64;
 import java.util.Objects;
 import java.util.Optional;
 
+@Service
 public class UserLoginService {
 
     private final UserRepository userRepository;
@@ -29,9 +31,9 @@ public class UserLoginService {
 
 
     @Transactional
-    public String loginUser(UserLoginDto userLoginDto) {
+    public String loginUser(UserLoginDto userLoginDto) throws Exception {
         if (userLoginDto == null) {
-            return null;
+            throw new IllegalArgumentException("User login data is required.");
         }
 
         User user = userLoginMapper.toEntityForLogin(userLoginDto);
@@ -46,8 +48,9 @@ public class UserLoginService {
                 return jwtUtil.generateToken(userEntity.getEmail());
             }
         }
-        return null;
+        throw new Exception("Invalid email or password.");
     }
+
 
     private byte[] transformBase64SaltIntoByte(User userInDatabase) {
         String userInDatabaseSalt = userInDatabase.getSalt();

@@ -8,10 +8,12 @@ import com.SocialMediaPlatform.PasswordEncryption.PasswordHash;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordSalt;
 import com.SocialMediaPlatform.Repository.UserRepository;
 import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Base64;
 
+@Service
 public class UserRegistrationService {
 
     private final UserRepository userRepository;

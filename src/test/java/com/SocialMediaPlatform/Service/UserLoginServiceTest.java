@@ -57,7 +57,7 @@ class UserLoginServiceTest {
 
 
     @Test
-    void shouldReturnTokenIfUserLoginSuccessfully(){
+    void shouldReturnTokenIfUserLoginSuccessfully() throws Exception {
         // arrange
         UserLoginDto userLoginDto = UserLoginDto.builder()
                 .email("john123@gmail.com")
@@ -70,16 +70,25 @@ class UserLoginServiceTest {
     }
 
     @Test
-    void shouldReturnBlankIfUserNotLoginSuccessfully(){
+    void shouldReturnExceptionMessageIfUserNotLoginSuccessfully() throws Exception {
         // arrange
         UserLoginDto userLoginDto = UserLoginDto.builder()
                 .email("johnaTHanSIlva123@gmail.com")
                 .password("john12345")
                 .build();
-        // act
-        String loginUser = userLoginService.loginUser(userLoginDto);
-        // assert
-        assertEquals("", loginUser);
+        // act + assert
+        assertThrows(Exception.class, () -> {
+            userLoginService.loginUser(userLoginDto);
+        });
     }
+
+    @Test
+    void shouldReturnExceptionMessageIfUserLoginDtoNull() throws Exception {
+        // arrange
+        // act
+        // assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            userLoginService.loginUser(null);
+        });    }
 
 }
