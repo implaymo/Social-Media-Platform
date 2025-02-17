@@ -79,25 +79,6 @@ class AuthRegistrationControllerTest {
     }
 
     @Test
-    public void shouldReturnInternalServerErrorIfServiceFails() throws Exception {
-        // arrange
-        UserRegisterDto userRegisterDto = UserRegisterDto.builder()
-                .name("John Cena")
-                .email("john123@gmail.com")
-                .password("John@12345")
-                .build();
-
-        when(userRegistrationService.registerUser(any(UserRegisterDto.class)))
-                .thenThrow(new RuntimeException("Service failure"));
-
-        // act & assert
-        mockMvc.perform(post("/auth/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(userRegisterDto)))
-                .andExpect(status().isInternalServerError());
-    }
-
-    @Test
     public void shouldReturnConflictIfUserAlreadyExists() throws Exception {
         // arrange
         UserRegisterDto userRegisterDto = UserRegisterDto.builder()

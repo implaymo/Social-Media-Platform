@@ -23,15 +23,11 @@ public class AuthRegistrationController {
 
     @PostMapping(path = "/auth/register", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boolean> registerUser(@Valid @RequestBody UserRegisterDto userRegisterDto) {
-        try {
-            boolean result = userRegistrationService.registerUser(userRegisterDto);
-            if (!result) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body(false);
-            }
-            return org.springframework.http.ResponseEntity.ok(result);
-        } catch (RuntimeException e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Service failure", e);
+        boolean result = userRegistrationService.registerUser(userRegisterDto);
+        if (!result) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(false);
         }
+        return ResponseEntity.ok(result);
     }
 
 }
