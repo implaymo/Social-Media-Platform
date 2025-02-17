@@ -54,7 +54,11 @@ public class PostService {
             return false;
         }
         Post post = postMapper.toEntity(postDto);
-        postRepository.delete(post);
-        return true;
+        Optional<Post> existingPostOptional = postRepository.findById(post.getPostId());
+        if (existingPostOptional.isPresent()) {
+            postRepository.delete(post);
+            return true;
+        }
+        return false;
     }
 }

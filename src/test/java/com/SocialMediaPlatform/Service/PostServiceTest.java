@@ -103,9 +103,11 @@ class PostServiceTest {
     void shouldReturnTrueIfDeletePostSuccessfully(){
         // arrange
         postDto = PostDto.builder()
+                .postId("postID")
                 .content("Hello World")
                 .mediaUrl("example.jpg")
                 .build();
+        when(postRepository.findById(post.getPostId())).thenReturn(Optional.of(post));
         // act
         boolean postDeleted = postService.deletePost(postDto);
         // assert
