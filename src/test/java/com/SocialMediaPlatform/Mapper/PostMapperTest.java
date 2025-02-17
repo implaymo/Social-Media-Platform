@@ -32,6 +32,20 @@ class PostMapperTest {
     }
 
     @Test
+    void shouldTransformDtoToEntityIfMediaUrlNull() {
+        // arrange
+        PostDto postDto = PostDto.builder()
+                .content("Hello World")
+                .build();
+        // act
+        Post post = postMapper.toEntity(postDto);
+        // assert
+        assertNotNull(postMapper);
+        assertEquals(post.getContent(), postDto.getContent());
+        assertNull(postDto.getMediaUrl());
+    }
+
+    @Test
     void shouldNotTransformDtoToEntityIfDtoNull() {
         // arrange
         PostDto postDto = null;
