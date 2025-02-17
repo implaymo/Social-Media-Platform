@@ -36,7 +36,7 @@ class PostDtoTest {
     }
 
     @Test
-    void shouldNotCreatePostDtoIfMissingContent() {
+    void shouldNotCreatePostDtoIfContentIsNull() {
         // arrange
         PostDto postDto = PostDto.builder()
                 .mediaUrl("http://exampleimage.jpg")
