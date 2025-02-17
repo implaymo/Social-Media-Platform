@@ -47,7 +47,7 @@ class AuthRegistrationControllerTest {
                 .thenReturn(true);
 
         // act & assert
-        mockMvc.perform(post("/register")
+        mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(userRegisterDto)))
                 .andExpect(status().isOk())  // Check status code
@@ -57,7 +57,7 @@ class AuthRegistrationControllerTest {
     @Test
     public void shouldReturnBadRequestIfUserRegisterDtoNull() throws Exception {
         // act & assert
-        mockMvc.perform(post("/register")
+        mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{}"))
                 .andExpect(status().isBadRequest());
@@ -72,7 +72,7 @@ class AuthRegistrationControllerTest {
                 .build(); // Missing name
 
         // act & assert
-        mockMvc.perform(post("/register")
+        mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(userRegisterDto)))
                 .andExpect(status().isBadRequest());
@@ -91,7 +91,7 @@ class AuthRegistrationControllerTest {
                 .thenThrow(new RuntimeException("Service failure"));
 
         // act & assert
-        mockMvc.perform(post("/register")
+        mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(userRegisterDto)))
                 .andExpect(status().isInternalServerError());
@@ -110,7 +110,7 @@ class AuthRegistrationControllerTest {
                 .thenReturn(false);
 
         // act & assert
-        mockMvc.perform(post("/register")
+        mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(userRegisterDto)))
                 .andExpect(status().isConflict());

@@ -21,7 +21,7 @@ public class AuthRegistrationController {
         this.userRegistrationService = userRegistrationService;
     }
 
-    @PostMapping(path = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/auth/register", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boolean> registerUser(@Valid @RequestBody UserRegisterDto userRegisterDto) {
         try {
             boolean result = userRegistrationService.registerUser(userRegisterDto);
