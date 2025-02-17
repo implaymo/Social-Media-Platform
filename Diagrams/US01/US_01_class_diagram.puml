@@ -22,6 +22,12 @@ class UserLoginDto {
     - password: String
 }
 
+class UserRepository {
+    + existsByEmail(email: String): boolean
+    + passwordMatch(password: String): boolean
+    + findByEmail(email: String): Optional<User>
+}
+
 UserLoginDto ..> AuthController : sent to
 AuthController ..> AuthService : calls
 AuthService ..> UserRepository : uses
