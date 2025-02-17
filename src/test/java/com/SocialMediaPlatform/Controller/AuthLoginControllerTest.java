@@ -28,8 +28,6 @@ public class AuthLoginControllerTest {
     private UserLoginDto validUserLoginDto;
     private UserLoginDto invalidPasswordUserLoginDto;
     private UserLoginDto invalidEmailUserLoginDto;
-    private UserLoginDto noEmailUserLoginDto;
-    private UserLoginDto noPasswordUserLoginDto;
     private String token;
 
     @BeforeEach
@@ -50,16 +48,6 @@ public class AuthLoginControllerTest {
                 .email("invaliduserexample.com")
                 .password("ValidPass123!")
                 .build();
-
-        noEmailUserLoginDto = UserLoginDto.builder()
-                .password("ValidPass123!")
-                .build();
-
-
-        noPasswordUserLoginDto = UserLoginDto.builder()
-                .email("invaliduser@example.com")
-                .build();
-
         token = "dummy_token_12345";
     }
 
