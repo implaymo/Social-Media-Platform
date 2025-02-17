@@ -6,15 +6,11 @@ class PostService {
     + deletePost(postID: int): boolean
 }
 
-
 class PostController {
     + createPost(content: String, mediaURL: String)
     + deletePost(postID: int)
     + editPost(postID: int)
 }
-
-
-
 
 class PostDto {
     -content: String
