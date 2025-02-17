@@ -16,7 +16,8 @@ class Post {
   - postID: int
   - content: String
   - mediaURL: String
-  - timestamp: DateTime
+  - createdAt: Instant
+  - updatedAt: Instant
 }
 
 class Comment {
