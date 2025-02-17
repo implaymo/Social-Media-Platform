@@ -2,11 +2,16 @@ package com.SocialMediaPlatform.Entity;
 
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
-import java.time.LocalDateTime;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
 
 @Data
 @Builder
+@Document(collection = "post")
 public class Post {
 
     @Id
@@ -14,5 +19,10 @@ public class Post {
 
     private String content;
     private String mediaUrl;
-    private LocalDateTime timestamp;
+
+    @CreatedDate
+    private Instant createdAt;
+
+    @LastModifiedDate
+    private Instant updatedAt;
 }
