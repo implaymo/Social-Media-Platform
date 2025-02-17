@@ -12,6 +12,7 @@ public class PostMapper {
             return null;
         }
         return Post.builder()
+                .postId(postDto.getPostId())
                 .content(postDto.getContent())
                 .mediaUrl(postDto.getMediaUrl())
                 .build();

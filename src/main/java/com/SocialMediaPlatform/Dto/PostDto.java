@@ -9,6 +9,8 @@ import lombok.Data;
 @Builder
 public class PostDto {
 
+    private String postId;
+
     @NotBlank(message = "Content can't be null or blank")
     private String content;
 

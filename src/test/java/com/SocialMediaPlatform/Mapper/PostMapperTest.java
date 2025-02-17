@@ -20,6 +20,7 @@ class PostMapperTest {
     void shouldTransformDtoToEntity() {
         // arrange
         PostDto postDto = PostDto.builder()
+                .postId("postID")
                 .content("Hello World")
                 .mediaUrl("http://exampleimage.jpg")
                 .build();
@@ -29,6 +30,7 @@ class PostMapperTest {
         assertNotNull(postMapper);
         assertEquals(post.getContent(), postDto.getContent());
         assertEquals(post.getMediaUrl(), postDto.getMediaUrl());
+        assertEquals(post.getPostId(), postDto.getPostId());
     }
 
     @Test
