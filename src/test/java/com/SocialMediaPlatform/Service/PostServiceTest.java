@@ -13,7 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class PostServiceTest {
@@ -121,6 +121,23 @@ class PostServiceTest {
         boolean postDeleted = postService.deletePost(null);
         // assert
         assertFalse(postDeleted);
+    }
+
+    @Test
+    void shouldReturnFalseIfPostDoesNotExist() {
+        // arrange
+        PostDto nonExistentPostDto = PostDto.builder()
+                .postId("nonExistentId")
+                .content("This post doesn't exist")
+                .build();
+        when(postRepository.findById("nonExistentId")).thenReturn(Optional.empty());
+
+        // act
+        boolean postDeleted = postService.deletePost(nonExistentPostDto);
+
+        // assert
+        assertFalse(postDeleted);
+        verify(postRepository, never()).delete(any(Post.class));
     }
 
 }
