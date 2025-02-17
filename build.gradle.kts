@@ -40,6 +40,7 @@ dependencies {
 	implementation("com.auth0:java-jwt:4.5.0")
 	implementation("io.github.cdimascio:java-dotenv:5.2.2")
 	implementation("org.springframework:spring-webmvc:6.2.3")
+	testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:4.18.1")
 }
 
 tasks.withType<Test> {

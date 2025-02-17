@@ -1,99 +1,50 @@
 package com.SocialMediaPlatform.Repository;
 
-import com.SocialMediaPlatform.Dto.UserLoginDto;
+
+import com.SocialMediaPlatform.Entity.Post;
 import com.SocialMediaPlatform.Entity.User;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+@DataMongoTest
 class UserRepositoryTest {
 
-    @Mock
+    @Autowired
     private UserRepository userRepository;
+
+    private User user;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
-
-    @Test
-    void shouldReturnTrueIfEmailSearchedInDatabase() {
-        // arrange
-        when(userRepository.existsByEmail("john123@gmail.com")).thenReturn(true);
-
-        // act
-        boolean userSearched = userRepository.existsByEmail("john123@gmail.com");
-
-        // assert
-        assertTrue(userSearched);
-    }
-
-    @Test
-    void shouldReturnFalseIfEmailSearchedNotInDatabase() {
-        // arrange
-        when(userRepository.existsByEmail("john123@gmail.com")).thenReturn(true);
-
-        // act
-        boolean userSearched = userRepository.existsByEmail("lionking@gmail.com");
-
-        // assert
-        assertFalse(userSearched);
-    }
-
-    @Test
-    void shouldReturnTrueIfPasswordInDatabase() {
-        // arrange
-        when(userRepository.passwordMatch("Password123!")).thenReturn(true);
-        // act
-        boolean userPassword = userRepository.passwordMatch("Password123!");
-        // assert
-        assertTrue(userPassword);
-    }
-
-    @Test
-    void shouldReturnFalseIfPasswordInDatabase() {
-        // arrange
-        when(userRepository.passwordMatch("Password123!")).thenReturn(true);
-        // act
-        boolean userPassword = userRepository.passwordMatch("Password1234!");
-        // assert
-        assertFalse(userPassword);
-    }
-
-    @Test
-    void shouldReturnOptionalIfUserInDatabase() {
-        // arrange
-        User user = User.builder()
+        user = User.builder()
+                .name("John Cena")
                 .email("john123@gmail.com")
+                .password("John@12345")
                 .build();
-        // Mock the repository to return the user when searching for the specific email
-        when(userRepository.findByEmail("john123@gmail.com")).thenReturn(Optional.of(user));
+        user = userRepository.save(user);
+    }
 
-        // act
-        Optional<User> userInDatabase = userRepository.findByEmail("john123@gmail.com");
-
-        // assert
-        assertTrue(userInDatabase.isPresent());
-        assertEquals("john123@gmail.com", userInDatabase.get().getEmail());
+    @AfterEach
+    void tearDown() {
+        userRepository.deleteAll();
     }
 
     @Test
-    void shouldReturnEmptyIfUserNotInDatabase() {
+    void shouldFindUserById() {
         // arrange
-        when(userRepository.findByEmail("mickylauda@gmail.com")).thenReturn(Optional.empty());
-
         // act
-        Optional<User> userInDatabase = userRepository.findByEmail("mickylauda@gmail.com");
-
+        Optional<User> foundUser = userRepository.findByEmail(user.getEmail());
         // assert
-        assertTrue(userInDatabase.isEmpty());
+        assertTrue(foundUser.isPresent());
+        assertEquals(user.getName(), foundUser.get().getName());
+        assertEquals(user.getPassword(), foundUser.get().getPassword());
     }
-
 }
