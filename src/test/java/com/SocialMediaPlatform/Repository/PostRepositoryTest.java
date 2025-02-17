@@ -34,7 +34,7 @@ class PostRepositoryTest {
     }
 
     @Test
-    void shouldFindPostById() {
+    void shouldReturnOptionalPresentIfFoundPost() {
         // arrange
         // act
         Optional<Post> foundPost = postRepository.findById(post.getPostId());
@@ -44,5 +44,15 @@ class PostRepositoryTest {
         assertEquals(post.getMediaUrl(), foundPost.get().getMediaUrl());
         assertNotNull(foundPost.get().getCreatedAt());
         assertNotNull(foundPost.get().getUpdatedAt());
+    }
+
+    @Test
+    void shouldReturnOptionalEmptyIfNotFoundPost() {
+        // arrange
+        String nonExistentPostId = "nonExistentId";
+        // act
+        Optional<Post> foundPost = postRepository.findById(nonExistentPostId);
+        // assert
+        assertTrue(foundPost.isEmpty());
     }
 }
