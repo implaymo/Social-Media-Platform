@@ -1,0 +1,22 @@
+@startuml
+
+
+actor User
+
+User -> UI ++ #application: I want to delete Post
+UI -> PostController --++ #application : Send PostDto
+PostController -> PostController #application: validate(PostDto)
+PostController -> PostService --++ #application: delete(PostDto)
+PostService -> PostMapper --++ #application: toEntity(PostDto)
+PostMapper --> PostService --++ #application: transform PostDto into Post
+PostService -> PostRepository --++ #application: findById(postID)
+PostRepository --> PostService --++ #application: return Optional Post
+PostService -> PostRepository --++ #application: delete(post)
+PostRepository -> PostRepository #application: delete(Post)
+PostRepository --> PostService --++ #application: Empty Optional
+PostService --> PostController --++ #application: Empty Optional
+PostController --> UI --++ #application: ResponseEntity 201 code!
+UI --> User -- #application: Post created!
+
+
+@enduml
