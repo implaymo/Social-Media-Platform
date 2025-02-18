@@ -2,16 +2,17 @@ package com.SocialMediaPlatform.Service;
 
 import com.SocialMediaPlatform.Dto.UserLoginDto;
 import com.SocialMediaPlatform.Dto.UserRegisterDto;
+import com.SocialMediaPlatform.Entity.Post;
 import com.SocialMediaPlatform.Entity.User;
 import com.SocialMediaPlatform.Mapper.UserRegisterMapper;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordHash;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordSalt;
 import com.SocialMediaPlatform.Repository.UserRepository;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Base64;
+import java.util.Optional;
 
 @Service
 public class UserRegistrationService {
@@ -30,9 +31,12 @@ public class UserRegistrationService {
     }
 
     @Transactional
-    public boolean registerUser(UserRegisterDto userRegisterDto) {
+    public Optional<User> registerUser(UserRegisterDto userRegisterDto) {
         if (userRegisterDto == null) {
-            return false;
+            return Optional.empty();
+        }
+        if (userRepository.findByEmail(userRegisterDto.getEmail()).isPresent()) {
+            return Optional.empty(); // or throw a custom exception
         }
 
         try {
@@ -43,11 +47,9 @@ public class UserRegistrationService {
             String hashedPassword = passwordHash.generateHashPassword(user.getPassword(), salt);
             user.setPassword(hashedPassword);
             userRepository.save(user);
-            return true;
-        } catch (ConstraintViolationException e) {
-            return false;
+            return Optional.of(user);
         } catch (Exception e) {
-            return false;
+            return Optional.empty();
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.SocialMediaPlatform.Controller;
 
 import com.SocialMediaPlatform.Dto.UserRegisterDto;
+import com.SocialMediaPlatform.Entity.User;
 import com.SocialMediaPlatform.Service.UserRegistrationService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -9,7 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Optional;
 
 @RestController
 public class AuthRegistrationController {
@@ -23,11 +25,11 @@ public class AuthRegistrationController {
 
     @PostMapping(path = "/auth/register", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boolean> registerUser(@Valid @RequestBody UserRegisterDto userRegisterDto) {
-        boolean result = userRegistrationService.registerUser(userRegisterDto);
-        if (!result) {
+        Optional<User> result = userRegistrationService.registerUser(userRegisterDto);
+        if (result.isEmpty()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(false);
         }
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(true);
     }
 
 }

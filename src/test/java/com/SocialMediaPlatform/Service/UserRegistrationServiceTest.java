@@ -14,6 +14,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
+
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,7 +38,7 @@ class UserRegistrationServiceTest {
 
     // Registration method tests
     @Test
-    void shouldReturnTrueIfUserRegistered() {
+    void shouldReturnPresentOptionalIfUserRegistered() {
         // arrange
         UserRegisterDto userRegisterDto = UserRegisterDto.builder()
                 .name("John Cena")
@@ -50,19 +52,19 @@ class UserRegistrationServiceTest {
             return user;
         });
         // act
-        boolean registerUser = userRegistrationService.registerUser(userRegisterDto);
+        Optional<User> registerUser = userRegistrationService.registerUser(userRegisterDto);
         // assert
-        assertTrue(registerUser);
+        assertTrue(registerUser.isPresent());
     }
 
     @Test
-    void shouldReturnFalseIfUserRegisterDtoIsNull() {
+    void shouldReturnEmptyOptionalIfUserRegisterDtoIsNull() {
         // arrange
         UserRegisterDto userRegisterDto = null;
         // act
-        boolean registerUser = userRegistrationService.registerUser(userRegisterDto);
+        Optional<User> registerUser = userRegistrationService.registerUser(userRegisterDto);
         // assert
-        assertFalse(registerUser);
+        assertTrue(registerUser.isEmpty());
     }
 
 }

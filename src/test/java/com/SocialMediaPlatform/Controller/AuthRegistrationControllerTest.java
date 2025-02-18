@@ -1,6 +1,7 @@
 package com.SocialMediaPlatform.Controller;
 
 import com.SocialMediaPlatform.Dto.UserRegisterDto;
+import com.SocialMediaPlatform.Entity.User;
 import com.SocialMediaPlatform.Service.UserRegistrationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +12,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -43,8 +46,14 @@ class AuthRegistrationControllerTest {
                 .password("John@12345")
                 .build();
 
+        User user = User.builder()
+                .name("John Cena")
+                .email("john123@gmail.com")
+                .password("John@12345")
+                .build();
+
         when(userRegistrationService.registerUser(any(UserRegisterDto.class)))
-                .thenReturn(true);
+                .thenReturn(Optional.of(user));
 
         // act & assert
         mockMvc.perform(post("/auth/register")
@@ -88,7 +97,7 @@ class AuthRegistrationControllerTest {
                 .build();
 
         when(userRegistrationService.registerUser(any(UserRegisterDto.class)))
-                .thenReturn(false);
+                .thenReturn(Optional.empty());
 
         // act & assert
         mockMvc.perform(post("/auth/register")
