@@ -38,45 +38,47 @@ class PostServiceTest {
     }
 
     @Test
-    void shouldReturnTrueIfCreateNewPostWithContentSuccessfully(){
+    void shouldReturnOptionalPresentIfCreateNewPostWithContentSuccessfully(){
         // arrange
         postDto = PostDto.builder()
                 .content("Hello World")
                 .build();
+        when(postRepository.save(any(Post.class))).thenReturn(post);
         // act
-        boolean postCreated = postService.createPost(postDto);
+        Optional<Post> postCreated = postService.createPost(postDto);
         // assert
-        assertTrue(postCreated);
+        assertTrue(postCreated.isPresent());
     }
 
     @Test
-    void shouldReturnTrueIfCreateNewPostWithContentAndMediaSuccessfully(){
+    void shouldReturnOptionalPresentIfCreateNewPostWithContentAndMediaSuccessfully(){
+        // arrange
+        postDto = PostDto.builder()
+                .content("Hello World")
+                .mediaUrl("example.jpg")
+                .build();
+        when(postRepository.save(any(Post.class))).thenReturn(post);
+        // act
+        Optional<Post> postCreated = postService.createPost(postDto);
+        // assert
+        assertTrue(postCreated.isPresent());
+    }
+
+    @Test
+    void shouldReturnOptionalEmptyIfCreatePostDtoNull(){
         // arrange
         postDto = PostDto.builder()
                 .content("Hello World")
                 .mediaUrl("example.jpg")
                 .build();
         // act
-        boolean postCreated = postService.createPost(postDto);
+        Optional<Post> postCreated = postService.createPost(null);
         // assert
-        assertTrue(postCreated);
+        assertTrue(postCreated.isEmpty());
     }
 
     @Test
-    void shouldReturnFalseIfCreatePostDtoNull(){
-        // arrange
-        postDto = PostDto.builder()
-                .content("Hello World")
-                .mediaUrl("example.jpg")
-                .build();
-        // act
-        boolean postCreated = postService.createPost(null);
-        // assert
-        assertFalse(postCreated);
-    }
-
-    @Test
-    void shouldReturnTrueIfUpdatePostSuccessfully(){
+    void shouldReturnOptionalPresentIfUpdatePostSuccessfully(){
         // arrange
         postDto = PostDto.builder()
                 .postId("postID")
@@ -85,22 +87,22 @@ class PostServiceTest {
                 .build();
         when(postRepository.findById(post.getPostId())).thenReturn(Optional.of(post));
         // act
-        boolean postEdit = postService.updatePost(postDto);
+        Optional<Post> postEdit = postService.updatePost(postDto);
         // assert
-        assertTrue(postEdit);
+        assertTrue(postEdit.isPresent());
     }
 
     @Test
-    void shouldReturnFalseIfUpdatePostDtoIsNull(){
+    void shouldReturnOptionalEmptyIfUpdatePostDtoIsNull(){
         // arrange
         // act
-        boolean postEdit = postService.updatePost(null);
+        Optional<Post> postEdit = postService.updatePost(null);
         // assert
-        assertFalse(postEdit);
+        assertTrue(postEdit.isEmpty());
     }
 
     @Test
-    void shouldReturnTrueIfDeletePostSuccessfully(){
+    void shouldReturnOptionalPresentIfDeletePostSuccessfully(){
         // arrange
         postDto = PostDto.builder()
                 .postId("postID")
@@ -109,22 +111,22 @@ class PostServiceTest {
                 .build();
         when(postRepository.findById(post.getPostId())).thenReturn(Optional.of(post));
         // act
-        boolean postDeleted = postService.deletePost(postDto);
+        Optional<Post> postDeleted = postService.deletePost(postDto);
         // assert
-        assertTrue(postDeleted);
+        assertTrue(postDeleted.isPresent());
     }
 
     @Test
-    void shouldReturnFalseIfDeletePostDtoIsNull(){
+    void shouldReturnOptionalEmptyIfDeletePostDtoIsNull(){
         // arrange
         // act
-        boolean postDeleted = postService.deletePost(null);
+        Optional<Post> postDeleted = postService.deletePost(null);
         // assert
-        assertFalse(postDeleted);
+        assertTrue(postDeleted.isEmpty());
     }
 
     @Test
-    void shouldReturnFalseIfPostDoesNotExist() {
+    void shouldReturnOptionalEmptyIfPostDoesNotExist() {
         // arrange
         PostDto nonExistentPostDto = PostDto.builder()
                 .postId("nonExistentId")
@@ -133,10 +135,10 @@ class PostServiceTest {
         when(postRepository.findById("nonExistentId")).thenReturn(Optional.empty());
 
         // act
-        boolean postDeleted = postService.deletePost(nonExistentPostDto);
+        Optional<Post> postDeleted = postService.deletePost(nonExistentPostDto);
 
         // assert
-        assertFalse(postDeleted);
+        assertTrue(postDeleted.isEmpty());
         verify(postRepository, never()).delete(any(Post.class));
     }
 

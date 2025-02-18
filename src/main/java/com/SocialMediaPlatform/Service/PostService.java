@@ -20,18 +20,18 @@ public class PostService {
     }
 
 
-    public boolean createPost(PostDto postDto){
+    public Optional<Post> createPost(PostDto postDto){
         if(postDto == null) {
-            return false;
+            return Optional.empty();
         }
         Post post = postMapper.toEntity(postDto);
         postRepository.save(post);
-        return true;
+        return Optional.of(post);
     }
 
-    public boolean updatePost(PostDto postDto) {
+    public Optional<Post> updatePost(PostDto postDto) {
         if (postDto == null) {
-            return false;
+            return Optional.empty();
         }
         Post post = postMapper.toEntity(postDto);
         Optional<Post> existingPostOptional = postRepository.findById(post.getPostId());
@@ -44,21 +44,21 @@ public class PostService {
                 existingPost.setMediaUrl(postDto.getMediaUrl());
             }
             postRepository.save(existingPost);
-            return true;
+            return Optional.of(existingPost);
         }
-        return false;
+        return Optional.empty();
     }
 
-    public boolean deletePost(PostDto postDto) {
+    public Optional<Post> deletePost(PostDto postDto) {
         if (postDto == null) {
-            return false;
+            return Optional.empty();
         }
         Post post = postMapper.toEntity(postDto);
         Optional<Post> existingPostOptional = postRepository.findById(post.getPostId());
         if (existingPostOptional.isPresent()) {
             postRepository.delete(existingPostOptional.get());
-            return true;
+            return existingPostOptional;
         }
-        return false;
+        return Optional.empty();
     }
 }
