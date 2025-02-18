@@ -47,6 +47,8 @@ class PostControllerTest {
                 .build();
     }
 
+
+    // createPost method
     @Test
     void shouldReturnOkIfPostCreatedWithBothContentAndMedia() throws Exception {
         // arrange
@@ -122,5 +124,36 @@ class PostControllerTest {
                         .content(new ObjectMapper().writeValueAsString(postDto)))
                 .andExpect(status().isInternalServerError());
     }
+
+    //editPost
+
+    @Test
+    void shouldReturnOkIfEditContentAndMediaSuccessfully(){
+        // arrange
+        // act
+        // assert
+    }
+
+    @Test
+    void shouldReturnOkIfEditContentSuccessfully(){
+        // arrange
+        // act
+        // assert
+    }
+
+    @Test
+    void shouldReturnGoodRequestIfEditMediaSuccessfully() {
+        // arrange
+        // act
+        // assert
+    }
+
+    @Test
+    void shouldReturnBadRequestIfNotEditPost(){
+        // arrange
+        // act
+        // assert
+    }
+
 
 }

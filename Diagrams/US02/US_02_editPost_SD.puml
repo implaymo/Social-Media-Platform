@@ -1,0 +1,23 @@
+@startuml
+
+
+actor User
+
+User -> UI ++ #application: I want to update Post
+UI -> PostController --++ #application : updatePost(PostDto)
+PostController -> PostController #application: validate(PostDto)
+PostController -> PostService --++ #application: updatePost(PostDto)
+PostService -> PostMapper --++ #application: toEntity(PostDto)
+PostMapper --> PostService --++ #application: transform PostDto into Post
+PostService -> PostRepository --++ #application: findById(postID)
+PostRepository --> PostService --++ #application: return Optional Post
+PostService -> PostService : update post content
+PostService -> PostRepository --++ #application: save(post)
+PostRepository -> PostRepository #application: save(Post)
+PostRepository --> PostService --++ #application: Optional<Post>
+PostService --> PostController --++ #application: Optional<Post>
+PostController --> UI --++ #application: ResponseEntity 201 code!
+UI --> User -- #application: Post created!
+
+
+@enduml
