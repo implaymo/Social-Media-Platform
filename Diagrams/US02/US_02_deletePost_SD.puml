@@ -15,7 +15,7 @@ PostService -> PostRepository --++ #application: delete(post)
 PostRepository -> PostRepository #application: delete(Post)
 PostRepository --> PostService --++ #application: Empty Optional
 PostService --> PostController --++ #application: Empty Optional
-PostController --> UI --++ #application: ResponseEntity 201 code!
+PostController --> UI --++ #application: ResponseEntity 200 code!
 UI --> User -- #application: Post created!
 
 
