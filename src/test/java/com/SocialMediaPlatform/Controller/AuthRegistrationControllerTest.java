@@ -24,12 +24,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 class AuthRegistrationControllerTest {
 
 
-    private MockMvc mockMvc;
 
     @Mock
     private UserRegistrationService userRegistrationService;
 
     private AuthRegistrationController authRegistrationController;
+    private MockMvc mockMvc;
 
     @BeforeEach
     void setUp() {
