@@ -4,7 +4,7 @@
 actor User
 
 User -> UI ++ #application: I want to update Post
-UI -> PostController --++ #application : updatePost(PostDto)
+UI -> PostController --++ #application : Send PostDto
 PostController -> PostController #application: validate(PostDto)
 PostController -> PostService --++ #application: updatePost(PostDto)
 PostService -> PostMapper --++ #application: toEntity(PostDto)
