@@ -13,15 +13,10 @@ public class PasswordSalt {
     }
 
     public byte[] generateRandomSalt() {
-        try {
-            salt = new byte[16];
-            SecureRandom secureRandom = new SecureRandom();
-            secureRandom.nextBytes(salt);
-            return salt;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        salt = new byte[16];
+        SecureRandom secureRandom = new SecureRandom();
+        secureRandom.nextBytes(salt);
+        return salt;
     }
 
 

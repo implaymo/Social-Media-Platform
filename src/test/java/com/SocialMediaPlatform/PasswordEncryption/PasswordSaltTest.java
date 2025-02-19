@@ -2,7 +2,6 @@ package com.SocialMediaPlatform.PasswordEncryption;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.security.core.parameters.P;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,5 +35,4 @@ class PasswordSaltTest {
         assertNotNull(salt2);
         assertNotEquals(salt1, salt2);
     }
-
 }
