@@ -52,4 +52,32 @@ class PasswordHashTest {
         assertNotEquals(hashedPassword1, hashedPassword2);
     }
 
+    @Test
+    void shouldReturnNullIfSaltProvidedNull() {
+        // arrange
+        // act
+        String hashedPassword1 = passwordHash.generateHashPassword(password, null);
+        // assert
+        assertNull(hashedPassword1);
+    }
+
+    @Test
+    void shouldReturnNullIfPasswordProvidedNull() {
+        // arrange
+        byte[] salt1 = passwordSalt.generateRandomSalt();
+        // act
+        String hashedPassword1 = passwordHash.generateHashPassword(null, salt1);
+        // assert
+        assertNull(hashedPassword1);
+    }
+
+    @Test
+    void shouldReturnNullIfPasswordAndSaltProvidedNull() {
+        // arrange
+        // act
+        String hashedPassword1 = passwordHash.generateHashPassword(null, null);
+        // assert
+        assertNull(hashedPassword1);
+    }
+
 }
