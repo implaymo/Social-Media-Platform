@@ -16,7 +16,7 @@ PostService -> PostRepository --++ #application: save(post)
 PostRepository -> PostRepository #application: save(Post)
 PostRepository --> PostService --++ #application: Optional<Post>
 PostService --> PostController --++ #application: Optional<Post>
-PostController --> UI --++ #application: ResponseEntity 201 code!
+PostController --> UI --++ #application: ResponseEntity 200 code!
 UI --> User -- #application: Post created!
 
 

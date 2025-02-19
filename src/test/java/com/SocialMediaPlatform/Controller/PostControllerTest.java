@@ -128,28 +128,28 @@ class PostControllerTest {
     //editPost
 
     @Test
-    void shouldReturnOkIfEditContentAndMediaSuccessfully(){
+    void shouldReturnOkIfUpdatePostContentAndMediaSuccessfully(){
         // arrange
         // act
         // assert
     }
 
     @Test
-    void shouldReturnOkIfEditContentSuccessfully(){
+    void shouldReturnOkIfUpdatePostContentSuccessfully(){
         // arrange
         // act
         // assert
     }
 
     @Test
-    void shouldReturnGoodRequestIfEditMediaSuccessfully() {
+    void shouldReturnOkIfUpdatePostMediaSuccessfully() {
         // arrange
         // act
         // assert
     }
 
     @Test
-    void shouldReturnBadRequestIfNotEditPost(){
+    void shouldReturnBadRequestIfNotUpdatePost(){
         // arrange
         // act
         // assert
