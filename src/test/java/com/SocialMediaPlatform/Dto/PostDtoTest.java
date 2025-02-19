@@ -22,7 +22,7 @@ class PostDtoTest {
     }
 
     @Test
-    void shouldCreateValidPostDto(){
+    void shouldCreateValidPostDtoIfContentAndMediaProvided(){
         // arrange
         PostDto postDto = PostDto.builder()
                 .content("Hello World")
@@ -36,7 +36,7 @@ class PostDtoTest {
     }
 
     @Test
-    void shouldNotCreatePostDtoIfContentIsNull() {
+    void shouldCreatePostDtoIfOnlyMediaProvided() {
         // arrange
         PostDto postDto = PostDto.builder()
                 .mediaUrl("http://exampleimage.jpg")
@@ -44,24 +44,14 @@ class PostDtoTest {
         // act
         Set<ConstraintViolation<PostDto>> violations = validator.validate(postDto);
         // assert
-        assertFalse(violations.isEmpty());
+        assertTrue(violations.isEmpty());
+        assertNotNull(postDto);
+        assertEquals("http://exampleimage.jpg", postDto.getMediaUrl());
+        assertNull(postDto.getContent());
     }
 
     @Test
-    void shouldNotCreatePostDtoIfContentIsBlank() {
-        // arrange
-        PostDto postDto = PostDto.builder()
-                .content("")
-                .mediaUrl("http://exampleimage.jpg")
-                .build();
-        // act
-        Set<ConstraintViolation<PostDto>> violations = validator.validate(postDto);
-        // assert
-        assertFalse(violations.isEmpty());
-    }
-
-    @Test
-    void shouldCreatePostDtoIfHaveContentAndNotHaveMediaUrl() {
+    void shouldCreatePostDtoIfOnlyContentProvided() {
         // arrange
         PostDto postDto = PostDto.builder()
                 .content("Hello World")
@@ -73,5 +63,16 @@ class PostDtoTest {
         assertNotNull(postDto);
         assertEquals("Hello World", postDto.getContent());
         assertNull(postDto.getMediaUrl());
+    }
+
+    @Test
+    void shouldNotCreatePostDtoIfNoContentOrMediaProvided() {
+        // arrange
+        PostDto postDto = PostDto.builder()
+                .build();
+        // act
+        Set<ConstraintViolation<PostDto>> violations = validator.validate(postDto);
+        // assert
+        assertFalse(violations.isEmpty());
     }
 }
