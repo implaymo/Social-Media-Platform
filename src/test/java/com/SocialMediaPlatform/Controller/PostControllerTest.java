@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -152,7 +153,7 @@ class PostControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    //updatePost Test
+    //////////////////updatePost Test //////////////
 
     @Test
     void shouldReturnOkIfUpdatePostContentAndMedia() throws Exception {
@@ -281,5 +282,43 @@ class PostControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    //////////////////////////// deletePost tests ///////////////////////////////////////////
 
+
+    @Test
+    void shouldReturnOkIfDeletePost() throws Exception {
+        // arrange
+        PostDto postDto = PostDto.builder()
+                .postId("postID")
+                .mediaUrl("example.jpg")
+                .build();
+        Post post = Post.builder()
+                .postId("postID")
+                .content("Hello World")
+                .mediaUrl("example.jpg")
+                .build();
+        when(postService.deletePost(any(PostDto.class))).thenReturn(Optional.of(post));
+        // act & assert
+        mockMvc.perform(post("/post/delete")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(postDto)))
+                .andExpect(status().isOk())
+                .andExpect(content().string("true"));
+    }
+
+    @Test
+    void shouldReturnBadRequestIfPostNotExist() throws Exception{
+        // arrange
+        PostDto postDto = PostDto.builder()
+                .postId("postID")
+                .mediaUrl("example.jpg")
+                .build();
+        when(postService.deletePost(any(PostDto.class))).thenReturn(Optional.empty());
+        // act & assert
+        mockMvc.perform(post("/post/delete")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(postDto)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("false"));
+    }
 }

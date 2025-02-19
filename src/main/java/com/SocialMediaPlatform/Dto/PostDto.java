@@ -1,18 +1,17 @@
 package com.SocialMediaPlatform.Dto;
 
 
-import jakarta.validation.constraints.NotBlank;
+import com.SocialMediaPlatform.CustomAnnotation.ContentOrMediaUrlRequired;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
+@ContentOrMediaUrlRequired
 public class PostDto {
 
     private String postId;
 
-    @NotBlank(message = "Content can't be null or blank")
     private String content;
-
     private String mediaUrl;
 }

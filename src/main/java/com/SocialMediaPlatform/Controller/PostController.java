@@ -5,7 +5,6 @@ import com.SocialMediaPlatform.Entity.Post;
 import com.SocialMediaPlatform.Service.PostService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,11 +35,19 @@ public class PostController {
 
     @PostMapping(path = "/post/update", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boolean> updatePost(@Valid @RequestBody PostDto postDto) {
-        return ResponseEntity.ok(Boolean.TRUE);
+        Optional<Post> post = postService.updatePost(postDto);
+        if(post.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
+        }
+        return ResponseEntity.ok(true);
     }
 
     @PostMapping(path = "/post/delete", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boolean> deletePost(@Valid @RequestBody PostDto postDto) {
-        return ResponseEntity.ok(Boolean.TRUE);
+        Optional<Post> post = postService.deletePost(postDto);
+        if(post.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
+        }
+        return ResponseEntity.ok(true);
     }
 }

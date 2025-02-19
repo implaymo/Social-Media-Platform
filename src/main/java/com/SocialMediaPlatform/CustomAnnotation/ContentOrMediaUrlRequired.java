@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = ContentOrMediaUrlValidator.class)
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ContentOrMediaUrl {
+public @interface ContentOrMediaUrlRequired {
     String message() default "Either content or mediaUrl must be provided";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
