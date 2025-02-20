@@ -1,0 +1,25 @@
+@startuml
+
+
+actor User
+
+User -> UI ++ #application: I want to add comment to Post
+UI -> PostController --++ #application : Send PostDto
+PostController -> PostController #application: validate(PostDto)
+PostController -> PostService --++ #application: addCommentPost(PostDto)
+PostService -> PostMapper --++ #application: toEntity(PostDto)
+PostMapper --> PostService --++ #application: transform PostDto into Post
+PostService -> Post --++ #application: registerComment(postID, userID, text)
+Post -> Post #application: registerComment(postID, userID, text)
+Post -> PostService --++ #application: Optional<Comment>
+PostService -> PostRepository --++ #application: updatePost(Post)
+PostRepository -> PostRepository #application: updatePost(Post)
+PostRepository --> PostService --++ #application: Optional<Post>
+PostService -> PostMapper --++ #application: toDto(Post)
+PostMapper --> PostService --++ #application: transform Post into PostDto
+PostService --> PostController --++ #application: Optional<PostDto>
+PostController --> UI --++ #application: ResponseEntity 200 code!
+UI --> User -- #application: Post updated with Comment!
+
+
+@enduml
