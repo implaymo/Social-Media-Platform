@@ -2,25 +2,18 @@
 
 actor User
 
-User -> UI ++ #application: I want to add comment to Post(comment)
-UI -> PostController ++ #application: POST /posts/{postID}/comment
-UI -> PostController: Send CommentDto
-PostController -> PostController: validate(postID)
-PostController -> PostController: validate(CommentDto)
-PostController -> PostController: getUserFromSecurityContext()
-PostController -> PostService ++ #application: addCommentPost(postID,userID, CommentDto)
-PostService -> CommentMapper ++ #application: toEntity(CommentDto)
-CommentMapper --> PostService --: Comment
-PostService -> Post ++ #application: registerComment(postID, userID, comment)
-Post -> Post: registerComment(postID, userID, comment)
-Post --> PostService --: Optional<Comment>
-PostService -> PostRepository ++ #application: updatePost(Post)
-PostRepository -> PostRepository: updatePost(Post)
-PostRepository --> PostService --: Optional<Post>
-PostService -> CommentMapper ++ #application: toDto(Post)
-CommentMapper --> PostService --: PostDto
-PostService --> PostController --: Optional<PostDto>
-PostController --> UI --: ResponseEntity 200 code!
-UI --> User --: Post updated with Comment!
+User -> UI ++ #application: I want to add comment to post
+UI -> CommentController ++ #application: POST /comment/{postID}
+CommentController -> CommentController: validatePostExists(postID)
+CommentController -> CommentController: validateCommentDto(CommentDto)
+CommentController -> CommentController: getUserFromSecurityContext()
+CommentController -> CommentService ++ #application: registerComment(postID, userID, CommentDto)
+CommentService -> CommentMapper ++ #application: toEntity(CommentDto)
+CommentMapper --> CommentService --: Comment
+CommentService -> CommentRepository ++ #application: save(Comment)
+CommentRepository --> CommentService --: Optional<Comment>
+CommentService --> CommentController --: Optional<Comment>
+CommentController --> UI --: ResponseEntity 201 code!
+UI --> User --: Comment added successfully!
 
 @enduml
