@@ -4,7 +4,7 @@
 actor User
 
 User -> UI ++ #application: I want to add like to Post
-UI -> PostController --++ #application :  POST /posts/{postID}/likes
+UI -> PostController --++ #application :  POST /posts/{postID}/like
 PostController -> PostController #application: validate(postID)
 PostController -> PostController #application: getUserFromSecurityContext()
 PostController -> PostService --++ #application: addLikePost(postID, userID)
