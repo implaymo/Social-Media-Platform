@@ -9,13 +9,15 @@ PostController -> PostController #application: validate(PostDto)
 PostController -> PostService --++ #application: addLikePost(PostDto)
 PostService -> PostMapper --++ #application: toEntity(PostDto)
 PostMapper --> PostService --++ #application: transform PostDto into Post
-PostService -> LikeRepository --++ #application: createLike(postID, userID)
-LikeRepository -> LikeRepository #application: save(Like)
-LikeRepository --> PostService --++ #application: Optional<Like>
-PostService -> PostRepository --++ #application: updatePost(Like)
-PostRepository -> PostRepository #application: updatePost(Like)
+PostService -> Post --++ #application: registerLike(postID, userID)
+Post -> Post #application: registerLike(postID, userID)
+Post -> PostService --++ #application: Optional<Like>
+PostService -> PostRepository --++ #application: updatePost(Post)
+PostRepository -> PostRepository #application: updatePost(Post)
 PostRepository --> PostService --++ #application: Optional<Post>
-PostService --> PostController --++ #application: Optional<Post>
+PostService -> PostMapper --++ #application: toDto(Post)
+PostMapper --> PostService --++ #application: transform Post into PostDto
+PostService --> PostController --++ #application: Optional<PostDto>
 PostController --> UI --++ #application: ResponseEntity 200 code!
 UI --> User -- #application: Post updated with Like!
 
