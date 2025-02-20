@@ -18,16 +18,20 @@ class Post {
   - mediaURL: String
   - createdAt: Instant
   - updatedAt: Instant
+  - like: ArrayList<Like>
+  - comment: ArrayList<Comment>
 }
 
 class Comment {
   - commentID: int
+  - userID
   - text: String
   - timestamp: DateTime
 }
 
 class Like {
   - likeID: int
+  - userID
   - timestamp: DateTime
 }
 
