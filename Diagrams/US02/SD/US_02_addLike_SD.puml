@@ -4,14 +4,15 @@
 actor User
 
 User -> UI ++ #application: I want to add like to Post
-UI -> PostController --++ #application : Send PostDto
-PostController -> PostController #application: validate(PostDto)
-PostController -> PostService --++ #application: addLikePost(PostDto)
-PostService -> PostMapper --++ #application: toEntity(PostDto)
-PostMapper --> PostService --++ #application: transform PostDto into Post
+UI -> PostController --++ #application :  POST /posts/{postID}/likes
+PostController -> PostController #application: validate(postID)
+PostController -> PostController #application: getUserFromSecurityContext()
+PostController -> PostService --++ #application: addLikePost(postID, userID)
 PostService -> Post --++ #application: registerLike(postID, userID)
+Post -> Post: verifyLike()
 Post -> Post #application: registerLike(postID, userID)
 Post -> PostService --++ #application: Optional<Like>
+PostService -> PostService: getPost()
 PostService -> PostRepository --++ #application: updatePost(Post)
 PostRepository -> PostRepository #application: updatePost(Post)
 PostRepository --> PostService --++ #application: Optional<Post>
