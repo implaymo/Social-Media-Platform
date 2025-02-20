@@ -10,6 +10,8 @@ class User {
   - name: String
   - email: String
   - password: String
+  + getters()
+  + setters()
 }
 
 class Post {
@@ -20,23 +22,31 @@ class Post {
   - updatedAt: Instant
   - like: ArrayList<Like>
   - comment: ArrayList<Comment>
+  + getters()
+  + setters()
 }
 
 class Comment {
   - commentID: String
-  - userID
+  - userID: String
   - text: String
   - timestamp: DateTime
+  + getters()
+  + setters()
 }
 
 class Like {
   - likeID: String
-  - userID
+  - userID: String
   - timestamp: DateTime
+  + getters()
+  + setters()
 }
 
 class Chat {
   - chatID: int
+  + getters()
+  + setters()
 }
 
 class Message {
@@ -45,11 +55,15 @@ class Message {
   - receiverID: int
   - content: String
   - timestamp: DateTime
+  + getters()
+  + setters()
 }
 
 class Feed {
     - userID: String
     - post: ArrayList<Post>
+    + getters()
+    + setters()
 }
 
 ' ======================
