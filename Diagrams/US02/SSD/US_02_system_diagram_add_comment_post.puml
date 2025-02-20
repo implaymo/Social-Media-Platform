@@ -1,0 +1,15 @@
+@startuml
+
+
+actor User
+participant System
+
+User -> System: I want to add comment to post
+System --> User: What do you want to write?
+User -> System: text!
+System --> User: Everything is correct?
+User -> System: yes!
+System --> User: User add comment successfully!
+
+
+@enduml
