@@ -6,14 +6,14 @@
 ' ======================
 
 class User {
-  - userID: int
+  - userID: String
   - name: String
   - email: String
   - password: String
 }
 
 class Post {
-  - postID: int
+  - postID: String
   - content: String
   - mediaURL: String
   - createdAt: Instant
@@ -23,14 +23,14 @@ class Post {
 }
 
 class Comment {
-  - commentID: int
+  - commentID: String
   - userID
   - text: String
   - timestamp: DateTime
 }
 
 class Like {
-  - likeID: int
+  - likeID: String
   - userID
   - timestamp: DateTime
 }
@@ -40,11 +40,16 @@ class Chat {
 }
 
 class Message {
-  - messageID: int
+  - messageID: String
   - senderID: int
   - receiverID: int
   - content: String
   - timestamp: DateTime
+}
+
+class Feed {
+    - userID: String
+    - post: ArrayList<Post>
 }
 
 ' ======================
@@ -67,5 +72,7 @@ Chat "1" --> "2" User : participants
 
 ' A Chat contains many Messages; each Message belongs to one Chat.
 Chat "1" --> "0..*" Message : contains
+
+Feed "1" --> "0..*" Post: contains
 
 @enduml
