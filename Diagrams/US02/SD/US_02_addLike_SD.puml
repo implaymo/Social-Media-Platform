@@ -3,7 +3,7 @@
 
 actor User
 
-User -> UI ++ #application: I want to add like to LikeRepository
+User -> UI ++ #application: I want to like Post
 UI -> LikeController --++ #application :  POST /like/{postID}
 LikeController -> LikeController #application: validate(postID)
 LikeController -> LikeController #application: getUserFromSecurityContext()
@@ -13,7 +13,7 @@ LikeService -> LikeRepository --++ #application: registerLike(postID, userID)
 LikeRepository -> LikeService --++ #application: Optional<Like>
 LikeService --> LikeController --++ #application: Optional<Like>
 LikeController --> UI --++ #application: ResponseEntity 200 code!
-UI --> User -- #application: LikeRepository updated with Like!
+UI --> User -- #application: Post liked!
 
 
 @enduml
