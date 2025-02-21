@@ -3,18 +3,28 @@ package com.SocialMediaPlatform.Entity;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
 
 @Data
 @Builder
+@Document(collection = "like")
 public class Like {
 
     @Id
-    private String id;
+    private String likeID;
 
-    @NotBlank(message =  "Post ID can't be null or blank")
     private String postID;
 
-    @NotBlank(message =  "User ID can't be null or blank")
     private String userID;
+
+    @CreatedDate
+    private Instant createdAt;
+
+    @LastModifiedDate
+    private Instant updatedAt;
 }
