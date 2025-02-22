@@ -20,8 +20,6 @@ class Post {
   - mediaURL: String
   - createdAt: Instant
   - updatedAt: Instant
-  - like: ArrayList<Like>
-  - comment: ArrayList<Comment>
   + getters()
   + setters()
 }
@@ -61,7 +59,6 @@ class Message {
 
 class Feed {
     - userID: String
-    - post: ArrayList<Post>
     + getters()
     + setters()
 }
