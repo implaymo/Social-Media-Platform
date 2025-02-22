@@ -2,6 +2,7 @@ package com.SocialMediaPlatform.Service;
 
 import com.SocialMediaPlatform.Dto.PostDto;
 import com.SocialMediaPlatform.Entity.Post;
+import com.SocialMediaPlatform.Entity.User;
 import com.SocialMediaPlatform.Mapper.PostMapper;
 import com.SocialMediaPlatform.Repository.PostRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,6 +26,7 @@ class PostServiceTest {
     private PostService postService;
     private PostDto postDto;
     private Post post;
+    private User user;
 
     @BeforeEach
     void setUp(){
@@ -34,6 +36,12 @@ class PostServiceTest {
                 .postId("postID")
                 .content("Hello World")
                 .mediaUrl("example.jpg")
+                .build();
+        user = User.builder()
+                .id("userID")
+                .name("John Cena")
+                .email("john123@gmail.com")
+                .password("John@12345")
                 .build();
     }
 
@@ -45,7 +53,7 @@ class PostServiceTest {
                 .build();
         when(postRepository.save(any(Post.class))).thenReturn(post);
         // act
-        Optional<Post> postCreated = postService.createPost(postDto);
+        Optional<Post> postCreated = postService.createPost(postDto, user);
         // assert
         assertTrue(postCreated.isPresent());
     }
@@ -59,7 +67,7 @@ class PostServiceTest {
                 .build();
         when(postRepository.save(any(Post.class))).thenReturn(post);
         // act
-        Optional<Post> postCreated = postService.createPost(postDto);
+        Optional<Post> postCreated = postService.createPost(postDto, user);
         // assert
         assertTrue(postCreated.isPresent());
     }
@@ -67,12 +75,21 @@ class PostServiceTest {
     @Test
     void shouldReturnOptionalEmptyIfCreatePostDtoNull(){
         // arrange
+        // act
+        Optional<Post> postCreated = postService.createPost(null, user);
+        // assert
+        assertTrue(postCreated.isEmpty());
+    }
+
+    @Test
+    void shouldReturnOptionalEmptyIfCreateUserNull(){
+        // arrange
         postDto = PostDto.builder()
                 .content("Hello World")
                 .mediaUrl("example.jpg")
                 .build();
         // act
-        Optional<Post> postCreated = postService.createPost(null);
+        Optional<Post> postCreated = postService.createPost(postDto, null);
         // assert
         assertTrue(postCreated.isEmpty());
     }

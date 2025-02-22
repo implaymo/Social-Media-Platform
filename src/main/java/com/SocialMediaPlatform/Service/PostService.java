@@ -2,6 +2,7 @@ package com.SocialMediaPlatform.Service;
 
 import com.SocialMediaPlatform.Dto.PostDto;
 import com.SocialMediaPlatform.Entity.Post;
+import com.SocialMediaPlatform.Entity.User;
 import com.SocialMediaPlatform.Mapper.PostMapper;
 import com.SocialMediaPlatform.Repository.PostRepository;
 import org.springframework.stereotype.Service;
@@ -20,11 +21,12 @@ public class PostService {
     }
 
 
-    public Optional<Post> createPost(PostDto postDto){
-        if(postDto == null) {
+    public Optional<Post> createPost(PostDto postDto, User user){
+        if(postDto == null || user == null) {
             return Optional.empty();
         }
         Post post = postMapper.toEntity(postDto);
+        post.setUserId(user.getId());
         postRepository.save(post);
         return Optional.of(post);
     }
