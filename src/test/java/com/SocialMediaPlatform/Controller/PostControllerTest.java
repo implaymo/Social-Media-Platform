@@ -1,40 +1,47 @@
 package com.SocialMediaPlatform.Controller;
 
+import com.SocialMediaPlatform.Config.MongoConfig;
+import com.SocialMediaPlatform.Config.TestSecurityConfig;
 import com.SocialMediaPlatform.Dto.PostDto;
 import com.SocialMediaPlatform.Entity.Post;
 import com.SocialMediaPlatform.Entity.User;
 import com.SocialMediaPlatform.Service.PostService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.MockMvc;
+
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
-@ExtendWith(MockitoExtension.class)
+@WebMvcTest(PostController.class)
+@Import({MongoConfig.class, TestSecurityConfig.class})
 class PostControllerTest {
 
-    @Mock
-    private PostService postService;
+    @Autowired
+    private MockMvc mockMvc;
 
-    @InjectMocks
-    private PostController postController;
+    @MockitoBean
+    private PostService postService;
 
     private User user;
 
-
     @BeforeEach
-    void setUp(){
+    void setUp() {
         user = User.builder()
                 .id("userID")
                 .name("John Doe")
@@ -43,10 +50,9 @@ class PostControllerTest {
                 .build();
     }
 
-
-    // createPost method
     @Test
-    void shouldReturnCreatedIfPostCreatedSuccessfully() {
+    @WithMockUser(username = "john@example.com", roles = "USER")
+    void shouldReturnCreatedIfPostCreatedWithBothContentAndMedia() throws Exception {
         // arrange
         PostDto postDto = PostDto.builder()
                 .content("Hello world")
@@ -55,22 +61,25 @@ class PostControllerTest {
         Post post = Post.builder()
                 .postId("postID")
                 .userId("userID")
-                .content("Hello world")
-                .mediaUrl("example.mp4")
+                .content("Hello World")
+                .mediaUrl("example.jpg")
                 .build();
         when(postService.createPost(any(PostDto.class), any(User.class)))
                 .thenReturn(Optional.of(post));
 
-        // act
-        ResponseEntity<Boolean> response = postController.createPost(postDto, user);
-
-        // assert
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(true, response.getBody());
+        // act + assert
+        mockMvc.perform(post("/post/create")
+                        .with(csrf())
+                        .with(user(user))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(postDto)))
+                .andExpect(status().isCreated())
+                .andExpect(content().string("true"));
     }
 
     @Test
-    void shouldReturnOkIfPostCreatedWithContent() {
+    @WithMockUser(username = "john@example.com", roles = "USER")
+    void shouldReturnOkIfPostCreatedWithContent() throws Exception {
         // arrange
         PostDto postDto = PostDto.builder()
                 .content("Hello world")
@@ -82,15 +91,18 @@ class PostControllerTest {
         when(postService.createPost(any(PostDto.class), eq(user)))
                 .thenReturn(Optional.of(post));
 
-        // act
-        ResponseEntity<Boolean> response = postController.createPost(postDto, user);
-        // assert
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(true, response.getBody());
+        // act + assert
+        mockMvc.perform(post("/post/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(postDto))
+                        .with(user(user)))
+                .andExpect(status().isCreated())
+                .andExpect(content().string("true"));
     }
 
     @Test
-    void shouldReturnOkIfPostCreatedOnlyWithMedia() {
+    @WithMockUser(username = "john@example.com", roles = "USER")
+    void shouldReturnOkIfPostCreatedOnlyWithMedia() throws Exception {
         // arrange
         PostDto postDto = PostDto.builder()
                 .mediaUrl("example.mp4")
@@ -101,60 +113,53 @@ class PostControllerTest {
                 .build();
         when(postService.createPost(any(PostDto.class), eq(user)))
                 .thenReturn(Optional.of(post));
-        // act
-        ResponseEntity<Boolean> response = postController.createPost(postDto, user);
-        // assert
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(true, response.getBody());
+
+        // act + assert
+        mockMvc.perform(post("/post/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(postDto))
+                        .with(user(user)))
+                .andExpect(status().isCreated())
+                .andExpect(content().string("true"));
+
     }
 
     @Test
-    void shouldReturnFalseIfDtoIsNull() {
+    @WithMockUser(username = "john@example.com", roles = "USER")
+    void shouldReturnFalseIfDtoIsNull() throws Exception {
         // arrange
         PostDto postDto = null;
-        // act
-        ResponseEntity<Boolean> response = postController.createPost(postDto, user);
-        // assert
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals(false, response.getBody());
-
-    }
-
-    @Test
-    void shouldReturnInternalServerErrorForUnhandledException() {
-        // arrange
-        PostDto postDto = PostDto.builder()
-                .content("Hello world")
-                .mediaUrl("example.mp4")
-                .build();
-        when(postService.createPost(any(PostDto.class), eq(user)))
-                .thenThrow(new RuntimeException("Unexpected Error"));
         // act + assert
-        assertThrows(RuntimeException.class, () -> postController.createPost(postDto, user));
+        mockMvc.perform(post("/post/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(postDto)))
+                .andExpect(status().isInternalServerError());
     }
 
     @Test
-    void shouldReturnBadRequestIfPostAlreadyExistsInDatabase() {
+    @WithMockUser(username = "john@example.com", roles = "USER")
+    void shouldReturnBadRequestIfPostAlreadyExistsInDatabase() throws Exception {
         // arrange
         PostDto postDto = PostDto.builder()
                 .postId("postID")
                 .content("Hello world")
                 .mediaUrl("example.mp4")
                 .build();
-        when(postService.createPost(any(PostDto.class), eq(user)))
+        when(postService.createPost(any(PostDto.class), any(User.class)))
                 .thenReturn(Optional.empty());
 
-        // act
-        ResponseEntity<Boolean> response = postController.createPost(postDto, user);
-        // assert
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals(false, response.getBody());
+        // act + assert
+        mockMvc.perform(post("/post/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(postDto)))
+                .andExpect(status().isBadRequest());
     }
 
     //////////////////updatePost Test //////////////
 
     @Test
-    void shouldReturnOkIfUpdatePostContentAndMedia() {
+    @WithMockUser(username = "john@example.com", roles = "USER")
+    void shouldReturnOkIfUpdatePostContentAndMedia() throws Exception {
         // arrange
         PostDto postDto = PostDto.builder()
                 .postId("postID")
@@ -168,15 +173,17 @@ class PostControllerTest {
                 .build();
         when(postService.updatePost(any(PostDto.class))).thenReturn(Optional.of(updatedPost));
 
-        // act
-        ResponseEntity<Boolean> response = postController.updatePost(postDto);
-        // assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(true, response.getBody());
+        // act + assert
+        mockMvc.perform(post("/post/update")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(postDto)))
+                .andExpect(status().isOk())
+                .andExpect(content().string("true"));
     }
 
     @Test
-    void shouldReturnOkIfUpdatePostContentOnly() {
+    @WithMockUser(username = "john@example.com", roles = "USER")
+    void shouldReturnOkIfUpdatePostContentOnly() throws Exception {
         // arrange
         PostDto postDto = PostDto.builder()
                 .postId("postID")
@@ -190,15 +197,18 @@ class PostControllerTest {
                 .build();
         when(postService.updatePost(any(PostDto.class))).thenReturn(Optional.of(updatedPost));
 
-        // act
-        ResponseEntity<Boolean> response = postController.updatePost(postDto);
-        // assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(true, response.getBody());
+        // act + assert
+        mockMvc.perform(post("/post/update")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(postDto)))
+                .andExpect(status().isOk())
+                .andExpect(content().string("true"));
+
     }
 
     @Test
-    void shouldReturnOkIfUpdatePostContentOnlyAndNoMedia(){
+    @WithMockUser(username = "john@example.com", roles = "USER")
+    void shouldReturnOkIfUpdatePostContentOnlyAndNoMedia() throws Exception {
         // arrange
         PostDto postDto = PostDto.builder()
                 .postId("postID")
@@ -210,16 +220,18 @@ class PostControllerTest {
                 .build();
         when(postService.updatePost(any(PostDto.class))).thenReturn(Optional.of(updatedPost));
 
-        // act
-        ResponseEntity<Boolean> response = postController.updatePost(postDto);
-        // assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(true, response.getBody());
+        // act + assert
+        mockMvc.perform(post("/post/update")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(postDto)))
+                .andExpect(status().isOk())
+                .andExpect(content().string("true"));
 
     }
 
     @Test
-    void shouldReturnOkIfUpdatePostMediaOnly() {
+    @WithMockUser(username = "john@example.com", roles = "USER")
+    void shouldReturnOkIfUpdatePostMediaOnly() throws Exception{
         // arrange
         PostDto postDto = PostDto.builder()
                 .postId("postID")
@@ -233,15 +245,18 @@ class PostControllerTest {
                 .build();
         when(postService.updatePost(any(PostDto.class))).thenReturn(Optional.of(updatedPost));
 
-        // act
-        ResponseEntity<Boolean> response = postController.updatePost(postDto);
-        // assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(true, response.getBody());
+        // act + assert
+        mockMvc.perform(post("/post/update")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(postDto)))
+                .andExpect(status().isOk())
+                .andExpect(content().string("true"));
+
     }
 
     @Test
-    void shouldReturnBadRequestIfNotUpdatePost() {
+    @WithMockUser(username = "john@example.com", roles = "USER")
+    void shouldReturnBadRequestIfNotUpdatePost() throws Exception{
         // arrange
         PostDto postDto = PostDto.builder()
                 .postId("postID")
@@ -250,19 +265,37 @@ class PostControllerTest {
                 .build();
         when(postService.updatePost(any(PostDto.class))).thenReturn(Optional.empty());
 
-        // act
-        ResponseEntity<Boolean> response = postController.updatePost(postDto);
-        // assert
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals(false, response.getBody());
+        // act + assert
+        mockMvc.perform(post("/post/update")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(postDto)))
+                .andExpect(status().isBadRequest());
 
     }
 
+    @Test
+    @WithMockUser(username = "john@example.com", roles = "USER")
+    void shouldReturnBadRequestIfTryUpdatePostWithNoContent() throws Exception {
+        // arrange
+        PostDto postDto = PostDto.builder()
+                .postId("postID")
+                .mediaUrl("example.jpg")
+                .build();
+        when(postService.updatePost(any(PostDto.class))).thenReturn(Optional.empty());
+
+        // act + assert
+        mockMvc.perform(post("/post/update")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(postDto)))
+                .andExpect(status().isBadRequest());
+    }
 
     //////////////////////////// deletePost tests ///////////////////////////////////////////
 
+
     @Test
-    void shouldReturnOkIfDeletePost() {
+    @WithMockUser(username = "john@example.com", roles = "USER")
+    void shouldReturnOkIfDeletePost() throws Exception {
         // arrange
         PostDto postDto = PostDto.builder()
                 .postId("postID")
@@ -274,25 +307,28 @@ class PostControllerTest {
                 .mediaUrl("example.jpg")
                 .build();
         when(postService.deletePost(any(PostDto.class))).thenReturn(Optional.of(post));
-        // act
-        ResponseEntity<Boolean> response = postController.deletePost(postDto);
-        // assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(true, response.getBody());
+        // act & assert
+        mockMvc.perform(post("/post/delete")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(postDto)))
+                .andExpect(status().isOk())
+                .andExpect(content().string("true"));
     }
 
     @Test
-    void shouldReturnBadRequestIfPostNotExist() {
+    @WithMockUser(username = "john@example.com", roles = "USER")
+    void shouldReturnBadRequestIfPostNotExist() throws Exception{
         // arrange
         PostDto postDto = PostDto.builder()
                 .postId("postID")
                 .mediaUrl("example.jpg")
                 .build();
         when(postService.deletePost(any(PostDto.class))).thenReturn(Optional.empty());
-        // act
-        ResponseEntity<Boolean> response = postController.deletePost(postDto);
-        // assert
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals(false, response.getBody());
+        // act & assert
+        mockMvc.perform(post("/post/delete")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(postDto)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("false"));
     }
 }
