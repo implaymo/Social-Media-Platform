@@ -17,6 +17,7 @@ public class Post {
     @Id
     private String postId;
 
+    private String userId;
     private String content;
     private String mediaUrl;
 
