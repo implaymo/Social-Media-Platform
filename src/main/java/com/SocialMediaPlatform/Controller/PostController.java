@@ -2,11 +2,13 @@ package com.SocialMediaPlatform.Controller;
 
 import com.SocialMediaPlatform.Dto.PostDto;
 import com.SocialMediaPlatform.Entity.Post;
+import com.SocialMediaPlatform.Entity.User;
 import com.SocialMediaPlatform.Service.PostService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,12 +27,13 @@ public class PostController {
     }
 
     @PostMapping(path = "/post/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Boolean> createPost(@Valid @RequestBody PostDto postDto) {
-        Optional<Post> post = postService.createPost(postDto);
+    public ResponseEntity<Boolean> createPost(@Valid @RequestBody PostDto postDto,
+                                              @AuthenticationPrincipal User user) {
+        Optional<Post> post = postService.createPost(postDto, user);
         if(post.isEmpty()){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
-        return ResponseEntity.ok(true);
+        return ResponseEntity.status(HttpStatus.CREATED).body(true);
     }
 
     @PostMapping(path = "/post/update", produces = MediaType.APPLICATION_JSON_VALUE)
