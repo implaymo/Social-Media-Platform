@@ -23,7 +23,6 @@ public class User implements UserDetails {
     private String email;
     private String password;
     private String salt;
-    private ArrayList<Post> posts;
 
     @Builder.Default
     private boolean enabled = true;
