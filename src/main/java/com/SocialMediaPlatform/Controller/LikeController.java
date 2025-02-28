@@ -40,7 +40,7 @@ public class LikeController {
                 String userID = user.getId();
                 Optional<Like> likeRegistered = likeService.registerLike(postID, userID);
                 if (likeRegistered.isPresent()) {
-                    return ResponseEntity.ok(true);
+                    return ResponseEntity.status(HttpStatus.CREATED).body(true);
                 }
             }
         } catch (IllegalArgumentException e) {
