@@ -20,12 +20,14 @@ public class UserLoginService {
     private final UserLoginMapper userLoginMapper;
     private final PasswordHash passwordHash;
     private final JWTUtil jwtUtil;
+    private final PasswordService passwordService;
 
-    public UserLoginService(UserRepository userRepository, UserLoginMapper userLoginMapper, PasswordHash passwordHash, JWTUtil jwtUtil) {
+    public UserLoginService(UserRepository userRepository, UserLoginMapper userLoginMapper, PasswordHash passwordHash, JWTUtil jwtUtil, PasswordService passwordService) {
         this.userRepository = userRepository;
         this.userLoginMapper = userLoginMapper;
         this.passwordHash = passwordHash;
         this.jwtUtil = jwtUtil;
+        this.passwordService = passwordService;
     }
 
 
@@ -35,34 +37,33 @@ public class UserLoginService {
             throw new IllegalArgumentException("User login data is required.");
         }
 
-        User user = userLoginMapper.toEntityForLogin(userLoginDto);
-        Optional<User> userInDatabase = userRepository.findByEmail(user.getEmail());
+        User mappedUser = userLoginMapper.toEntityForLogin(userLoginDto);
+        Optional<User> userOptional = userRepository.findByEmail(mappedUser.getEmail());
 
-        if (userInDatabase.isPresent()) {
-            User userEntity = userInDatabase.get();
-            String userTryingToLoginPasswordEncrypted = encryptProvidedPassword(userEntity);
-
-            if (Objects.equals(userTryingToLoginPasswordEncrypted, userEntity.getPassword())) {
-                return jwtUtil.generateToken(userEntity.getEmail());
+        if (userOptional.isPresent()) {
+            User databaseUser = userOptional.get();
+            String providedPassword = passwordService.encryptPassword(mappedUser, databaseUser);
+            if (providedPassword.equals(databaseUser.getPassword())) {
+                return jwtUtil.generateToken(databaseUser.getEmail());
             }
         }
         throw new Exception("Invalid email or password.");
     }
 
 
-    private byte[] transformBase64SaltIntoByte(User userEntity) {
+    private byte[] transformUserStoredSaltFromBase64IntoByte(User userEntity) {
         String userInDatabaseSalt = userEntity.getSalt();
         return Base64.getDecoder().decode(userInDatabaseSalt);
     }
 
-    private String hashPasswordProvidedToLogin(User user, byte[] userInDatabaseSaltInBytes) {
+    private String hashPasswordProvidedWithUserInDatabaseSalt(User user, byte[] userInDatabaseSaltInBytes) {
         String passwordTriedToLogin = user.getPassword();
         return passwordHash.generateHashPassword(passwordTriedToLogin,
                 userInDatabaseSaltInBytes);
     }
 
-    private String encryptProvidedPassword(User userEntity) {
-        byte[] userEntitySalt = transformBase64SaltIntoByte(userEntity);
-        return hashPasswordProvidedToLogin(userEntity, userEntitySalt);
+    String encryptProvidedPassword(User userEntity) {
+        byte[] userEntitySalt = transformUserStoredSaltFromBase64IntoByte(userEntity);
+        return hashPasswordProvidedWithUserInDatabaseSalt(userEntity, userEntitySalt);
     }
 }
