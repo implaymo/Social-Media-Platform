@@ -9,17 +9,24 @@ import com.SocialMediaPlatform.Repository.UserRepository;
 import com.SocialMediaPlatform.Security.JWTUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import java.util.Base64;
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 
-
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class UserLoginServiceTest {
 
     @Mock
@@ -29,46 +36,47 @@ class UserLoginServiceTest {
     private JWTUtil jwtUtil;
 
     private UserLoginService userLoginService;
-    private String token;
+    private UserLoginMapper userLoginMapper;
+    private PasswordHash passwordHash;
+    private PasswordService passwordService;
 
     @BeforeEach
     void setUp() {
-        UserLoginMapper userLoginMapper = new UserLoginMapper();
-        PasswordHash passwordHash = new PasswordHash();
-        PasswordSalt passwordSalt = new PasswordSalt();
-        MockitoAnnotations.openMocks(this);
-        userLoginService = new UserLoginService(userRepository, userLoginMapper, passwordHash, jwtUtil);
-
-        // Prepare the user with salt and hashed password
-        User user = User.builder()
-                .email("john123@gmail.com")
-                .password("John@12345")  // Password before hashing
-                .salt(Base64.getEncoder().encodeToString(passwordSalt.generateRandomSalt()))  // Generate and encode salt
-                .build();
-
-        // Hash the password before saving it
-        String hashedPassword = passwordHash.generateHashPassword(user.getPassword(), Base64.getDecoder().decode(user.getSalt()));
-        user.setPassword(hashedPassword);
-
-        // Mock the repository to return the prepared user when searching by email
-        when(userRepository.findByEmail("john123@gmail.com")).thenReturn(Optional.of(user));
-        // Mock JWT TOKEN to test if user login is done successfully
-        token = "dummy_token_12345";
-        when(jwtUtil.generateToken("john123@gmail.com")).thenReturn(token);
+        userLoginMapper = mock(UserLoginMapper.class);
+        passwordHash = mock(PasswordHash.class);
+        passwordService = new PasswordService(passwordHash);
+        userLoginService = new UserLoginService(userRepository, userLoginMapper, passwordHash, jwtUtil, passwordService);
     }
 
 
     @Test
-    void shouldReturnTokenIfUserLoginSuccessfully() throws Exception {
-        // arrange
-        UserLoginDto userLoginDto = UserLoginDto.builder()
-                .email("john123@gmail.com")
-                .password("John@12345")
-                .build();
-        // act
-        String loginUser = userLoginService.loginUser(userLoginDto);
-        // assert
-        assertEquals(token, loginUser);
+    void loginUser_whenCredentialsValid_thenReturnToken() throws Exception {
+        // Arrange
+        String encryptedPassword = "DS89ADS8A0D9";
+
+        UserLoginDto dto = mock(UserLoginDto.class);
+        User mappedUser = mock(User.class);
+        when(mappedUser.getEmail()).thenReturn("test@example.com");
+        when(mappedUser.getPassword()).thenReturn("encodedCorrectPassword");
+        when(mappedUser.getSalt()).thenReturn("salt");
+
+        User databaseUser = mock(User.class);
+        when(databaseUser.getEmail()).thenReturn("test@example.com");
+        when(databaseUser.getPassword()).thenReturn("DS89ADS8A0D9");
+
+        // Stub getSalt() for the database user to return a non-null value.
+        when(databaseUser.getSalt()).thenReturn("salt");
+        when(userLoginMapper.toEntityForLogin(dto)).thenReturn(mappedUser);
+        when(userRepository.findByEmail(mappedUser.getEmail())).thenReturn(Optional.of(databaseUser));
+        when(passwordService.encryptPassword(mappedUser, databaseUser)).thenReturn(encryptedPassword);
+        when(jwtUtil.generateToken("test@example.com")).thenReturn("jwt-token");
+
+        // Act
+        String result = userLoginService.loginUser(dto);
+
+        // Assert
+        assertEquals("jwt-token", result);
+        verify(jwtUtil).generateToken("test@example.com");
     }
 
     @Test
