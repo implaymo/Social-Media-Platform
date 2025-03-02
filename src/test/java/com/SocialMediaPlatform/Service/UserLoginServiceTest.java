@@ -4,20 +4,16 @@ import com.SocialMediaPlatform.Dto.UserLoginDto;
 import com.SocialMediaPlatform.Entity.User;
 import com.SocialMediaPlatform.Mapper.UserLoginMapper;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordHash;
-import com.SocialMediaPlatform.PasswordEncryption.PasswordSalt;
 import com.SocialMediaPlatform.Repository.UserRepository;
 import com.SocialMediaPlatform.Security.JWTUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
-import java.util.Base64;
-import java.util.Objects;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,13 +33,12 @@ class UserLoginServiceTest {
 
     private UserLoginService userLoginService;
     private UserLoginMapper userLoginMapper;
-    private PasswordHash passwordHash;
     private PasswordService passwordService;
 
     @BeforeEach
     void setUp() {
         userLoginMapper = mock(UserLoginMapper.class);
-        passwordHash = mock(PasswordHash.class);
+        PasswordHash passwordHash = mock(PasswordHash.class);
         passwordService = new PasswordService(passwordHash);
         userLoginService = new UserLoginService(userRepository, userLoginMapper, passwordHash, jwtUtil, passwordService);
     }
@@ -80,7 +75,7 @@ class UserLoginServiceTest {
     }
 
     @Test
-    void shouldReturnExceptionMessageIfUserNotLoginSuccessfully() throws Exception {
+    void shouldReturnExceptionMessageIfUserNotLoginSuccessfully() {
         // arrange
         UserLoginDto userLoginDto = UserLoginDto.builder()
                 .email("johnaTHanSIlva123@gmail.com")
@@ -93,7 +88,7 @@ class UserLoginServiceTest {
     }
 
     @Test
-    void shouldReturnExceptionMessageIfUserLoginDtoNull() throws Exception {
+    void shouldReturnExceptionMessageIfUserLoginDtoNull() {
         // arrange
         // act
         // assert
