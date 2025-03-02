@@ -2,9 +2,11 @@ package com.SocialMediaPlatform.Service;
 
 import com.SocialMediaPlatform.Entity.User;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordHash;
+import org.springframework.stereotype.Service;
 
 import java.util.Base64;
 
+@Service
 public class PasswordService {
 
     private final PasswordHash passwordHash;
