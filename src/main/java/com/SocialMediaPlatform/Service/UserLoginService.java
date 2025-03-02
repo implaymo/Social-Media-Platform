@@ -40,10 +40,9 @@ public class UserLoginService {
 
         if (userInDatabase.isPresent()) {
             User userEntity = userInDatabase.get();
-            byte[] saltFromUserInDatabase = transformBase64SaltIntoByte(userEntity);
-            String passwordProvidedInLoginHashed = hashPasswordProvidedToLogin(user, saltFromUserInDatabase);
+            String userTryingToLoginPasswordEncrypted = encryptProvidedPassword(userEntity);
 
-            if (Objects.equals(passwordProvidedInLoginHashed, userEntity.getPassword())) {
+            if (Objects.equals(userTryingToLoginPasswordEncrypted, userEntity.getPassword())) {
                 return jwtUtil.generateToken(userEntity.getEmail());
             }
         }
@@ -51,8 +50,8 @@ public class UserLoginService {
     }
 
 
-    private byte[] transformBase64SaltIntoByte(User userInDatabase) {
-        String userInDatabaseSalt = userInDatabase.getSalt();
+    private byte[] transformBase64SaltIntoByte(User userEntity) {
+        String userInDatabaseSalt = userEntity.getSalt();
         return Base64.getDecoder().decode(userInDatabaseSalt);
     }
 
@@ -60,5 +59,10 @@ public class UserLoginService {
         String passwordTriedToLogin = user.getPassword();
         return passwordHash.generateHashPassword(passwordTriedToLogin,
                 userInDatabaseSaltInBytes);
+    }
+
+    private String encryptProvidedPassword(User userEntity) {
+        byte[] userEntitySalt = transformBase64SaltIntoByte(userEntity);
+        return hashPasswordProvidedToLogin(userEntity, userEntitySalt);
     }
 }
