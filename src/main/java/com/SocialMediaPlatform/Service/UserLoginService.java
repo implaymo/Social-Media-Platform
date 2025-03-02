@@ -48,21 +48,4 @@ public class UserLoginService {
         }
         throw new Exception("Invalid email or password.");
     }
-
-
-    private byte[] transformUserStoredSaltFromBase64IntoByte(User userEntity) {
-        String userInDatabaseSalt = userEntity.getSalt();
-        return Base64.getDecoder().decode(userInDatabaseSalt);
-    }
-
-    private String hashPasswordProvidedWithUserInDatabaseSalt(User user, byte[] userInDatabaseSaltInBytes) {
-        String passwordTriedToLogin = user.getPassword();
-        return passwordHash.generateHashPassword(passwordTriedToLogin,
-                userInDatabaseSaltInBytes);
-    }
-
-    String encryptProvidedPassword(User userEntity) {
-        byte[] userEntitySalt = transformUserStoredSaltFromBase64IntoByte(userEntity);
-        return hashPasswordProvidedWithUserInDatabaseSalt(userEntity, userEntitySalt);
-    }
 }
