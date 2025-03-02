@@ -40,7 +40,7 @@ class UserLoginServiceTest {
         userLoginMapper = mock(UserLoginMapper.class);
         PasswordHash passwordHash = mock(PasswordHash.class);
         passwordService = new PasswordService(passwordHash);
-        userLoginService = new UserLoginService(userRepository, userLoginMapper, passwordHash, jwtUtil, passwordService);
+        userLoginService = new UserLoginService(userRepository, userLoginMapper, jwtUtil, passwordService);
     }
 
 

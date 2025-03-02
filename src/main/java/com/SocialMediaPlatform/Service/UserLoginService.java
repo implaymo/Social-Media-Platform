@@ -9,7 +9,6 @@ import com.SocialMediaPlatform.Security.JWTUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Base64;
 import java.util.Optional;
 
 @Service
@@ -17,14 +16,12 @@ public class UserLoginService {
 
     private final UserRepository userRepository;
     private final UserLoginMapper userLoginMapper;
-    private final PasswordHash passwordHash;
     private final JWTUtil jwtUtil;
     private final PasswordService passwordService;
 
-    public UserLoginService(UserRepository userRepository, UserLoginMapper userLoginMapper, PasswordHash passwordHash, JWTUtil jwtUtil, PasswordService passwordService) {
+    public UserLoginService(UserRepository userRepository, UserLoginMapper userLoginMapper, JWTUtil jwtUtil, PasswordService passwordService) {
         this.userRepository = userRepository;
         this.userLoginMapper = userLoginMapper;
-        this.passwordHash = passwordHash;
         this.jwtUtil = jwtUtil;
         this.passwordService = passwordService;
     }
