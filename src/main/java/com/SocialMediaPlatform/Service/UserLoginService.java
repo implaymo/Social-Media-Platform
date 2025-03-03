@@ -8,6 +8,7 @@ import com.SocialMediaPlatform.Security.JWTUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.naming.AuthenticationException;
 import java.util.Optional;
 
 @Service
@@ -42,6 +43,6 @@ public class UserLoginService {
                 return jwtUtil.generateToken(databaseUser.getEmail());
             }
         }
-        throw new Exception("Invalid email or password.");
+        throw new AuthenticationException("Invalid email or password.");
     }
 }
