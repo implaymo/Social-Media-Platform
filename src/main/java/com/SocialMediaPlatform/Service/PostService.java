@@ -35,18 +35,18 @@ public class PostService {
         if (postDto == null) {
             return Optional.empty();
         }
-        Post post = postMapper.toEntity(postDto);
-        Optional<Post> existingPostOptional = postRepository.findById(post.getPostId());
-        if (existingPostOptional.isPresent()) {
-            Post existingPost = existingPostOptional.get();
+        Post mappedPost = postMapper.toEntity(postDto);
+        Optional<Post> databasePostOptional = postRepository.findById(mappedPost.getPostId());
+        if (databasePostOptional.isPresent()) {
+            Post databasePost = databasePostOptional.get();
             if (postDto.getContent() != null) {
-                existingPost.setContent(postDto.getContent());
+                databasePost.setContent(postDto.getContent());
             }
             if (postDto.getMediaUrl() != null) {
-                existingPost.setMediaUrl(postDto.getMediaUrl());
+                databasePost.setMediaUrl(postDto.getMediaUrl());
             }
-            postRepository.save(existingPost);
-            return Optional.of(existingPost);
+            postRepository.save(databasePost);
+            return Optional.of(databasePost);
         }
         return Optional.empty();
     }
