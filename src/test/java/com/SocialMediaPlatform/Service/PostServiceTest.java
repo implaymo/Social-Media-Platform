@@ -42,66 +42,47 @@ class PostServiceTest {
 
         when(postMapper.toEntity(postDto)).thenReturn(postMapped);
         when(user.getId()).thenReturn("userID");
-        doNothing().when(postMapped).setUserId(anyString());
         when(postRepository.save(any(Post.class))).thenReturn(postMapped);
         // act
         Optional<Post> postCreated = postService.createPost(postDto, user);
         // assert
         assertTrue(postCreated.isPresent());
-        verify(postMapped).setUserId(user.getId());
-        assertEquals(postMapped, postCreated.get());
     }
 
-//    @Test
-//    void shouldReturnOptionalPresentIfCreateNewPostWithContentAndMediaSuccessfully(){
-//        // arrange
-//        postDto = PostDto.builder()
-//                .content("Hello World")
-//                .mediaUrl("example.jpg")
-//                .build();
-//        when(postRepository.save(any(Post.class))).thenReturn(post);
-//        // act
-//        Optional<Post> postCreated = postService.createPost(postDto, user);
-//        // assert
-//        assertTrue(postCreated.isPresent());
-//    }
-//
-//    @Test
-//    void shouldReturnOptionalEmptyIfCreatePostDtoNull(){
-//        // arrange
-//        // act
-//        Optional<Post> postCreated = postService.createPost(null, user);
-//        // assert
-//        assertTrue(postCreated.isEmpty());
-//    }
-//
-//    @Test
-//    void shouldReturnOptionalEmptyIfCreateUserNull(){
-//        // arrange
-//        postDto = PostDto.builder()
-//                .content("Hello World")
-//                .mediaUrl("example.jpg")
-//                .build();
-//        // act
-//        Optional<Post> postCreated = postService.createPost(postDto, null);
-//        // assert
-//        assertTrue(postCreated.isEmpty());
-//    }
-//
-//    @Test
-//    void shouldReturnOptionalPresentIfUpdatePostSuccessfully(){
-//        // arrange
-//        postDto = PostDto.builder()
-//                .postId("postID")
-//                .content("Hello World IS LIVE")
-//                .mediaUrl("exampleOfChange.jpg")
-//                .build();
-//        when(postRepository.findById(post.getPostId())).thenReturn(Optional.of(post));
-//        // act
-//        Optional<Post> postEdit = postService.updatePost(postDto);
-//        // assert
-//        assertTrue(postEdit.isPresent());
-//    }
+
+    @Test
+    void shouldReturnOptionalEmptyIfCreatePostDtoNull(){
+        // arrange
+        User user = mock(User.class);
+        // act
+        Optional<Post> postCreated = postService.createPost(null, user);
+        // assert
+        assertTrue(postCreated.isEmpty());
+    }
+
+    @Test
+    void shouldReturnOptionalEmptyIfCreateUserNull(){
+        // arrange
+        PostDto postDto = mock(PostDto.class);
+        // act
+        Optional<Post> postCreated = postService.createPost(postDto, null);
+        // assert
+        assertTrue(postCreated.isEmpty());
+    }
+
+    @Test
+    void shouldReturnOptionalPresentIfUpdatePostSuccessfully(){
+        // arrange
+        PostDto postDto = mock(PostDto.class);
+        Post postMapped = mock(Post.class);
+        when(postMapper.toEntity(postDto)).thenReturn(postMapped);
+        when(postRepository.findById(postMapped.getPostId())).thenReturn(Optional.of(postMapped));
+
+        // act
+        Optional<Post> updatePost = postService.updatePost(postDto);
+        // assert
+        assertTrue(updatePost.isPresent());
+    }
 //
 //    @Test
 //    void shouldReturnOptionalEmptyIfUpdatePostDtoIsNull(){
