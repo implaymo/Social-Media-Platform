@@ -40,14 +40,14 @@ public class UserRegistrationService {
         }
 
         try {
-            User user = userRegisterMapper.toEntityForRegistration(userRegisterDto);
+            User mappedUser = userRegisterMapper.toEntityForRegistration(userRegisterDto);
             byte[] salt = passwordSalt.generateRandomSalt();
             String base64Salt = Base64.getEncoder().encodeToString(salt);
-            user.setSalt(base64Salt);
-            String hashedPassword = passwordHash.generateHashPassword(user.getPassword(), salt);
-            user.setPassword(hashedPassword);
-            userRepository.save(user);
-            return Optional.of(user);
+            mappedUser.setSalt(base64Salt);
+            String hashedPassword = passwordHash.generateHashPassword(mappedUser.getPassword(), salt);
+            mappedUser.setPassword(hashedPassword);
+            userRepository.save(mappedUser);
+            return Optional.of(mappedUser);
         } catch (Exception e) {
             return Optional.empty();
         }
