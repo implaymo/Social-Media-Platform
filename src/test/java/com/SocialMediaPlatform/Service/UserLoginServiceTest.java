@@ -49,7 +49,7 @@ class UserLoginServiceTest {
         // Arrange
         String encryptedPassword = "DS89ADS8A0D9";
 
-        UserLoginDto dto = mock(UserLoginDto.class);
+        UserLoginDto userLoginDto = mock(UserLoginDto.class);
         User mappedUser = mock(User.class);
         when(mappedUser.getEmail()).thenReturn("test@example.com");
         when(mappedUser.getPassword()).thenReturn("encodedCorrectPassword");
@@ -61,13 +61,13 @@ class UserLoginServiceTest {
 
         // Stub getSalt() for the database user to return a non-null value.
         when(databaseUser.getSalt()).thenReturn("salt");
-        when(userLoginMapper.toEntityForLogin(dto)).thenReturn(mappedUser);
+        when(userLoginMapper.toEntityForLogin(userLoginDto)).thenReturn(mappedUser);
         when(userRepository.findByEmail(mappedUser.getEmail())).thenReturn(Optional.of(databaseUser));
         when(passwordService.encryptPassword(mappedUser, databaseUser)).thenReturn(encryptedPassword);
         when(jwtUtil.generateToken("test@example.com")).thenReturn("jwt-token");
 
         // Act
-        String result = userLoginService.loginUser(dto);
+        String result = userLoginService.loginUser(userLoginDto);
 
         // Assert
         assertEquals("jwt-token", result);
