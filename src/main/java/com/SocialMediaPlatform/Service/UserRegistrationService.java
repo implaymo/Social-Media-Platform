@@ -35,8 +35,8 @@ public class UserRegistrationService {
         if (userRegisterDto == null) {
             return Optional.empty();
         }
-        if (userRepository.findByEmail(userRegisterDto.getEmail()).isPresent()) {
-            return Optional.empty(); // or throw a custom exception
+        if (isUserInDatabase(userRegisterDto).isPresent()) {
+            return Optional.empty();
         }
 
         try {
@@ -51,5 +51,9 @@ public class UserRegistrationService {
         } catch (Exception e) {
             return Optional.empty();
         }
+    }
+
+    private Optional<User> isUserInDatabase(UserRegisterDto userRegisterDto) {
+        return userRepository.findByEmail(userRegisterDto.getEmail());
     }
 }
