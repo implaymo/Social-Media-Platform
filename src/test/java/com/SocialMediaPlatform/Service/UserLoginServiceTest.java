@@ -77,12 +77,14 @@ class UserLoginServiceTest {
     @Test
     void shouldReturnExceptionMessageIfUserNotLoginSuccessfully() {
         // arrange
-        UserLoginDto userLoginDto = UserLoginDto.builder()
-                .email("johnaTHanSIlva123@gmail.com")
-                .password("john12345")
-                .build();
+        UserLoginDto userLoginDto = mock(UserLoginDto.class);
+        User mappedUser = mock(User.class);
+        when(userLoginMapper.toEntityForLogin(userLoginDto)).thenReturn(mappedUser);
+        when(mappedUser.getEmail()).thenReturn("test@example.com");
+        when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.empty());
+
         // act + assert
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             userLoginService.loginUser(userLoginDto);
         });
     }
