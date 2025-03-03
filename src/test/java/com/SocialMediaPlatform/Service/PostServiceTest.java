@@ -83,55 +83,36 @@ class PostServiceTest {
         // assert
         assertTrue(updatePost.isPresent());
     }
-//
-//    @Test
-//    void shouldReturnOptionalEmptyIfUpdatePostDtoIsNull(){
-//        // arrange
-//        // act
-//        Optional<Post> postEdit = postService.updatePost(null);
-//        // assert
-//        assertTrue(postEdit.isEmpty());
-//    }
-//
-//    @Test
-//    void shouldReturnOptionalPresentIfDeletePostSuccessfully(){
-//        // arrange
-//        postDto = PostDto.builder()
-//                .postId("postID")
-//                .content("Hello World")
-//                .mediaUrl("example.jpg")
-//                .build();
-//        when(postRepository.findById(post.getPostId())).thenReturn(Optional.of(post));
-//        // act
-//        Optional<Post> postDeleted = postService.deletePost(postDto);
-//        // assert
-//        assertTrue(postDeleted.isPresent());
-//    }
-//
-//    @Test
-//    void shouldReturnOptionalEmptyIfDeletePostDtoIsNull(){
-//        // arrange
-//        // act
-//        Optional<Post> postDeleted = postService.deletePost(null);
-//        // assert
-//        assertTrue(postDeleted.isEmpty());
-//    }
-//
-//    @Test
-//    void shouldReturnOptionalEmptyIfPostDoesNotExist() {
-//        // arrange
-//        PostDto nonExistentPostDto = PostDto.builder()
-//                .postId("nonExistentId")
-//                .content("This post doesn't exist")
-//                .build();
-//        when(postRepository.findById("nonExistentId")).thenReturn(Optional.empty());
-//
-//        // act
-//        Optional<Post> postDeleted = postService.deletePost(nonExistentPostDto);
-//
-//        // assert
-//        assertTrue(postDeleted.isEmpty());
-//        verify(postRepository, never()).delete(any(Post.class));
-//    }
+
+    @Test
+    void shouldReturnOptionalEmptyIfUpdatePostDtoIsNull(){
+        // arrange
+        // act
+        Optional<Post> updatePost = postService.updatePost(null);
+        // assert
+        assertTrue(updatePost.isEmpty());
+    }
+
+    @Test
+    void shouldReturnOptionalPresentIfDeletePostSuccessfully(){
+        // arrange
+        PostDto postDto = mock(PostDto.class);
+        Post postMapped = mock(Post.class);
+        when(postMapper.toEntity(postDto)).thenReturn(postMapped);
+        when(postRepository.findById(postMapped.getPostId())).thenReturn(Optional.of(postMapped));
+        // act
+        Optional<Post> postDeleted = postService.deletePost(postDto);
+        // assert
+        assertTrue(postDeleted.isPresent());
+    }
+
+    @Test
+    void shouldReturnOptionalEmptyIfDeletePostDtoIsNull(){
+        // arrange
+        // act
+        Optional<Post> postDeleted = postService.deletePost(null);
+        // assert
+        assertTrue(postDeleted.isEmpty());
+    }
 
 }

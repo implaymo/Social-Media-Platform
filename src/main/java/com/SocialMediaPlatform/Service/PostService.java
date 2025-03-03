@@ -55,11 +55,11 @@ public class PostService {
         if (postDto == null) {
             return Optional.empty();
         }
-        Post post = postMapper.toEntity(postDto);
-        Optional<Post> existingPostOptional = postRepository.findById(post.getPostId());
-        if (existingPostOptional.isPresent()) {
-            postRepository.delete(existingPostOptional.get());
-            return existingPostOptional;
+        Post mappedPost = postMapper.toEntity(postDto);
+        Optional<Post> databasePostOptional = postRepository.findById(mappedPost.getPostId());
+        if (databasePostOptional.isPresent()) {
+            postRepository.delete(databasePostOptional.get());
+            return databasePostOptional;
         }
         return Optional.empty();
     }
