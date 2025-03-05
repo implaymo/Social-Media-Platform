@@ -11,7 +11,7 @@ import java.util.Base64;
 public class PasswordHash {
 
     private static final Integer iterationCount = 65536;
-    private static final Integer keyLenght = 256;
+    private static final Integer keyLength = 256;
 
     public PasswordHash() {
 
@@ -20,7 +20,7 @@ public class PasswordHash {
 
     public String generateHashPassword(String password, byte[] salt) {
         try {
-            KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterationCount, keyLenght);
+            KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterationCount, keyLength);
             SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
             byte[] hash = factory.generateSecret(spec).getEncoded();
             return Base64.getEncoder().encodeToString(hash);
