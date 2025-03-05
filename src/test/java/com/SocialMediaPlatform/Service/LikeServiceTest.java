@@ -12,6 +12,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -34,11 +35,10 @@ class LikeServiceTest {
     @Test
     void shouldRegisterLike(){
         // arrange
-        Like like = Like.builder()
-                .postID(postID)
-                .userID(userID)
-                .build();
+        Like like = mock(Like.class);
         when(likeRepository.save(any(Like.class))).thenReturn(like);
+        when(Optional.of(like).get().getUserID()).thenReturn(userID);
+        when(Optional.of(like).get().getPostID()).thenReturn(postID);
         // act
         Optional<Like> likeRegistered = likeService.registerLike(postID, userID);
         // assert
