@@ -38,7 +38,7 @@ public class UserLoginService {
 
         if (userOptional.isPresent()) {
             User databaseUser = userOptional.get();
-            String providedPassword = passwordService.encryptPassword(mappedUser, databaseUser);
+            String providedPassword = passwordService.encryptPasswordFromUserThatTriesToLogin(mappedUser, databaseUser);
             if (providedPassword.equals(databaseUser.getPassword())) {
                 return jwtUtil.generateToken(databaseUser.getEmail());
             }
