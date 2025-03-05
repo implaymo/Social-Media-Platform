@@ -3,7 +3,6 @@ package com.SocialMediaPlatform.Service;
 import com.SocialMediaPlatform.Dto.UserLoginDto;
 import com.SocialMediaPlatform.Entity.User;
 import com.SocialMediaPlatform.Mapper.UserLoginMapper;
-import com.SocialMediaPlatform.PasswordEncryption.PasswordHash;
 import com.SocialMediaPlatform.Repository.UserRepository;
 import com.SocialMediaPlatform.Security.JWTUtil;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
+import javax.naming.AuthenticationException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,8 +38,7 @@ class UserLoginServiceTest {
     @BeforeEach
     void setUp() {
         userLoginMapper = mock(UserLoginMapper.class);
-        PasswordHash passwordHash = mock(PasswordHash.class);
-        passwordService = new PasswordService(passwordHash);
+        passwordService = mock(PasswordService.class);
         userLoginService = new UserLoginService(userRepository, userLoginMapper, jwtUtil, passwordService);
     }
 
@@ -63,7 +62,7 @@ class UserLoginServiceTest {
         when(databaseUser.getSalt()).thenReturn("salt");
         when(userLoginMapper.toEntityForLogin(userLoginDto)).thenReturn(mappedUser);
         when(userRepository.findByEmail(mappedUser.getEmail())).thenReturn(Optional.of(databaseUser));
-        when(passwordService.encryptPassword(mappedUser, databaseUser)).thenReturn(encryptedPassword);
+        when(passwordService.encryptPasswordFromUserThatTriesToLogin(mappedUser, databaseUser)).thenReturn(encryptedPassword);
         when(jwtUtil.generateToken("test@example.com")).thenReturn("jwt-token");
 
         // Act
@@ -84,7 +83,7 @@ class UserLoginServiceTest {
         when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.empty());
 
         // act + assert
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(AuthenticationException.class, () -> {
             userLoginService.loginUser(userLoginDto);
         });
     }
