@@ -16,7 +16,7 @@ public class PasswordService {
     }
 
 
-    public String encryptPassword(User userMapped, User userInDatabase) {
+    public String encryptPasswordFromUserThatTriesToLogin(User userMapped, User userInDatabase) {
         return encryptProvidedPassword(userMapped, userInDatabase);
     }
 
