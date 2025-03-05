@@ -10,8 +10,12 @@ import com.SocialMediaPlatform.PasswordEncryption.PasswordSalt;
 import com.SocialMediaPlatform.Repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
 
@@ -20,19 +24,22 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(MockitoExtension.class)
 class UserRegistrationServiceTest {
 
     @Mock
     private UserRepository userRepository;
 
     private UserRegistrationService userRegistrationService;
+    private UserRegisterMapper userRegisterMapper;
+    private PasswordHash passwordHash;
+    private PasswordSalt passwordSalt;
 
     @BeforeEach
     void setUp() {
-        PasswordSalt passwordSalt = new PasswordSalt();
-        PasswordHash passwordHash = new PasswordHash();
-        UserRegisterMapper userRegisterMapper = new UserRegisterMapper();
-        MockitoAnnotations.openMocks(this);
+        passwordSalt = mock(PasswordSalt.class);
+        passwordHash = mock(PasswordHash.class);
+        userRegisterMapper = mock(UserRegisterMapper.class);
         userRegistrationService = new UserRegistrationService(userRepository, userRegisterMapper, passwordHash, passwordSalt);
     }
 
@@ -40,17 +47,14 @@ class UserRegistrationServiceTest {
     @Test
     void shouldReturnPresentOptionalIfUserRegistered() {
         // arrange
-        UserRegisterDto userRegisterDto = UserRegisterDto.builder()
-                .name("John Cena")
-                .email("john123@gmail.com")
-                .password("John@12345")
-                .build();
-        // Mock the repository's save method to simulate MongoDB generating an ID
-        when(userRepository.save(any(User.class))).thenAnswer(invocation -> {
-            User user = invocation.getArgument(0);
-            user.setId(UUID.randomUUID().toString());  // Simulate ID generation by MongoDB
-            return user;
-        });
+        User mappedUser = mock(User.class);
+        UserRegisterDto userRegisterDto = mock(UserRegisterDto.class);
+        byte[] salt = "salt".getBytes();
+
+        when(mappedUser.getPassword()).thenReturn("John@1234");
+        when(userRegisterMapper.toEntityForRegistration(userRegisterDto)).thenReturn(mappedUser);
+        when(passwordSalt.generateRandomSalt()).thenReturn(salt);
+        when(passwordHash.generateHashPassword(mappedUser.getPassword(), salt)).thenReturn("passwordHash");
         // act
         Optional<User> registerUser = userRegistrationService.registerUser(userRegisterDto);
         // assert
