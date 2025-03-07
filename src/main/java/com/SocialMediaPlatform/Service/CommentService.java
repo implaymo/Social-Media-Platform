@@ -2,6 +2,7 @@ package com.SocialMediaPlatform.Service;
 
 import com.SocialMediaPlatform.Dto.CommentDto;
 import com.SocialMediaPlatform.Entity.Comment;
+import com.SocialMediaPlatform.Entity.Post;
 import com.SocialMediaPlatform.Mapper.CommentMapper;
 import com.SocialMediaPlatform.Repository.CommentRepository;
 import org.springframework.stereotype.Service;
@@ -19,10 +20,11 @@ public class CommentService {
         this.commentRepository = commentRepository;
     }
 
-    public Optional<Comment> registerComment(CommentDto commentDto) {
-        if (commentDto == null) {
+    public Optional<Comment> registerComment(CommentDto commentDto, String postID) {
+        if (commentDto == null || postID == null) {
             return Optional.empty();
         }
+        commentDto.setPostID(postID);
         Comment comment = commentMapper.toEntity(commentDto);
         if (comment != null) {
             commentRepository.save(comment);
