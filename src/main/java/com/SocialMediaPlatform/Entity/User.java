@@ -13,7 +13,8 @@ import java.util.List;
 @Document(collection = "user")
 @Data
 @Builder
-public class User implements UserDetails {
+@AllArgsConstructor
+public class User {
 
     @Id
     private String id;
@@ -22,39 +23,5 @@ public class User implements UserDetails {
     private String email;
     private String password;
     private String salt;
-
-    @Builder.Default
-    private boolean enabled = true;
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
-
 
 }
