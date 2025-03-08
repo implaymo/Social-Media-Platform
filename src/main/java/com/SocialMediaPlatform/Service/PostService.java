@@ -5,6 +5,7 @@ import com.SocialMediaPlatform.Entity.Post;
 import com.SocialMediaPlatform.Entity.User;
 import com.SocialMediaPlatform.Mapper.PostMapper;
 import com.SocialMediaPlatform.Repository.PostRepository;
+import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -21,12 +22,12 @@ public class PostService {
     }
 
 
-    public Optional<Post> createPost(PostDto postDto, User user){
-        if(postDto == null || user == null) {
+    public Optional<Post> createPost(PostDto postDto, CustomUserDetails customUserDetails) {
+        if(postDto == null || customUserDetails == null) {
             return Optional.empty();
         }
         Post post = postMapper.toEntity(postDto);
-        post.setUserId(user.getId());
+        post.setUserId(customUserDetails.getId());
         postRepository.save(post);
         return Optional.of(post);
     }

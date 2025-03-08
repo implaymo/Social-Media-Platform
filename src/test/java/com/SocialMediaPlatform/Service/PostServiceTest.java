@@ -5,6 +5,7 @@ import com.SocialMediaPlatform.Entity.Post;
 import com.SocialMediaPlatform.Entity.User;
 import com.SocialMediaPlatform.Mapper.PostMapper;
 import com.SocialMediaPlatform.Repository.PostRepository;
+import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,13 +39,13 @@ class PostServiceTest {
         // arrange
         PostDto postDto = mock(PostDto.class);
         Post postMapped = mock(Post.class);
-        User user = mock(User.class);
+        CustomUserDetails customUserDetails = mock(CustomUserDetails.class);
 
         when(postMapper.toEntity(postDto)).thenReturn(postMapped);
-        when(user.getId()).thenReturn("userID");
+        when(customUserDetails.getId()).thenReturn("userID");
         when(postRepository.save(any(Post.class))).thenReturn(postMapped);
         // act
-        Optional<Post> postCreated = postService.createPost(postDto, user);
+        Optional<Post> postCreated = postService.createPost(postDto, customUserDetails);
         // assert
         assertTrue(postCreated.isPresent());
     }
@@ -53,9 +54,9 @@ class PostServiceTest {
     @Test
     void shouldReturnOptionalEmptyIfCreatePostDtoNull(){
         // arrange
-        User user = mock(User.class);
+        CustomUserDetails customUserDetails = mock(CustomUserDetails.class);
         // act
-        Optional<Post> postCreated = postService.createPost(null, user);
+        Optional<Post> postCreated = postService.createPost(null, customUserDetails);
         // assert
         assertTrue(postCreated.isEmpty());
     }
