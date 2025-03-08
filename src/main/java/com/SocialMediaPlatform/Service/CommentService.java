@@ -20,11 +20,12 @@ public class CommentService {
         this.commentRepository = commentRepository;
     }
 
-    public Optional<Comment> registerComment(CommentDto commentDto, String postID) {
+    public Optional<Comment> registerComment(CommentDto commentDto, String postID, String userID) {
         if (commentDto == null || postID == null) {
             return Optional.empty();
         }
         commentDto.setPostID(postID);
+        commentDto.setUserID(userID);
         Comment comment = commentMapper.toEntity(commentDto);
         if (comment != null) {
             commentRepository.save(comment);

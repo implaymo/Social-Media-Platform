@@ -4,16 +4,14 @@ import com.SocialMediaPlatform.Entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Collections;
 
-@Component
 public class CustomUserDetails implements UserDetails {
 
     private final String id;
-    private final String username;
+    private final String email;
     private final String password;
     private final Collection<GrantedAuthority> authorities;
     private final boolean accountNonExpired;
@@ -23,7 +21,7 @@ public class CustomUserDetails implements UserDetails {
 
     public CustomUserDetails(User user) {
         this.id = user.getId();
-        this.username = user.getName();
+        this.email = user.getEmail();
         this.password = user.getPassword();
         this.authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
         this.accountNonExpired = true;
@@ -48,7 +46,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override
