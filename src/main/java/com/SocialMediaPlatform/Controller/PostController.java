@@ -3,6 +3,7 @@ package com.SocialMediaPlatform.Controller;
 import com.SocialMediaPlatform.Dto.PostDto;
 import com.SocialMediaPlatform.Entity.Post;
 import com.SocialMediaPlatform.Entity.User;
+import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
 import com.SocialMediaPlatform.Service.PostService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -28,8 +29,8 @@ public class PostController {
 
     @PostMapping(path = "/post/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boolean> createPost(@Valid @RequestBody PostDto postDto,
-                                              @AuthenticationPrincipal User user) {
-        Optional<Post> post = postService.createPost(postDto, user);
+                                              @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        Optional<Post> post = postService.createPost(postDto, customUserDetails);
         if(post.isEmpty()){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }

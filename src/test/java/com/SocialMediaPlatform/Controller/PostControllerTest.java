@@ -5,6 +5,7 @@ import com.SocialMediaPlatform.Config.TestSecurityConfig;
 import com.SocialMediaPlatform.Dto.PostDto;
 import com.SocialMediaPlatform.Entity.Post;
 import com.SocialMediaPlatform.Entity.User;
+import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
 import com.SocialMediaPlatform.Service.PostService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -21,6 +25,7 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
@@ -38,22 +43,18 @@ class PostControllerTest {
     @MockitoBean
     private PostService postService;
 
-    private User user;
-
-    @BeforeEach
-    void setUp() {
-        user = User.builder()
-                .id("userID")
-                .name("John Doe")
-                .email("john@example.com")
-                .password("password")
-                .build();
-    }
-
     @Test
     @WithMockUser(username = "john@example.com", roles = "USER")
     void shouldReturnCreatedIfPostCreatedWithBothContentAndMedia() throws Exception {
         // arrange
+        User mockUser = mock(User.class);
+
+        CustomUserDetails userDetails = new CustomUserDetails(mockUser);
+
+        Authentication auth = new UsernamePasswordAuthenticationToken(
+                userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
         PostDto postDto = PostDto.builder()
                 .content("Hello world")
                 .mediaUrl("example.mp4")
@@ -64,13 +65,12 @@ class PostControllerTest {
                 .content("Hello World")
                 .mediaUrl("example.jpg")
                 .build();
-        when(postService.createPost(any(PostDto.class), any(User.class)))
+        when(postService.createPost(any(PostDto.class), any(CustomUserDetails.class)))
                 .thenReturn(Optional.of(post));
 
         // act + assert
         mockMvc.perform(post("/post/create")
                         .with(csrf())
-                        .with(user(user))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(postDto)))
                 .andExpect(status().isCreated())
@@ -81,6 +81,14 @@ class PostControllerTest {
     @WithMockUser(username = "john@example.com", roles = "USER")
     void shouldReturnOkIfPostCreatedWithContent() throws Exception {
         // arrange
+        User mockUser = mock(User.class);
+
+        CustomUserDetails userDetails = new CustomUserDetails(mockUser);
+
+        Authentication auth = new UsernamePasswordAuthenticationToken(
+                userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
         PostDto postDto = PostDto.builder()
                 .content("Hello world")
                 .build();
@@ -88,14 +96,14 @@ class PostControllerTest {
                 .postId("postID")
                 .content("Hello World")
                 .build();
-        when(postService.createPost(any(PostDto.class), eq(user)))
+        when(postService.createPost(any(PostDto.class), any(CustomUserDetails.class)))
                 .thenReturn(Optional.of(post));
 
         // act + assert
         mockMvc.perform(post("/post/create")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(postDto))
-                        .with(user(user)))
+                .with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(postDto)))
                 .andExpect(status().isCreated())
                 .andExpect(content().string("true"));
     }
@@ -104,6 +112,14 @@ class PostControllerTest {
     @WithMockUser(username = "john@example.com", roles = "USER")
     void shouldReturnOkIfPostCreatedOnlyWithMedia() throws Exception {
         // arrange
+        User mockUser = mock(User.class);
+
+        CustomUserDetails userDetails = new CustomUserDetails(mockUser);
+
+        Authentication auth = new UsernamePasswordAuthenticationToken(
+                userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
         PostDto postDto = PostDto.builder()
                 .mediaUrl("example.mp4")
                 .build();
@@ -111,14 +127,14 @@ class PostControllerTest {
                 .postId("postID")
                 .mediaUrl("example.mp4")
                 .build();
-        when(postService.createPost(any(PostDto.class), eq(user)))
+        when(postService.createPost(any(PostDto.class), any(CustomUserDetails.class)))
                 .thenReturn(Optional.of(post));
 
         // act + assert
         mockMvc.perform(post("/post/create")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(postDto))
-                        .with(user(user)))
+                .with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(postDto)))
                 .andExpect(status().isCreated())
                 .andExpect(content().string("true"));
 
@@ -145,7 +161,7 @@ class PostControllerTest {
                 .content("Hello world")
                 .mediaUrl("example.mp4")
                 .build();
-        when(postService.createPost(any(PostDto.class), any(User.class)))
+        when(postService.createPost(any(PostDto.class), any(CustomUserDetails.class)))
                 .thenReturn(Optional.empty());
 
         // act + assert
