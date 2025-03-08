@@ -5,6 +5,7 @@ import com.SocialMediaPlatform.Entity.Comment;
 import com.SocialMediaPlatform.Entity.Post;
 import com.SocialMediaPlatform.Mapper.CommentMapper;
 import com.SocialMediaPlatform.Repository.CommentRepository;
+import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -20,14 +21,16 @@ class CommentServiceTest {
     void shouldRegisterLikeInDatabase() {
         // arrange
         String postID = "postId";
+        String userID = "userID";
         CommentDto commentDto = mock(CommentDto.class);
+        CustomUserDetails customUserDetails = mock(CustomUserDetails.class);
         CommentMapper commentMapper = mock(CommentMapper.class);
         CommentRepository commentRepository = mock(CommentRepository.class);
         Comment comment = mock(Comment.class);
         when(commentMapper.toEntity(commentDto)).thenReturn(comment);
         CommentService commentService = new CommentService(commentMapper, commentRepository);
         // act
-        Optional <Comment> result = commentService.registerComment(commentDto, postID);
+        Optional <Comment> result = commentService.registerComment(commentDto, postID, userID);
         // assert
         assertTrue(result.isPresent());
     }
@@ -36,12 +39,14 @@ class CommentServiceTest {
     void shouldNotRegisterLikeInDatabaseIfCommentDtoIsNull() {
         // arrange
         String postID = "postId";
-        CommentDto commentDto = null;
+        String userID = "userID";
+        CommentDto commentDto = mock(CommentDto.class);
+        CustomUserDetails customUserDetails = mock(CustomUserDetails.class);
         CommentMapper commentMapper = mock(CommentMapper.class);
         CommentRepository commentRepository = mock(CommentRepository.class);
         CommentService commentService = new CommentService(commentMapper, commentRepository);
         // act
-        Optional<Comment> result = commentService.registerComment(commentDto, postID);
+        Optional<Comment> result = commentService.registerComment(commentDto, postID, userID);
         // assert
         assertTrue(result.isEmpty());
     }
@@ -49,13 +54,15 @@ class CommentServiceTest {
     @Test
     void shouldNotRegisterLikeInDatabaseIfPostIDIsNull() {
         // arrange
-        String postID = null;
+        String postID = "postId";
+        String userID = "userID";
         CommentDto commentDto = mock(CommentDto.class);
+        CustomUserDetails customUserDetails = mock(CustomUserDetails.class);
         CommentMapper commentMapper = mock(CommentMapper.class);
         CommentRepository commentRepository = mock(CommentRepository.class);
         CommentService commentService = new CommentService(commentMapper, commentRepository);
         // act
-        Optional<Comment> result = commentService.registerComment(commentDto, postID);
+        Optional<Comment> result = commentService.registerComment(commentDto, postID, userID);
         // assert
         assertTrue(result.isEmpty());
     }
