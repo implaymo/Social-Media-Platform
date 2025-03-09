@@ -1,6 +1,5 @@
 package com.SocialMediaPlatform.Service;
 
-import com.SocialMediaPlatform.Dto.UserLoginDto;
 import com.SocialMediaPlatform.Entity.User;
 import com.SocialMediaPlatform.Mapper.UserLoginMapper;
 import com.SocialMediaPlatform.Repository.UserRepository;
@@ -48,25 +47,22 @@ class UserLoginServiceTest {
         // Arrange
         String encryptedPassword = "DS89ADS8A0D9";
 
-        UserLoginDto userLoginDto = mock(UserLoginDto.class);
-        User mappedUser = mock(User.class);
-        when(mappedUser.getEmail()).thenReturn("test@example.com");
-        when(mappedUser.getPassword()).thenReturn("encodedCorrectPassword");
-        when(mappedUser.getSalt()).thenReturn("salt");
+        User user = mock(User.class);
+        when(user.getEmail()).thenReturn("test@example.com");
+        when(user.getPassword()).thenReturn("encodedCorrectPassword");
+        when(user.getSalt()).thenReturn("salt");
 
         User databaseUser = mock(User.class);
         when(databaseUser.getEmail()).thenReturn("test@example.com");
         when(databaseUser.getPassword()).thenReturn("DS89ADS8A0D9");
 
-        // Stub getSalt() for the database user to return a non-null value.
         when(databaseUser.getSalt()).thenReturn("salt");
-        when(userLoginMapper.toEntityForLogin(userLoginDto)).thenReturn(mappedUser);
-        when(userRepository.findByEmail(mappedUser.getEmail())).thenReturn(Optional.of(databaseUser));
-        when(passwordService.encryptPasswordFromUserThatTriesToLogin(mappedUser, databaseUser)).thenReturn(encryptedPassword);
+        when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(databaseUser));
+        when(passwordService.encryptPasswordFromUserThatTriesToLogin(user, databaseUser)).thenReturn(encryptedPassword);
         when(jwtUtil.generateToken("test@example.com")).thenReturn("jwt-token");
 
         // Act
-        String result = userLoginService.loginUser(userLoginDto);
+        String result = userLoginService.loginUser(user);
 
         // Assert
         assertEquals("jwt-token", result);
@@ -76,20 +72,19 @@ class UserLoginServiceTest {
     @Test
     void shouldReturnExceptionMessageIfUserNotLoginSuccessfully() {
         // arrange
-        UserLoginDto userLoginDto = mock(UserLoginDto.class);
+        User user = mock(User.class);
         User mappedUser = mock(User.class);
-        when(userLoginMapper.toEntityForLogin(userLoginDto)).thenReturn(mappedUser);
         when(mappedUser.getEmail()).thenReturn("test@example.com");
         when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.empty());
 
         // act + assert
         assertThrows(AuthenticationException.class, () -> {
-            userLoginService.loginUser(userLoginDto);
+            userLoginService.loginUser(user);
         });
     }
 
     @Test
-    void shouldReturnExceptionMessageIfUserLoginDtoNull() {
+    void shouldReturnExceptionMessageIfUserNull() {
         // arrange
         // act
         // assert

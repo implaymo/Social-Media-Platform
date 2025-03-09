@@ -28,17 +28,16 @@ public class UserLoginService {
 
 
     @Transactional
-    public String loginUser(UserLoginDto userLoginDto) throws Exception {
-        if (userLoginDto == null) {
+    public String loginUser(User userLogin) throws Exception {
+        if (userLogin == null) {
             throw new IllegalArgumentException("User login data is required.");
         }
 
-        User mappedUser = userLoginMapper.toEntityForLogin(userLoginDto);
-        Optional<User> userOptional = userRepository.findByEmail(mappedUser.getEmail());
+        Optional<User> userOptional = userRepository.findByEmail(userLogin.getEmail());
 
         if (userOptional.isPresent()) {
             User databaseUser = userOptional.get();
-            String providedPassword = passwordService.encryptPasswordFromUserThatTriesToLogin(mappedUser, databaseUser);
+            String providedPassword = passwordService.encryptPasswordFromUserThatTriesToLogin(userLogin, databaseUser);
             if (providedPassword.equals(databaseUser.getPassword())) {
                 return jwtUtil.generateToken(databaseUser.getEmail());
             }

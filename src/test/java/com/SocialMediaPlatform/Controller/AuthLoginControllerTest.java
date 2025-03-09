@@ -1,9 +1,12 @@
 package com.SocialMediaPlatform.Controller;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import com.SocialMediaPlatform.Dto.UserLoginDto;
+import com.SocialMediaPlatform.Entity.User;
+import com.SocialMediaPlatform.Mapper.UserLoginMapper;
 import com.SocialMediaPlatform.Service.UserLoginService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +23,9 @@ public class AuthLoginControllerTest {
 
     @Mock
     private UserLoginService userLoginService;
+
+    @Mock
+    private UserLoginMapper userLoginMapper;
 
     @InjectMocks
     private AuthLoginController authLoginController;
@@ -54,7 +60,9 @@ public class AuthLoginControllerTest {
     @Test
     void shouldReturnTokenWhenUserLogsInSuccessfully() throws Exception {
         // arrange
-        when(userLoginService.loginUser(validUserLoginDto)).thenReturn(token);
+        User user = mock(User.class);
+        when(userLoginMapper.toEntityForLogin(validUserLoginDto)).thenReturn(user);
+        when(userLoginService.loginUser(user)).thenReturn(token);
         // act & assert
         mockMvc.perform(post("/auth/login")
                         .contentType("application/json")
@@ -66,7 +74,8 @@ public class AuthLoginControllerTest {
     @Test
     void shouldReturnUnauthorizedWhenUserLogsInWithInvalidPassword() throws Exception {
         // arrange
-        when(userLoginService.loginUser(invalidPasswordUserLoginDto)).thenThrow(new RuntimeException("Invalid credentials"));
+        when(userLoginMapper.toEntityForLogin(invalidPasswordUserLoginDto)).thenReturn(null);
+        when(userLoginService.loginUser(null)).thenThrow(new RuntimeException("Invalid credentials"));
 
         // act & assert
         mockMvc.perform(post("/auth/login")
@@ -79,7 +88,8 @@ public class AuthLoginControllerTest {
     @Test
     void shouldReturnUnauthorizedWhenUserLogsInWithInvalidEmail() throws Exception {
         // arrange
-        when(userLoginService.loginUser(invalidEmailUserLoginDto)).thenThrow(new RuntimeException("Invalid credentials"));
+        when(userLoginMapper.toEntityForLogin(invalidEmailUserLoginDto)).thenReturn(null);
+        when(userLoginService.loginUser(null)).thenThrow(new RuntimeException("Invalid credentials"));
 
         // act & assert
         mockMvc.perform(post("/auth/login")
