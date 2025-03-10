@@ -47,16 +47,15 @@ class UserRegistrationServiceTest {
     @Test
     void shouldReturnPresentOptionalIfUserRegistered() {
         // arrange
-        User mappedUser = mock(User.class);
+        User user = mock(User.class);
         UserRegisterDto userRegisterDto = mock(UserRegisterDto.class);
         byte[] salt = "salt".getBytes();
 
-        when(mappedUser.getPassword()).thenReturn("John@1234");
-        when(userRegisterMapper.toEntityForRegistration(userRegisterDto)).thenReturn(mappedUser);
+        when(user.getPassword()).thenReturn("John@1234");
         when(passwordSalt.generateRandomSalt()).thenReturn(salt);
-        when(passwordHash.generateHashPassword(mappedUser.getPassword(), salt)).thenReturn("passwordHash");
+        when(passwordHash.generateHashPassword(user.getPassword(), salt)).thenReturn("passwordHash");
         // act
-        Optional<User> registerUser = userRegistrationService.registerUser(userRegisterDto);
+        Optional<User> registerUser = userRegistrationService.registerUser(user);
         // assert
         assertTrue(registerUser.isPresent());
     }
@@ -64,9 +63,9 @@ class UserRegistrationServiceTest {
     @Test
     void shouldReturnEmptyOptionalIfUserRegisterDtoIsNull() {
         // arrange
-        UserRegisterDto userRegisterDto = null;
+        User user = null;
         // act
-        Optional<User> registerUser = userRegistrationService.registerUser(userRegisterDto);
+        Optional<User> registerUser = userRegistrationService.registerUser(user);
         // assert
         assertTrue(registerUser.isEmpty());
     }

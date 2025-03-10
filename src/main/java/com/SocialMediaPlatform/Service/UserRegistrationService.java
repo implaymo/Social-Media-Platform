@@ -31,29 +31,28 @@ public class UserRegistrationService {
     }
 
     @Transactional
-    public Optional<User> registerUser(UserRegisterDto userRegisterDto) {
-        if (userRegisterDto == null) {
+    public Optional<User> registerUser(User user) {
+        if (user == null) {
             return Optional.empty();
         }
-        if (isUserInDatabase(userRegisterDto).isPresent()) {
+        if (isUserInDatabase(user).isPresent()) {
             return Optional.empty();
         }
 
         try {
-            User mappedUser = userRegisterMapper.toEntityForRegistration(userRegisterDto);
             byte[] salt = passwordSalt.generateRandomSalt();
             String base64Salt = Base64.getEncoder().encodeToString(salt);
-            mappedUser.setSalt(base64Salt);
-            String hashedPassword = passwordHash.generateHashPassword(mappedUser.getPassword(), salt);
-            mappedUser.setPassword(hashedPassword);
-            userRepository.save(mappedUser);
-            return Optional.of(mappedUser);
+            user.setSalt(base64Salt);
+            String hashedPassword = passwordHash.generateHashPassword(user.getPassword(), salt);
+            user.setPassword(hashedPassword);
+            userRepository.save(user);
+            return Optional.of(user);
         } catch (Exception e) {
             return Optional.empty();
         }
     }
 
-    private Optional<User> isUserInDatabase(UserRegisterDto userRegisterDto) {
-        return userRepository.findByEmail(userRegisterDto.getEmail());
+    private Optional<User> isUserInDatabase(User user) {
+        return userRepository.findByEmail(user.getEmail());
     }
 }

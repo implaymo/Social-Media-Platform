@@ -2,6 +2,7 @@ package com.SocialMediaPlatform.Controller;
 
 import com.SocialMediaPlatform.Dto.UserRegisterDto;
 import com.SocialMediaPlatform.Entity.User;
+import com.SocialMediaPlatform.Mapper.UserRegisterMapper;
 import com.SocialMediaPlatform.Service.UserRegistrationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,13 +30,16 @@ class AuthRegistrationControllerTest {
     @Mock
     private UserRegistrationService userRegistrationService;
 
+    @Mock
+    private UserRegisterMapper userRegisterMapper;
+
     @InjectMocks
     private AuthRegistrationController authRegistrationController;
     private MockMvc mockMvc;
 
     @BeforeEach
     void setUp() {
-        authRegistrationController = new AuthRegistrationController(userRegistrationService);
+        authRegistrationController = new AuthRegistrationController(userRegisterMapper, userRegistrationService);
         mockMvc = MockMvcBuilders.standaloneSetup(authRegistrationController).build();
     }
 
@@ -54,8 +58,10 @@ class AuthRegistrationControllerTest {
                 .password("John@12345")
                 .build();
 
-        when(userRegistrationService.registerUser(any(UserRegisterDto.class)))
+        when(userRegistrationService.registerUser(any(User.class)))
                 .thenReturn(Optional.of(user));
+
+        when(userRegisterMapper.toEntityForRegistration(userRegisterDto)).thenReturn(user);
 
         // act & assert
         mockMvc.perform(post("/auth/register")
@@ -97,8 +103,13 @@ class AuthRegistrationControllerTest {
                 .email("john123@gmail.com")
                 .password("John@12345")
                 .build();
-
-        when(userRegistrationService.registerUser(any(UserRegisterDto.class)))
+        User user = User.builder()
+                .name("John Cena")
+                .email("john123@gmail.com")
+                .password("John@12345")
+                .build();
+        when(userRegisterMapper.toEntityForRegistration(userRegisterDto)).thenReturn(user);
+        when(userRegistrationService.registerUser(any(User.class)))
                 .thenReturn(Optional.empty());
 
         // act & assert
