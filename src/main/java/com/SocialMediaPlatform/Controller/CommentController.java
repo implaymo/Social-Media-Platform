@@ -32,7 +32,7 @@ public class CommentController {
             String userID = customUserDetails.getId();
             Optional<Comment> comment = commentService.registerComment(commentDto, postID, userID);
             if (comment.isPresent()) {
-                return new ResponseEntity<>(true, HttpStatus.CREATED);
+                return ResponseEntity.status(HttpStatus.CREATED).body(true);
             }
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
