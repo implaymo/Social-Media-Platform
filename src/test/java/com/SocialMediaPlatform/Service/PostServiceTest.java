@@ -55,7 +55,7 @@ class PostServiceTest {
     }
 
     @Test
-    void shouldReturnOptionalEmptyIUserNull(){
+    void shouldReturnOptionalEmptyIfUserNull(){
         // arrange
         Post post = mock(Post.class);
         // act
@@ -77,7 +77,7 @@ class PostServiceTest {
     }
 
     @Test
-    void shouldReturnOptionalEmptyIfUpdatePostDtoIsNull(){
+    void shouldReturnOptionalEmptyIfPostIsNull(){
         // arrange
         // act
         Optional<Post> updatePost = postService.updatePost(null);
