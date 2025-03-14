@@ -1,9 +1,6 @@
 package com.SocialMediaPlatform.Service;
 
-import com.SocialMediaPlatform.Dto.PostDto;
 import com.SocialMediaPlatform.Entity.Post;
-import com.SocialMediaPlatform.Entity.User;
-import com.SocialMediaPlatform.Mapper.PostMapper;
 import com.SocialMediaPlatform.Repository.PostRepository;
 import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,36 +20,32 @@ class PostServiceTest {
     @Mock
     PostRepository postRepository;
 
-    @Mock
-    PostMapper postMapper;
 
     private PostService postService;
 
     @BeforeEach
     void setUp(){
-        postService = new PostService(postRepository, postMapper);
+        postService = new PostService(postRepository);
 
     }
 
     @Test
     void shouldReturnOptionalPresentIfCreateNewPostWithContentSuccessfully(){
         // arrange
-        PostDto postDto = mock(PostDto.class);
-        Post postMapped = mock(Post.class);
+        Post post = mock(Post.class);
         CustomUserDetails customUserDetails = mock(CustomUserDetails.class);
 
-        when(postMapper.toEntity(postDto)).thenReturn(postMapped);
         when(customUserDetails.getId()).thenReturn("userID");
-        when(postRepository.save(any(Post.class))).thenReturn(postMapped);
+        when(postRepository.save(any(Post.class))).thenReturn(post);
         // act
-        Optional<Post> postCreated = postService.createPost(postDto, customUserDetails);
+        Optional<Post> postCreated = postService.createPost(post, customUserDetails);
         // assert
         assertTrue(postCreated.isPresent());
     }
 
 
     @Test
-    void shouldReturnOptionalEmptyIfCreatePostDtoNull(){
+    void shouldReturnOptionalEmptyIfPostNull(){
         // arrange
         CustomUserDetails customUserDetails = mock(CustomUserDetails.class);
         // act
@@ -62,11 +55,11 @@ class PostServiceTest {
     }
 
     @Test
-    void shouldReturnOptionalEmptyIfCreateUserNull(){
+    void shouldReturnOptionalEmptyIUserNull(){
         // arrange
-        PostDto postDto = mock(PostDto.class);
+        Post post = mock(Post.class);
         // act
-        Optional<Post> postCreated = postService.createPost(postDto, null);
+        Optional<Post> postCreated = postService.createPost(post, null);
         // assert
         assertTrue(postCreated.isEmpty());
     }
@@ -74,13 +67,11 @@ class PostServiceTest {
     @Test
     void shouldReturnOptionalPresentIfUpdatePostSuccessfully(){
         // arrange
-        PostDto postDto = mock(PostDto.class);
-        Post postMapped = mock(Post.class);
-        when(postMapper.toEntity(postDto)).thenReturn(postMapped);
-        when(postRepository.findById(postMapped.getPostId())).thenReturn(Optional.of(postMapped));
+        Post post = mock(Post.class);
+        when(postRepository.findById(post.getPostId())).thenReturn(Optional.of(post));
 
         // act
-        Optional<Post> updatePost = postService.updatePost(postDto);
+        Optional<Post> updatePost = postService.updatePost(post);
         // assert
         assertTrue(updatePost.isPresent());
     }
@@ -97,12 +88,10 @@ class PostServiceTest {
     @Test
     void shouldReturnOptionalPresentIfDeletePostSuccessfully(){
         // arrange
-        PostDto postDto = mock(PostDto.class);
-        Post postMapped = mock(Post.class);
-        when(postMapper.toEntity(postDto)).thenReturn(postMapped);
-        when(postRepository.findById(postMapped.getPostId())).thenReturn(Optional.of(postMapped));
+        Post post = mock(Post.class);
+        when(postRepository.findById(post.getPostId())).thenReturn(Optional.of(post));
         // act
-        Optional<Post> postDeleted = postService.deletePost(postDto);
+        Optional<Post> postDeleted = postService.deletePost(post);
         // assert
         assertTrue(postDeleted.isPresent());
     }

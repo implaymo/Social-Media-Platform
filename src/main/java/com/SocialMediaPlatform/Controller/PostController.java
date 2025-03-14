@@ -2,7 +2,7 @@ package com.SocialMediaPlatform.Controller;
 
 import com.SocialMediaPlatform.Dto.PostDto;
 import com.SocialMediaPlatform.Entity.Post;
-import com.SocialMediaPlatform.Entity.User;
+import com.SocialMediaPlatform.Mapper.PostMapper;
 import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
 import com.SocialMediaPlatform.Service.PostService;
 import jakarta.validation.Valid;
@@ -20,18 +20,22 @@ import java.util.Optional;
 @RestController
 public class PostController {
 
+
+    private final PostMapper postMapper;
     private final PostService postService;
 
 
-    public PostController(PostService postService) {
+    public PostController(PostMapper postMapper, PostService postService) {
+        this.postMapper = postMapper;
         this.postService = postService;
     }
 
     @PostMapping(path = "/post/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boolean> createPost(@Valid @RequestBody PostDto postDto,
                                               @AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        Optional<Post> post = postService.createPost(postDto, customUserDetails);
-        if(post.isEmpty()){
+        Post post = postMapper.toEntity(postDto);
+        Optional<Post> postCreated = postService.createPost(post, customUserDetails);
+        if(postCreated.isEmpty()){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(true);
@@ -39,8 +43,9 @@ public class PostController {
 
     @PostMapping(path = "/post/update", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boolean> updatePost(@Valid @RequestBody PostDto postDto) {
-        Optional<Post> post = postService.updatePost(postDto);
-        if(post.isEmpty()) {
+        Post post = postMapper.toEntity(postDto);
+        Optional<Post> postUpdated = postService.updatePost(post);
+        if(postUpdated.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
         return ResponseEntity.ok(true);
@@ -48,8 +53,9 @@ public class PostController {
 
     @PostMapping(path = "/post/delete", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boolean> deletePost(@Valid @RequestBody PostDto postDto) {
-        Optional<Post> post = postService.deletePost(postDto);
-        if(post.isEmpty()) {
+        Post post = postMapper.toEntity(postDto);
+        Optional<Post> postDelete = postService.deletePost(post);
+        if(postDelete.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
         return ResponseEntity.ok(true);
