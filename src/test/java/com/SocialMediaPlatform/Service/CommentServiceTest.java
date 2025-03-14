@@ -1,10 +1,7 @@
 package com.SocialMediaPlatform.Service;
 
-import com.SocialMediaPlatform.Dto.CommentDto;
 import com.SocialMediaPlatform.Entity.Comment;
-import com.SocialMediaPlatform.Mapper.CommentMapper;
 import com.SocialMediaPlatform.Repository.CommentRepository;
-import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;

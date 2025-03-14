@@ -1,9 +1,6 @@
 package com.SocialMediaPlatform.Service;
 
-import com.SocialMediaPlatform.Dto.CommentDto;
 import com.SocialMediaPlatform.Entity.Comment;
-import com.SocialMediaPlatform.Entity.Post;
-import com.SocialMediaPlatform.Mapper.CommentMapper;
 import com.SocialMediaPlatform.Repository.CommentRepository;
 import org.springframework.stereotype.Service;
 

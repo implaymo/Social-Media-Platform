@@ -64,7 +64,7 @@ class CommentControllerTest {
         // assert
         assertTrue(response.getStatusCode().is2xxSuccessful());
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertTrue(response.getBody());
+        assertEquals(Boolean.TRUE, response.getBody());
     }
 
     @Test
@@ -87,7 +87,7 @@ class CommentControllerTest {
         when(commentMapper.toEntity(commentDto)).thenReturn(comment);
         when(commentService.registerComment(comment, null, userID)).thenReturn(Optional.empty());
         // act
-        ResponseEntity response = commentController.registerComment(commentDto, null);
+        ResponseEntity<Boolean> response = commentController.registerComment(commentDto, null);
         // assert
         assertTrue(response.getStatusCode().is4xxClientError());
     }
@@ -112,7 +112,7 @@ class CommentControllerTest {
         when(commentMapper.toEntity(commentDto)).thenReturn(comment);
         when(commentService.registerComment(comment, postID, null)).thenReturn(Optional.empty());
         // act
-        ResponseEntity response = commentController.registerComment(commentDto, null);
+        ResponseEntity<Boolean> response = commentController.registerComment(commentDto, null);
         // assert
         assertTrue(response.getStatusCode().is4xxClientError());
     }
