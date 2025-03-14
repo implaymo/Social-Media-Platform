@@ -12,22 +12,19 @@ import java.util.Optional;
 @Service
 public class CommentService {
 
-    private final CommentMapper commentMapper;
     private final CommentRepository commentRepository;
 
-    public CommentService(CommentMapper commentMapper, CommentRepository commentRepository) {
-        this.commentMapper = commentMapper;
+    public CommentService(CommentRepository commentRepository) {
         this.commentRepository = commentRepository;
     }
 
-    public Optional<Comment> registerComment(CommentDto commentDto, String postID, String userID) {
-        if (commentDto == null || postID == null) {
+    public Optional<Comment> registerComment(Comment comment, String postID, String userID) {
+        if (comment == null || postID == null || userID == null) {
             return Optional.empty();
         }
-        commentDto.setPostID(postID);
-        commentDto.setUserID(userID);
-        Comment comment = commentMapper.toEntity(commentDto);
-        if (comment != null) {
+        comment.setPostID(postID);
+        comment.setUserID(userID);
+        if(comment.getCommentID() == null) {
             commentRepository.save(comment);
             return Optional.of(comment);
         }

@@ -2,7 +2,6 @@ package com.SocialMediaPlatform.Service;
 
 import com.SocialMediaPlatform.Dto.CommentDto;
 import com.SocialMediaPlatform.Entity.Comment;
-import com.SocialMediaPlatform.Entity.Post;
 import com.SocialMediaPlatform.Mapper.CommentMapper;
 import com.SocialMediaPlatform.Repository.CommentRepository;
 import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
@@ -22,31 +21,28 @@ class CommentServiceTest {
         // arrange
         String postID = "postId";
         String userID = "userID";
-        CommentDto commentDto = mock(CommentDto.class);
-        CustomUserDetails customUserDetails = mock(CustomUserDetails.class);
-        CommentMapper commentMapper = mock(CommentMapper.class);
-        CommentRepository commentRepository = mock(CommentRepository.class);
         Comment comment = mock(Comment.class);
-        when(commentMapper.toEntity(commentDto)).thenReturn(comment);
-        CommentService commentService = new CommentService(commentMapper, commentRepository);
+        CommentRepository commentRepository = mock(CommentRepository.class);
+        when(comment.getCommentID()).thenReturn(null);
+        when(commentRepository.save(comment)).thenReturn(comment);
+        CommentService commentService = new CommentService(commentRepository);
         // act
-        Optional <Comment> result = commentService.registerComment(commentDto, postID, userID);
+        Optional <Comment> result = commentService.registerComment(comment, postID, userID);
         // assert
         assertTrue(result.isPresent());
     }
 
     @Test
-    void shouldNotRegisterLikeInDatabaseIfCommentDtoIsNull() {
+    void shouldNotRegisterCommentIfAlreadyRegistered() {
         // arrange
         String postID = "postId";
         String userID = "userID";
-        CommentDto commentDto = mock(CommentDto.class);
-        CustomUserDetails customUserDetails = mock(CustomUserDetails.class);
-        CommentMapper commentMapper = mock(CommentMapper.class);
+        Comment comment = mock(Comment.class);
         CommentRepository commentRepository = mock(CommentRepository.class);
-        CommentService commentService = new CommentService(commentMapper, commentRepository);
+        CommentService commentService = new CommentService(commentRepository);
+        when(comment.getCommentID()).thenReturn("commentID");
         // act
-        Optional<Comment> result = commentService.registerComment(commentDto, postID, userID);
+        Optional<Comment> result = commentService.registerComment(comment, postID, userID);
         // assert
         assertTrue(result.isEmpty());
     }
@@ -54,15 +50,25 @@ class CommentServiceTest {
     @Test
     void shouldNotRegisterLikeInDatabaseIfPostIDIsNull() {
         // arrange
-        String postID = "postId";
         String userID = "userID";
-        CommentDto commentDto = mock(CommentDto.class);
-        CustomUserDetails customUserDetails = mock(CustomUserDetails.class);
-        CommentMapper commentMapper = mock(CommentMapper.class);
+        Comment comment = mock(Comment.class);
         CommentRepository commentRepository = mock(CommentRepository.class);
-        CommentService commentService = new CommentService(commentMapper, commentRepository);
+        CommentService commentService = new CommentService(commentRepository);
         // act
-        Optional<Comment> result = commentService.registerComment(commentDto, postID, userID);
+        Optional<Comment> result = commentService.registerComment(comment, null, userID);
+        // assert
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldNotRegisterLikeInDatabaseIfUserIDIsNull() {
+        // arrange
+        String postID = "postId";
+        Comment comment = mock(Comment.class);
+        CommentRepository commentRepository = mock(CommentRepository.class);
+        CommentService commentService = new CommentService(commentRepository);
+        // act
+        Optional<Comment> result = commentService.registerComment(comment, postID, null);
         // assert
         assertTrue(result.isEmpty());
     }
