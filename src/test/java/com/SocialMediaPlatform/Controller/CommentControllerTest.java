@@ -3,6 +3,7 @@ package com.SocialMediaPlatform.Controller;
 import com.SocialMediaPlatform.Dto.CommentDto;
 import com.SocialMediaPlatform.Entity.Comment;
 import com.SocialMediaPlatform.Entity.User;
+import com.SocialMediaPlatform.Mapper.CommentMapper;
 import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
 import com.SocialMediaPlatform.Service.CommentService;
 import org.junit.jupiter.api.Test;
@@ -24,9 +25,6 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.post;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -55,9 +53,10 @@ class CommentControllerTest {
         String userID = "userId";
         CommentDto commentDto = mock(CommentDto.class);
         CommentService commentService = mock(CommentService.class);
-        CommentController commentController = new CommentController(commentService);
-
-        when(commentService.registerComment(commentDto, postID, userID)).thenReturn(Optional.of(comment));
+        CommentMapper commentMapper = mock(CommentMapper.class);
+        CommentController commentController = new CommentController(commentService, commentMapper);
+        when(commentMapper.toEntity(commentDto)).thenReturn(comment);
+        when(commentService.registerComment(comment, postID, userID)).thenReturn(Optional.of(comment));
 
         // act
         ResponseEntity<Boolean> response = commentController.registerComment(commentDto, postID);
@@ -79,14 +78,41 @@ class CommentControllerTest {
                 userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(auth);
 
-        String postID = "postId";
         String userID = "userID";
+        Comment comment = mock(Comment.class);
         CommentDto commentDto = mock(CommentDto.class);
         CommentService commentService = mock(CommentService.class);
-        CommentController commentController = new CommentController(commentService);
-        when(commentService.registerComment(commentDto, postID, userID)).thenReturn(Optional.empty());
+        CommentMapper commentMapper = mock(CommentMapper.class);
+        CommentController commentController = new CommentController(commentService, commentMapper);
+        when(commentMapper.toEntity(commentDto)).thenReturn(comment);
+        when(commentService.registerComment(comment, null, userID)).thenReturn(Optional.empty());
         // act
-        ResponseEntity response = commentController.registerComment(commentDto, postID);
+        ResponseEntity response = commentController.registerComment(commentDto, null);
+        // assert
+        assertTrue(response.getStatusCode().is4xxClientError());
+    }
+
+    @Test
+    void shouldNotRegisterCommentIfUserIdIsNull() {
+        // arrange
+        User mockUser = mock(User.class);
+
+        CustomUserDetails userDetails = new CustomUserDetails(mockUser);
+
+        Authentication auth = new UsernamePasswordAuthenticationToken(
+                userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+        String postID = "postID";
+        Comment comment = mock(Comment.class);
+        CommentDto commentDto = mock(CommentDto.class);
+        CommentService commentService = mock(CommentService.class);
+        CommentMapper commentMapper = mock(CommentMapper.class);
+        CommentController commentController = new CommentController(commentService, commentMapper);
+        when(commentMapper.toEntity(commentDto)).thenReturn(comment);
+        when(commentService.registerComment(comment, postID, null)).thenReturn(Optional.empty());
+        // act
+        ResponseEntity response = commentController.registerComment(commentDto, null);
         // assert
         assertTrue(response.getStatusCode().is4xxClientError());
     }

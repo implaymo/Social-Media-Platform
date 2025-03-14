@@ -2,6 +2,7 @@ package com.SocialMediaPlatform.Controller;
 
 import com.SocialMediaPlatform.Dto.CommentDto;
 import com.SocialMediaPlatform.Entity.Comment;
+import com.SocialMediaPlatform.Mapper.CommentMapper;
 import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
 import com.SocialMediaPlatform.Service.CommentService;
 import jakarta.validation.Valid;
@@ -20,9 +21,12 @@ import java.util.Optional;
 public class CommentController {
 
     private final CommentService commentService;
+    private final CommentMapper commentMapper;
 
-    public CommentController(CommentService commentService) {
+
+    public CommentController(CommentService commentService, CommentMapper commentMapper) {
         this.commentService = commentService;
+        this.commentMapper = commentMapper;
     }
 
     @PostMapping("/comment/{postID}")
@@ -30,12 +34,12 @@ public class CommentController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.getPrincipal() instanceof CustomUserDetails customUserDetails) {
             String userID = customUserDetails.getId();
-            Optional<Comment> comment = commentService.registerComment(commentDto, postID, userID);
+            Comment commentMap = commentMapper.toEntity(commentDto);
+            Optional<Comment> comment = commentService.registerComment(commentMap, postID, userID);
             if (comment.isPresent()) {
                 return ResponseEntity.status(HttpStatus.CREATED).body(true);
             }
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
     }
 }
