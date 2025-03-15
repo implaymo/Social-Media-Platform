@@ -15,13 +15,10 @@ public class SpringSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)  // Disable CSRF for API endpoints
+                .requiresChannel(channel -> channel
+                        .anyRequest().requiresSecure()) // Redirect HTTP to HTTPS
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/register").permitAll()  // Allow registration without auth
-                        .requestMatchers("/auth/login").permitAll()     // Allow login without auth
-                        // Add other public endpoints if needed
-                        .anyRequest().authenticated()  // All other endpoints need authentication
-                );
-
+                        .anyRequest().permitAll()); // Allow all requests
         return http.build();
     }
 }
