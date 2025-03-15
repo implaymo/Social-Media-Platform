@@ -58,7 +58,7 @@ class CommentTest {
                 .build();
         // act & assert
         assertEquals(comment1, comment2);
-        assertNotEquals(comment1.hashCode(), comment2.hashCode());
+        assertEquals(comment1.hashCode(), comment2.hashCode());
     }
 
     @Test

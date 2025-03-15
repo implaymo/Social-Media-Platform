@@ -6,6 +6,8 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Objects;
+
 @Data
 @Builder
 @Document(collection = "comment")
@@ -26,5 +28,10 @@ public class Comment {
         if (o == null || getClass() != o.getClass()) return false;
         Comment comment = (Comment) o;
         return commentID.equals(comment.commentID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(commentID);
     }
 }
