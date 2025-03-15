@@ -18,4 +18,13 @@ public class Comment {
     private String message;
     private String postID;
     private String userID;
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Comment comment = (Comment) o;
+        return commentID.equals(comment.commentID);
+    }
 }
