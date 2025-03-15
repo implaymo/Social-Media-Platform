@@ -92,6 +92,33 @@ class CommentControllerTest {
         assertTrue(response.getStatusCode().is4xxClientError());
     }
 
+
+    @Test
+    void shouldNotRegisterCommentIfCommentDtoIsNull() {
+        // arrange
+        User mockUser = mock(User.class);
+
+        CustomUserDetails userDetails = new CustomUserDetails(mockUser);
+
+        Authentication auth = new UsernamePasswordAuthenticationToken(
+                userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+        String userID = "userID";
+        String postID = "postID";
+        Comment comment = mock(Comment.class);
+        CommentDto commentDto = mock(CommentDto.class);
+        CommentService commentService = mock(CommentService.class);
+        CommentMapper commentMapper = mock(CommentMapper.class);
+        CommentController commentController = new CommentController(commentService, commentMapper);
+        when(commentMapper.toEntity(commentDto)).thenReturn(comment);
+        when(commentService.registerComment(comment, null, userID)).thenReturn(Optional.empty());
+        // act
+        ResponseEntity<Boolean> response = commentController.registerComment(null, postID);
+        // assert
+        assertTrue(response.getStatusCode().is4xxClientError());
+    }
+
     @Test
     void shouldNotRegisterCommentIfUserIdIsNull() {
         // arrange
@@ -122,6 +149,7 @@ class CommentControllerTest {
         String emptyJson = "{}";
 
         mockMvc.perform(MockMvcRequestBuilders.post("/comment/{postId}", "postId")
+                        .secure(true)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(emptyJson)
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
