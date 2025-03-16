@@ -13,8 +13,6 @@ public class CommentMapper {
         }
         Comment comment = Comment.builder()
                 .message(commentDto.getComment())
-                .userID(commentDto.getUserID())
-                .postID(commentDto.getPostID())
                 .build();
 
         return comment;

@@ -25,10 +25,8 @@ class CommentDtoTest {
     void shouldCreateValidCommentDto(){
         // arrange
         String comment = "This is a comment";
-        String postID = "12345";
-        String userID = "userID";
         // act
-        CommentDto commentDto = new CommentDto(postID, userID, comment);
+        CommentDto commentDto = new CommentDto(comment);
         Set<ConstraintViolation<CommentDto>> violations = validator.validate(commentDto);
         // assert
         assertNotNull(commentDto);
@@ -38,10 +36,8 @@ class CommentDtoTest {
     @Test
     void shouldNotCreateCommentDtoWithCommentNull(){
         // arrange
-        String postID = "12345";
-        String userID = "userID";
         // act
-        CommentDto commentDto = new CommentDto(postID, userID, null);
+        CommentDto commentDto = new CommentDto(null);
         Set<ConstraintViolation<CommentDto>> violations = validator.validate(commentDto);
         // assert
         assertTrue(violations.stream().anyMatch(v ->
@@ -51,41 +47,11 @@ class CommentDtoTest {
     @Test
     void shouldNotCreateCommentDtoWithCommentBlank(){
         // arrange
-        String postID = "12345";
-        String userID = "userID";
-        CommentDto commentDto = new CommentDto(postID, userID, "");
+        CommentDto commentDto = new CommentDto("");
         // act
         Set<ConstraintViolation<CommentDto>> violations = validator.validate(commentDto);
         // assert
         assertTrue(violations.stream().anyMatch(v ->
                 v.getMessage().equals("Comment can't be null or blank")));
     }
-
-    @Test
-    void shouldNotCreateCommentDtoWithUserIdNull(){
-        // arrange
-        String comment = "This is a comment";
-        String postID = "12345";
-        CommentDto commentDto = new CommentDto(postID, null, comment);
-        // act
-        Set<ConstraintViolation<CommentDto>> violations = validator.validate(commentDto);
-        // assert
-        assertTrue(violations.stream().anyMatch(v ->
-                v.getMessage().equals("User ID can't be null or blank")));
-    }
-
-    @Test
-    void shouldNotCreateCommentDtoWithUserIdBlank(){
-        // arrange
-        String comment = "This is a comment";
-        String postID = "12345";
-        CommentDto commentDto = new CommentDto(postID, "", comment);
-        // act
-        Set<ConstraintViolation<CommentDto>> violations = validator.validate(commentDto);
-        // assert
-        assertTrue(violations.stream().anyMatch(v ->
-                v.getMessage().equals("User ID can't be null or blank")));
-    }
-
-
 }

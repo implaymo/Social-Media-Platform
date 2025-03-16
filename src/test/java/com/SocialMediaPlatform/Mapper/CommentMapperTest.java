@@ -15,8 +15,6 @@ class CommentMapperTest {
         // arrange
         CommentDto commentDto = mock(CommentDto.class);
         when(commentDto.getComment()).thenReturn("Test comment");
-        when(commentDto.getUserID()).thenReturn("userID");
-        when(commentDto.getPostID()).thenReturn("postID");
 
         CommentMapper commentMapper = new CommentMapper();
 
@@ -26,8 +24,6 @@ class CommentMapperTest {
         // assert
         assertNotNull(result);
         assertEquals("Test comment", result.getMessage());
-        assertEquals("userID", result.getUserID());
-        assertEquals("postID", result.getPostID());
     }
 
     @Test

@@ -9,12 +9,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class CommentDto {
 
-    @NotBlank(message = "Post ID can't be null or blank")
-    private String postID;
-
-    @NotBlank(message = "User ID can't be null or blank")
-    private String userID;
-
     @NotBlank(message = "Comment can't be null or blank")
     private String comment;
 }
