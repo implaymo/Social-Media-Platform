@@ -11,11 +11,9 @@ public class CommentMapper {
         if (commentDto == null) {
             return null;
         }
-        Comment comment = Comment.builder()
+        return Comment.builder()
                 .message(commentDto.getComment())
                 .build();
-
-        return comment;
     }
 
 }
