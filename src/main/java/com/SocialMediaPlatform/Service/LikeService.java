@@ -22,7 +22,7 @@ public class LikeService {
         if(postID == null || userID == null){
             throw new IllegalArgumentException("Parameters can't be null");
         }
-        if(likeRepository.findByPostIdAndUserId(postID, userID).isPresent()){
+        if(likeRepository.findByPostIDAndUserID(postID, userID).isPresent()){
             return Optional.empty();
         }
         Like like =  iLikeFactory.createLike(postID, userID);

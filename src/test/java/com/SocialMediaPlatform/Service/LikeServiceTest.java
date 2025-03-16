@@ -12,7 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -42,7 +41,7 @@ class LikeServiceTest {
         Like like = mock(Like.class);
         String postID = "postID";
         String userID = "userID";
-        when(likeRepository.findByPostIdAndUserId(postID, userID)).thenReturn(Optional.empty());
+        when(likeRepository.findByPostIDAndUserID(postID, userID)).thenReturn(Optional.empty());
         when(iLikeFactory.createLike(postID, userID)).thenReturn(like);
         when(likeRepository.save(like)).thenReturn(like);
         // act

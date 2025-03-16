@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface LikeRepository extends MongoRepository<Like, String> {
-    Optional<Like> findByPostIdAndUserId(String postID, String userID);
+    Optional<Like> findByPostIDAndUserID(String postID, String userID);
 }
