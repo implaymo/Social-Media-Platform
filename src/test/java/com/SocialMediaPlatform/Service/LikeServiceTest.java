@@ -1,6 +1,7 @@
 package com.SocialMediaPlatform.Service;
 
 import com.SocialMediaPlatform.Entity.Like;
+import com.SocialMediaPlatform.Interface.ILikeFactory;
 import com.SocialMediaPlatform.Repository.LikeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,13 +22,16 @@ class LikeServiceTest {
     @Mock
     private LikeRepository likeRepository;
 
+    @Mock
+    private ILikeFactory iLikeFactory;
+
     private String postID;
     private String userID;
     private LikeService likeService;
 
     @BeforeEach
     void setUp(){
-        likeService = new LikeService(likeRepository);
+        likeService = new LikeService(likeRepository, iLikeFactory);
         postID = "postID";
         userID = "userID";
     }
@@ -36,15 +40,15 @@ class LikeServiceTest {
     void shouldRegisterLike(){
         // arrange
         Like like = mock(Like.class);
-        when(likeRepository.save(any(Like.class))).thenReturn(like);
-        when(Optional.of(like).get().getUserID()).thenReturn(userID);
-        when(Optional.of(like).get().getPostID()).thenReturn(postID);
+        String postID = "postID";
+        String userID = "userID";
+        when(likeRepository.findByPostIdAndUserId(postID, userID)).thenReturn(Optional.empty());
+        when(iLikeFactory.createLike(postID, userID)).thenReturn(like);
+        when(likeRepository.save(like)).thenReturn(like);
         // act
         Optional<Like> likeRegistered = likeService.registerLike(postID, userID);
         // assert
         assertTrue(likeRegistered.isPresent());
-        assertEquals(postID, likeRegistered.get().getPostID());
-        assertEquals(userID, likeRegistered.get().getUserID());
     }
 
     @Test
