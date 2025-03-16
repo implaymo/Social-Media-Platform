@@ -9,9 +9,6 @@ public class LikeFactoryImpl implements ILikeFactory {
 
     @Override
     public Like createLike(String postID, String userID) {
-        if(postID == null || userID == null){
-            throw new IllegalArgumentException("Parameters can't be null");
-        }
         return Like.builder()
                 .postID(postID)
                 .userID(userID)
