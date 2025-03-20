@@ -1,8 +1,5 @@
 package com.SocialMediaPlatform.Service;
 
-import com.SocialMediaPlatform.Dto.UserLoginDto;
-import com.SocialMediaPlatform.Dto.UserRegisterDto;
-import com.SocialMediaPlatform.Entity.Post;
 import com.SocialMediaPlatform.Entity.User;
 import com.SocialMediaPlatform.Mapper.UserRegisterMapper;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordHash;
@@ -18,14 +15,12 @@ import java.util.Optional;
 public class UserRegistrationService {
 
     private final UserRepository userRepository;
-    private final UserRegisterMapper userRegisterMapper;
     private final PasswordHash passwordHash;
     private final PasswordSalt passwordSalt;
 
     public UserRegistrationService(UserRepository userRepository, UserRegisterMapper userRegisterMapper,
                                    PasswordHash passwordHash, PasswordSalt passwordSalt) {
         this.userRepository = userRepository;
-        this.userRegisterMapper = userRegisterMapper;
         this.passwordHash = passwordHash;
         this.passwordSalt = passwordSalt;
     }
