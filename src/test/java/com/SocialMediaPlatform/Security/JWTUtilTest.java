@@ -14,11 +14,10 @@ class JWTUtilTest {
 
     private JWTUtil jwtUtil;
     private UserLoginDto userLoginDto;
-    private String secret;
 
     @BeforeEach
     void setUp() {
-        secret = UUID.randomUUID().toString();
+        String secret = UUID.randomUUID().toString();
         jwtUtil = new JWTUtil(secret);
         userLoginDto = UserLoginDto.builder()
                 .email("john123@gmail.com")
