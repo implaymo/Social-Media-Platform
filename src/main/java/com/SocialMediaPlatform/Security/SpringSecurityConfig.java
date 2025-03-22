@@ -18,6 +18,7 @@ public class SpringSecurityConfig {
                 .requiresChannel(channel -> channel
                         .anyRequest().requiresSecure()) // Redirect HTTP to HTTPS
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/", "/index.html", "/css/**", "/js/**").permitAll() // Allow root and static files
                         .anyRequest().permitAll()); // Allow all requests
         return http.build();
     }
