@@ -1,7 +1,6 @@
 package com.SocialMediaPlatform.Entity;
 
 
-import com.SocialMediaPlatform.Enum.MessageType;
 import lombok.*;
 
 @Getter
