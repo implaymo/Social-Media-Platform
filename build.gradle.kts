@@ -41,6 +41,7 @@ dependencies {
 	implementation("org.springframework:spring-webmvc:6.2.3")
 	testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:4.18.1")
 	implementation("org.springframework.boot:spring-boot-starter-websocket:3.4.3")
+	implementation("org.springframework.boot:spring-boot-starter-thymeleaf:3.4.4")
 }
 
 tasks.withType<Test> {
