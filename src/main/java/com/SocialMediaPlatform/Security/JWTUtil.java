@@ -21,10 +21,9 @@ public class JWTUtil {
     public String generateToken(String email) throws IllegalArgumentException, JWTCreationException {
         Date expirationDate = new Date(System.currentTimeMillis() + 3600 * 1000);
         String jwtId = UUID.randomUUID().toString();
-        String subject = email;
 
         return JWT.create()
-                .withSubject(subject)
+                .withSubject(email)
                 .withClaim("email", email)
                 .withIssuedAt(new Date())
                 .withIssuer("SocialMediaPlatform")
