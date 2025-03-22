@@ -6,16 +6,20 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class JWTUtilTest {
 
     private JWTUtil jwtUtil;
     private UserLoginDto userLoginDto;
+    private String secret;
 
     @BeforeEach
     void setUp() {
-        jwtUtil = new JWTUtil();
+        secret = UUID.randomUUID().toString();
+        jwtUtil = new JWTUtil(secret);
         userLoginDto = UserLoginDto.builder()
                 .email("john123@gmail.com")
                 .password("John@12345")
