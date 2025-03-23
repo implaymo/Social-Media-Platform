@@ -9,22 +9,33 @@ document.addEventListener("DOMContentLoaded", function () {
     let stompClient = null;
     let username = "";
 
+    // Debug: Log to confirm elements are available
+    console.log("usernamePage:", usernamePage);
+    console.log("chatPage:", chatPage);
+
     // This function handles the form submission for username
     function connect(event) {
-        event.preventDefault();  // Prevent the form from reloading the page
+        event.preventDefault();
 
-        username = document.querySelector('#name').value.trim();  // Get the username
+        username = document.querySelector('#name').value.trim();
+        console.log("Username entered:", username);
 
         if (username) {
-            // Hide the username page and show the chat page
+            // Try both class-based and direct style approaches
             usernamePage.classList.add('hidden');
             chatPage.classList.remove('hidden');
+
+            // Force display styles directly as a fallback
+            usernamePage.style.display = "none";
+            chatPage.style.display = "flex";
+
+            console.log("After hiding/showing, usernamePage visibility:", usernamePage.style.display);
+            console.log("After hiding/showing, chatPage visibility:", chatPage.style.display);
 
             // Create WebSocket connection
             var socket = new SockJS('/ws');
             stompClient = Stomp.over(socket);
 
-            // Connect to the WebSocket server
             stompClient.connect({}, onConnected, onError);
         }
     }
@@ -51,22 +62,23 @@ document.addEventListener("DOMContentLoaded", function () {
     function onMessageReceived(payload) {
         var message = JSON.parse(payload.body);
 
-        // Handle the incoming message here (update UI, etc.)
-        // For example, you could append the message to the message area:
+        // Append the received message to the message area
         var messageElement = document.createElement('li');
         messageElement.classList.add('chat-message');
         messageElement.innerHTML = `<strong>${message.sender}:</strong> ${message.content}`;
         document.querySelector('#messageArea').appendChild(messageElement);
     }
 
-    // Event listener for the form submission
+    // Event listener for the username form submission
     document.getElementById('usernameForm').addEventListener('submit', connect);
 
-    // You may also want to handle message sending
+    // Event listener for the message form submission
     messageForm.addEventListener('submit', sendMessage);
 
     // This function sends messages to the WebSocket server
     function sendMessage(event) {
+        event.preventDefault();  // Prevent the default form submission
+
         var messageContent = messageInput.value.trim();
         if (messageContent && stompClient) {
             var chatMessage = {
@@ -77,6 +89,5 @@ document.addEventListener("DOMContentLoaded", function () {
             stompClient.send("/app/sendMessage", {}, JSON.stringify(chatMessage));
             messageInput.value = '';  // Clear the input field
         }
-        event.preventDefault();  // Prevent the default form submission
     }
 });
