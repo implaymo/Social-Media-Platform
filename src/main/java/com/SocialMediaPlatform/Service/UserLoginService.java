@@ -17,7 +17,7 @@ public class UserLoginService {
     private final JWTUtil jwtUtil;
     private final PasswordService passwordService;
 
-    public UserLoginService(UserRepository userRepository, UserLoginMapper userLoginMapper, JWTUtil jwtUtil, PasswordService passwordService) {
+    public UserLoginService(UserRepository userRepository, JWTUtil jwtUtil, PasswordService passwordService) {
         this.userRepository = userRepository;
         this.jwtUtil = jwtUtil;
         this.passwordService = passwordService;
