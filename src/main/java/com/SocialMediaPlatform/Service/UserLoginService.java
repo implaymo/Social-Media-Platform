@@ -1,7 +1,6 @@
 package com.SocialMediaPlatform.Service;
 
 import com.SocialMediaPlatform.Entity.User;
-import com.SocialMediaPlatform.Mapper.UserLoginMapper;
 import com.SocialMediaPlatform.Repository.UserRepository;
 import com.SocialMediaPlatform.Security.JWTUtil;
 import org.springframework.stereotype.Service;

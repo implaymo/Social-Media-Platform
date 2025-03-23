@@ -31,14 +31,13 @@ class UserLoginServiceTest {
     private JWTUtil jwtUtil;
 
     private UserLoginService userLoginService;
-    private UserLoginMapper userLoginMapper;
+    
     private PasswordService passwordService;
 
     @BeforeEach
     void setUp() {
-        userLoginMapper = mock(UserLoginMapper.class);
         passwordService = mock(PasswordService.class);
-        userLoginService = new UserLoginService(userRepository, userLoginMapper, jwtUtil, passwordService);
+        userLoginService = new UserLoginService(userRepository, jwtUtil, passwordService);
     }
 
 
