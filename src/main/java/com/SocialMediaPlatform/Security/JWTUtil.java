@@ -3,7 +3,7 @@ package com.SocialMediaPlatform.Security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
-import org.springframework.beans.factory.annotation.Value;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -12,10 +12,12 @@ import java.util.UUID;
 @Component
 public class JWTUtil {
 
-    private final String secret;
+    private String secret;
 
-    public JWTUtil(@Value("${JWT_SECRET}") String secret) {
-        this.secret = secret;
+
+    public JWTUtil() {
+        Dotenv dotenv = Dotenv.load();
+        this.secret = dotenv.get("JWT_SECRET");
     }
 
     public String generateToken(String email) throws IllegalArgumentException, JWTCreationException {

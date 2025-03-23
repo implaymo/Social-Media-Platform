@@ -17,8 +17,7 @@ class JWTUtilTest {
 
     @BeforeEach
     void setUp() {
-        String secret = UUID.randomUUID().toString();
-        jwtUtil = new JWTUtil(secret);
+        jwtUtil = new JWTUtil();
         userLoginDto = UserLoginDto.builder()
                 .email("john123@gmail.com")
                 .password("John@12345")
