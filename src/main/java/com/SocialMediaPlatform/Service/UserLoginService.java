@@ -15,13 +15,11 @@ import java.util.Optional;
 public class UserLoginService {
 
     private final UserRepository userRepository;
-    private final UserLoginMapper userLoginMapper;
     private final JWTUtil jwtUtil;
     private final PasswordService passwordService;
 
     public UserLoginService(UserRepository userRepository, UserLoginMapper userLoginMapper, JWTUtil jwtUtil, PasswordService passwordService) {
         this.userRepository = userRepository;
-        this.userLoginMapper = userLoginMapper;
         this.jwtUtil = jwtUtil;
         this.passwordService = passwordService;
     }
