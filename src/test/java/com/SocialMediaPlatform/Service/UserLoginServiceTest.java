@@ -1,7 +1,6 @@
 package com.SocialMediaPlatform.Service;
 
 import com.SocialMediaPlatform.Entity.User;
-import com.SocialMediaPlatform.Mapper.UserLoginMapper;
 import com.SocialMediaPlatform.Repository.UserRepository;
 import com.SocialMediaPlatform.Security.JWTUtil;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,9 +14,9 @@ import org.mockito.quality.Strictness;
 import javax.naming.AuthenticationException;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verify;
 
 
 @ExtendWith(MockitoExtension.class)
