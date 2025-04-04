@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
         event.preventDefault();
 
         username = document.querySelector('#name').value.trim();
+        console.log("USERNAME ENTER CHAT ", username)
         console.log("Username entered:", username);
 
         if (username) {
@@ -42,11 +43,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // This function runs once the WebSocket connection is established
     function onConnected() {
+
         // Subscribe to the public topic to receive messages
         stompClient.subscribe('/topic/public', onMessageReceived);
-
-        // Tell the server the user has joined
-        stompClient.send("/app/addUser", {}, JSON.stringify({ sender: username, type: 'JOIN' }));
+        const message = {
+            sender: username,
+            content: username + ' joined the chat!', // Add this line
+            type: 'JOIN'
+        };
+        console.log("Sending message: ", JSON.stringify(message));
+        stompClient.send("/app/addUser", {}, JSON.stringify(message));
 
         // Hide the connecting element
         connectingElement.classList.add('hidden');
@@ -60,13 +66,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // This function handles incoming messages
     function onMessageReceived(payload) {
+        console.log("Received message:", payload.body);
         var message = JSON.parse(payload.body);
-
-        // Append the received message to the message area
         var messageElement = document.createElement('li');
-        messageElement.classList.add('chat-message');
-        messageElement.innerHTML = `<strong>${message.sender}:</strong> ${message.content}`;
+
+        if (message.type === 'JOIN' || message.type === 'LEAVE') {
+            messageElement.classList.add('event-message');
+            messageElement.textContent = message.content || 
+                (message.type === 'JOIN' ? `${message.sender} joined!` : `${message.sender} left!`);
+        } else {
+            messageElement.classList.add('chat-message');
+            messageElement.innerHTML = `<strong>${message.sender}:</strong> ${message.content}`;
+        }
+
         document.querySelector('#messageArea').appendChild(messageElement);
+        // Auto scroll to the newest message
+        messageElement.scrollIntoView({ behavior: "smooth" });
     }
 
     // Event listener for the username form submission
