@@ -1,0 +1,313 @@
+/* Basic Reset & Body Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: #f0f2f5; /* Light grey background */
+    color: #1c1e21; /* Dark text */
+    line-height: 1.5;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+/* Main Container Layout (using Flexbox) */
+.container {
+    display: flex;
+    max-width: 1200px; /* Max width of the content */
+    margin: 0 auto; /* Center the container */
+    min-height: 100vh; /* Ensure it takes full height */
+}
+
+/* Sidebars */
+.sidebar {
+    padding: 20px 15px;
+    background-color: #ffffff; /* White background for sidebars */
+    border-right: 1px solid #e0e0e0; /* Subtle border */
+    height: 100vh; /* Full height */
+    position: sticky; /* Make sidebar sticky */
+    top: 0;
+}
+
+.sidebar-left {
+    flex-basis: 250px; /* Fixed width for left sidebar */
+    flex-shrink: 0;
+    border-right: 1px solid #e0e0e0;
+}
+
+.sidebar-right {
+    flex-basis: 300px; /* Fixed width for right sidebar */
+    flex-shrink: 0;
+    border-left: 1px solid #e0e0e0;
+}
+
+.sidebar-sticky-content {
+    position: sticky;
+    top: 20px; /* Add some space from the top */
+}
+
+/* Left Sidebar Specifics */
+.logo {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-align: center; /* Center logo placeholder */
+    color: #1d9bf0; /* Blue accent */
+}
+
+.sidebar-left nav ul li a {
+    display: block; /* Make links take full width */
+    padding: 12px 10px;
+    margin-bottom: 5px;
+    border-radius: 20px; /* Rounded corners */
+    font-size: 1.1em;
+    transition: background-color 0.2s ease;
+}
+.sidebar-left nav ul li a:hover {
+    background-color: #e7f5fe; /* Light blue background on hover */
+    color: #1d9bf0; /* Blue text on hover */
+}
+.sidebar-left nav ul li a span {
+    margin-right: 10px; /* Space for icons */
+}
+
+.post-button {
+    background-color: #1d9bf0; /* Blue background */
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 30px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    width: 90%; /* Make button wider */
+    margin-top: 20px;
+    display: block; /* Center it */
+    margin-left: auto;
+    margin-right: auto;
+    transition: background-color 0.2s ease;
+}
+.post-button:hover {
+    background-color: #1a8cd8; /* Darker blue on hover */
+}
+
+
+/* Main Feed Area */
+.main-feed {
+    flex-grow: 1; /* Takes remaining space */
+    max-width: 600px; /* Limit feed width */
+    border-left: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+    background-color: #ffffff;
+}
+
+.feed-header {
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    position: sticky;
+    top: 0;
+    background-color: rgba(255, 255, 255, 0.85); /* Semi-transparent sticky header */
+    backdrop-filter: blur(5px); /* Blur effect for header */
+    z-index: 10;
+}
+
+.feed-header h2 {
+    font-size: 1.3em;
+}
+
+/* Post Composer */
+.post-composer {
+    padding: 15px;
+    border-bottom: 10px solid #f0f2f5; /* Thicker separator */
+}
+.post-composer textarea {
+    width: 100%;
+    height: 60px;
+    border: none;
+    font-size: 1.1em;
+    resize: none; /* Prevent resizing */
+    margin-bottom: 10px;
+    outline: none;
+}
+.post-composer button {
+    background-color: #1d9bf0;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    float: right; /* Position button to the right */
+}
+.post-composer button:hover {
+    background-color: #1a8cd8;
+}
+
+/* Individual Posts */
+.feed {
+    width: 100%;
+}
+
+.post {
+    display: flex;
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    transition: background-color 0.2s ease;
+}
+.post:hover {
+    background-color: #f7f7f7; /* Slight grey background on hover */
+}
+
+.post-avatar {
+    width: 48px;
+    height: 48px;
+    background-color: #ccc; /* Placeholder avatar */
+    border-radius: 50%;
+    margin-right: 10px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+    color: #555;
+}
+
+.post-content {
+    flex-grow: 1;
+}
+
+.post-header {
+    margin-bottom: 5px;
+}
+
+.post-username {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.post-handle,
+.post-timestamp {
+    color: #536471; /* Grey color for handle/timestamp */
+    font-size: 0.9em;
+}
+
+.post-body {
+    margin-bottom: 10px;
+}
+
+.post-actions {
+    display: flex;
+    justify-content: space-between; /* Distribute actions */
+    color: #536471;
+    font-size: 0.9em;
+    max-width: 400px; /* Limit width of actions row */
+}
+.post-actions span {
+    cursor: pointer;
+}
+.post-actions span:hover {
+    color: #1d9bf0; /* Blue on hover */
+}
+
+/* Right Sidebar Widgets */
+.widget {
+    background-color: #f7f9f9; /* Slightly off-white background */
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+.widget h3 {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+.widget ul li {
+    padding: 5px 0;
+    font-size: 0.9em;
+    cursor: pointer;
+}
+.widget ul li:hover {
+    color: #1d9bf0;
+}
+
+.search-widget input {
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    background-color: #eff3f4; /* Light grey input background */
+}
+.search-widget input:focus {
+    outline: none;
+    border-color: #1d9bf0;
+    background-color: #fff;
+}
+
+/* Basic Responsiveness (Example: Stack columns on smaller screens) */
+@media (max-width: 1000px) {
+    .sidebar-right {
+        display: none; /* Hide right sidebar on smaller screens */
+    }
+    .container {
+        max-width: 850px; /* Adjust max-width */
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar-left {
+        flex-basis: 70px; /* Collapse left sidebar to icons */
+        padding: 20px 5px;
+    }
+    .sidebar-left nav ul li a {
+        text-align: center;
+    }
+    .sidebar-left nav ul li a span { /* Icon */
+        margin-right: 0;
+        font-size: 1.3em;
+    }
+    .sidebar-left nav ul li a { /* Hide text */
+        font-size: 0;
+    }
+    .logo, .post-button { /* Adjust or hide */
+        font-size: 1.2em; /* Smaller logo text or use icon */
+        margin-bottom: 20px;
+    }
+    .post-button {
+        width: 50px; /* Icon-sized button */
+        height: 50px;
+        font-size: 1.5em; /* Replace text with icon ideally */
+        padding: 0;
+        line-height: 50px;
+        text-align: center;
+    }
+
+    .main-feed {
+        max-width: none; /* Allow feed to take more space */
+    }
+}
+
+@media (max-width: 500px) {
+    .sidebar-left {
+        display: none; /* Hide left sidebar completely */
+    }
+    .container {
+        flex-direction: column; /* Stack everything */
+    }
+    .main-feed {
+        border-left: none;
+        border-right: none;
+    }
+    .feed-header, .post-composer {
+        position: static; /* Remove stickiness on very small screens */
+    }
+    /* Add mobile navigation toggle if needed */
+}
