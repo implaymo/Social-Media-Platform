@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Page Layout</title>
+  <link rel="stylesheet" href="static/css/profile-style.css"> </head>
+<body>
+
+<div class="profile-container">
+
+  <header class="profile-header">
+    <button class="back-button">←</button>
+    <div class="header-user-info">
+      <span class="header-username">Profile Name</span>
+      <span class="header-tweet-count">1,234 Posts</span>
+    </div>
+  </header>
+
+  <main class="profile-main">
+
+    <div class="profile-banner">
+      <img src="placeholder-banner.jpg" alt="Profile banner placeholder"> </div>
+
+    <section class="profile-info">
+      <div class="profile-picture-container">
+        <div class="profile-picture">
+          <img src="placeholder-avatar.png" alt="Profile avatar placeholder"> </div>
+        <button class="edit-profile-button">Edit profile</button>
+      </div>
+
+      <div class="user-details">
+        <h1 class="user-fullname">Profile Name</h1>
+        <span class="user-handle">@profilehandle</span>
+        <p class="user-bio">
+          This is the user's bio description. It can be a few lines long, telling people about this profile. Lorem ipsum dolor sit amet.
+        </p>
+        <div class="user-metadata">
+          <span><i class="icon">[📍]</i> Location</span>
+          <span><i class="icon">[🔗]</i> <a href="#">website.com</a></span>
+          <span><i class="icon">[📅]</i> Joined April 2025</span>
+        </div>
+        <div class="user-follow-stats">
+          <span><strong>567</strong> Following</span>
+          <span><strong>1,890</strong> Followers</span>
+        </div>
+      </div>
+    </section>
+
+    <nav class="profile-tabs">
+      <ul>
+        <li class="active"><a href="#">Posts</a></li>
+        <li><a href="#">Replies</a></li>
+        <li><a href="#">Highlights</a></li>
+        <li><a href="#">Media</a></li>
+        <li><a href="#">Likes</a></li>
+      </ul>
+    </nav>
+
+    <section class="profile-feed">
+      <article class="post">
+        <div class="post-avatar">[Avatar]</div> <div class="post-content">
+        <div class="post-header">
+          <span class="post-username">Profile Name</span>
+          <span class="post-handle">@profilehandle</span>
+          <span class="post-timestamp">· 10h</span>
+        </div>
+        <div class="post-body">
+          This is my first post shown on my profile feed! #Example
+        </div>
+        <div class="post-actions">
+          <span>💬 [Reply]</span>
+          <span>🔁 [Retweet]</span>
+          <span>❤️ [Like]</span>
+          <span>🔗 [Share]</span>
+        </div>
+      </div>
+      </article>
+
+      <article class="post">
+        <div class="post-avatar">[Avatar]</div> <div class="post-content">
+        <div class="post-header">
+          <span class="post-username">Profile Name</span>
+          <span class="post-handle">@profilehandle</span>
+          <span class="post-timestamp">· 1d</span>
+        </div>
+        <div class="post-body">
+          Just sharing another thought here on my profile page example.
+        </div>
+        <div class="post-actions">
+          <span>💬 [Reply]</span>
+          <span>🔁 [Retweet]</span>
+          <span>❤️ [Like]</span>
+          <span>🔗 [Share]</span>
+        </div>
+      </div>
+      </article>
+
+    </section>
+
+  </main>
+
+</div>
+
+</body>
+</html>

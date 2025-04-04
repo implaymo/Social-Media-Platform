@@ -1,0 +1,352 @@
+/* Basic Reset & Body Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: #f0f2f5;
+    color: #1c1e21;
+    line-height: 1.5;
+}
+
+a {
+    text-decoration: none;
+    color: #1d9bf0; /* Link color */
+}
+a:hover {
+    text-decoration: underline;
+}
+
+ul {
+    list-style: none;
+}
+
+img { /* Basic responsive images */
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Profile Container */
+.profile-container {
+    max-width: 600px; /* Typical width for center column content */
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-left: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+    min-height: 100vh;
+}
+
+/* Profile Header */
+.profile-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid #e0e0e0;
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(5px);
+    position: sticky; /* Make header sticky */
+    top: 0;
+    z-index: 100; /* Ensure it's above other content */
+}
+
+.back-button {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.header-username {
+    font-weight: bold;
+    font-size: 1.1em;
+    display: block; /* Stack username and tweet count */
+}
+
+.header-tweet-count {
+    font-size: 0.8em;
+    color: #536471;
+}
+
+/* Profile Main Content Area */
+.profile-main {
+    /* No extra padding needed as sections have their own */
+}
+
+/* Banner */
+.profile-banner {
+    height: 200px; /* Adjust height as needed */
+    background-color: #ccd6dd; /* Placeholder color */
+    background-image: url('placeholder-banner.jpg'); /* Link to your banner image */
+    background-size: cover;
+    background-position: center;
+    position: relative; /* Needed for avatar positioning */
+}
+.profile-banner img { /* If using an img tag */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* Profile Info Section */
+.profile-info {
+    padding: 15px;
+    position: relative; /* Needed for edit button positioning */
+    padding-top: 75px; /* Space for the overlapping avatar */
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.profile-picture-container {
+    position: absolute;
+    top: -70px; /* Pulls the container up (adjust based on picture size) */
+    left: 15px;
+    display: flex; /* Aligns picture and button if needed, but button is positioned absolutely */
+    width: calc(100% - 30px); /* Match padding */
+    justify-content: space-between; /* Pushes button to the right */
+    align-items: flex-end; /* Aligns button with bottom of avatar space */
+}
+
+.profile-picture {
+    width: 135px; /* Adjust size */
+    height: 135px;
+    border-radius: 50%;
+    border: 4px solid #ffffff; /* White border around avatar */
+    background-color: #e1e8ed; /* Placeholder color */
+    background-image: url('placeholder-avatar.png'); /* Link to your avatar image */
+    background-size: cover;
+    background-position: center;
+    position: relative; /* Ensure it's above the banner */
+    z-index: 2;
+}
+.profile-picture img { /* If using an img tag */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+
+.edit-profile-button {
+    background-color: #ffffff;
+    border: 1px solid #cfd9de;
+    color: #0f1419;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s ease;
+    margin-bottom: 10px; /* Align roughly with bottom edge of avatar */
+}
+.edit-profile-button:hover {
+    background-color: #f7f7f7;
+}
+
+/* User Details Below Avatar */
+.user-details {
+    margin-top: 5px; /* Small space above name */
+}
+
+.user-fullname {
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+.user-handle {
+    color: #536471;
+    font-size: 1em;
+    display: block; /* Put handle on its own line */
+    margin-bottom: 10px;
+}
+
+.user-bio {
+    margin-bottom: 10px;
+    font-size: 1em;
+    /* Allow word wrapping */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.user-metadata {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    gap: 15px; /* Spacing between items */
+    color: #536471;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}
+.user-metadata span {
+    display: flex;
+    align-items: center;
+}
+.user-metadata .icon {
+    margin-right: 5px; /* Space between icon and text */
+    /* Add styles for icons if using actual icons */
+}
+.user-metadata a {
+    color: #1d9bf0;
+}
+.user-metadata a:hover {
+    text-decoration: underline;
+}
+
+
+.user-follow-stats span {
+    margin-right: 20px;
+    font-size: 0.9em;
+}
+.user-follow-stats strong {
+    color: #0f1419; /* Black for numbers */
+    font-weight: bold;
+}
+.user-follow-stats span:not(:has(strong)) { /* Target "Following", "Followers" text */
+    color: #536471;
+}
+
+
+/* Profile Tabs */
+.profile-tabs {
+    border-bottom: 1px solid #e0e0e0;
+}
+.profile-tabs ul {
+    display: flex;
+    justify-content: space-around; /* Distribute tabs evenly */
+}
+.profile-tabs li {
+    flex-grow: 1; /* Make tabs share width equally */
+    text-align: center;
+}
+.profile-tabs li a {
+    display: block;
+    padding: 15px 10px;
+    color: #536471;
+    font-weight: bold;
+    position: relative;
+    transition: background-color 0.2s ease;
+}
+.profile-tabs li a:hover {
+    background-color: #f7f7f7;
+    color: #0f1419;
+    text-decoration: none;
+}
+.profile-tabs li.active a {
+    color: #0f1419; /* Active tab text color */
+}
+/* Active tab indicator (bottom border) */
+.profile-tabs li.active a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background-color: #1d9bf0; /* Blue indicator */
+    border-radius: 2px;
+}
+
+/* Profile Feed */
+.profile-feed {
+    /* Feed content starts below tabs */
+}
+
+/* Re-use Post Styles (from previous example or style.css) */
+/* IMPORTANT: You should copy the .post, .post-avatar, .post-content, etc. styles */
+/* from the previous 'style.css' example here, or link both CSS files. */
+/* For brevity, I'm omitting them here, assuming they are available. */
+/* --- Start Copy/Paste Post Styles Here --- */
+.post {
+    display: flex;
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    transition: background-color 0.2s ease;
+}
+.post:hover {
+    background-color: #f7f7f7;
+}
+.post-avatar {
+    width: 48px;
+    height: 48px;
+    background-color: #ccc; /* Placeholder avatar */
+    border-radius: 50%;
+    margin-right: 10px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+    color: #555;
+}
+.post-content { flex-grow: 1; }
+.post-header { margin-bottom: 5px; }
+.post-username { font-weight: bold; margin-right: 5px; }
+.post-handle, .post-timestamp { color: #536471; font-size: 0.9em; }
+.post-body { margin-bottom: 10px; }
+.post-actions { display: flex; justify-content: space-between; color: #536471; font-size: 0.9em; max-width: 400px; }
+.post-actions span { cursor: pointer; }
+.post-actions span:hover { color: #1d9bf0; }
+/* --- End Copy/Paste Post Styles Here --- */
+
+
+/* Basic Responsiveness */
+@media (max-width: 650px) {
+    .profile-container {
+        border-left: none;
+        border-right: none; /* Full width on small screens */
+    }
+    .user-metadata {
+        gap: 10px; /* Reduce gap */
+    }
+    .user-metadata span {
+        flex-basis: 45%; /* Roughly two items per line */
+    }
+    .profile-tabs li a {
+        padding: 12px 5px; /* Reduce tab padding */
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 400px) {
+    .profile-header {
+        padding: 8px 10px;
+    }
+    .header-username {
+        font-size: 1em;
+    }
+    .profile-banner {
+        height: 150px;
+    }
+    .profile-picture-container {
+        top: -55px;
+    }
+    .profile-picture {
+        width: 110px;
+        height: 110px;
+        border-width: 3px;
+    }
+    .profile-info {
+        padding-top: 60px;
+    }
+    .edit-profile-button {
+        padding: 6px 12px;
+        font-size: 0.8em;
+    }
+    .user-fullname {
+        font-size: 1.2em;
+    }
+    .user-metadata span {
+        flex-basis: 100%;
+    }
+    .user-follow-stats span {
+        display: block;
+        margin-right: 0;
+        margin-bottom: 5px;
+    }
+    .profile-tabs li a {
+        font-size: 0.8em;
+    }
+}
