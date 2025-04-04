@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Feed Layout</title>
+  <link rel="stylesheet" href="static/css/frontpage-style.css">
+</head>
+<body>
+
+<div class="container">
+
+  <aside class="sidebar sidebar-left">
+    <div class="sidebar-sticky-content">
+      <div class="logo">[Logo]</div>
+      <nav>
+        <ul>
+          <li><a href="#"><span>🏠</span> Home</a></li>
+          <li><a href="#"><span>#️⃣</span> Explore</a></li>
+          <li><a href="#"><span>🔔</span> Notifications</a></li>
+          <li><a href="#"><span>✉️</span> Messages</a></li>
+          <li><a href="#"><span>👤</span> Profile</a></li>
+          <li><a href="#"><span>⚙️</span> More</a></li>
+        </ul>
+      </nav>
+      <button class="post-button">Post</button>
+    </div>
+  </aside>
+
+  <main class="main-feed">
+    <header class="feed-header">
+      <h2>Home</h2>
+    </header>
+
+    <div class="post-composer">
+      <textarea placeholder="What's happening?"></textarea>
+      <button>Post</button>
+    </div>
+
+    <section class="feed">
+      <article class="post">
+        <div class="post-avatar">[Avatar]</div>
+        <div class="post-content">
+          <div class="post-header">
+            <span class="post-username">Username</span>
+            <span class="post-handle">@handle</span>
+            <span class="post-timestamp">· 1h</span>
+          </div>
+          <div class="post-body">
+            This is a sample post text. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </div>
+          <div class="post-actions">
+            <span>💬 [Reply]</span>
+            <span>🔁 [Retweet]</span>
+            <span>❤️ [Like]</span>
+            <span>🔗 [Share]</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="post">
+        <div class="post-avatar">[Avatar]</div>
+        <div class="post-content">
+          <div class="post-header">
+            <span class="post-username">Another User</span>
+            <span class="post-handle">@anotherhandle</span>
+            <span class="post-timestamp">· 2h</span>
+          </div>
+          <div class="post-body">
+            Another example of a post on this simplified feed layout. It demonstrates the basic structure.
+          </div>
+          <div class="post-actions">
+            <span>💬 [Reply]</span>
+            <span>🔁 [Retweet]</span>
+            <span>❤️ [Like]</span>
+            <span>🔗 [Share]</span>
+          </div>
+        </div>
+      </article>
+
+    </section>
+  </main>
+
+  <aside class="sidebar sidebar-right">
+    <div class="sidebar-sticky-content">
+      <div class="widget search-widget">
+        <input type="text" placeholder="Search...">
+      </div>
+
+      <div class="widget trends-widget">
+        <h3>What's happening</h3>
+        <ul>
+          <li>#TrendingTopic1</li>
+          <li>#AnotherTrend</li>
+          <li>#ExampleTag</li>
+        </ul>
+      </div>
+
+      <div class="widget follow-widget">
+        <h3>Who to follow</h3>
+        <ul>
+          <li>UserToFollow1</li>
+          <li>AnotherSuggestion</li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+</div>
+
+</body>
+</html>
