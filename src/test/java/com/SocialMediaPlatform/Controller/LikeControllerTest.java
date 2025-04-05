@@ -94,5 +94,4 @@ class LikeControllerTest {
                 .andExpect(status().isConflict())
                 .andExpect(content().string("false"));
     }
-
 }
