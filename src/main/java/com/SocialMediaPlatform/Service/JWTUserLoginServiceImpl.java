@@ -1,6 +1,7 @@
 package com.SocialMediaPlatform.Service;
 
 import com.SocialMediaPlatform.Entity.User;
+import com.SocialMediaPlatform.Interface.IUserLoginService;
 import com.SocialMediaPlatform.Repository.UserRepository;
 import com.SocialMediaPlatform.Security.JWTUtil;
 import org.springframework.stereotype.Service;
@@ -10,13 +11,13 @@ import javax.naming.AuthenticationException;
 import java.util.Optional;
 
 @Service
-public class UserLoginService {
+public class JWTUserLoginServiceImpl implements IUserLoginService {
 
     private final UserRepository userRepository;
     private final JWTUtil jwtUtil;
     private final PasswordService passwordService;
 
-    public UserLoginService(UserRepository userRepository, JWTUtil jwtUtil, PasswordService passwordService) {
+    public JWTUserLoginServiceImpl(UserRepository userRepository, JWTUtil jwtUtil, PasswordService passwordService) {
         this.userRepository = userRepository;
         this.jwtUtil = jwtUtil;
         this.passwordService = passwordService;
@@ -24,7 +25,7 @@ public class UserLoginService {
 
 
     @Transactional
-    public String loginUser(User userLogin) throws Exception {
+    public String loginUser(User userLogin) throws AuthenticationException {
         if (userLogin == null) {
             throw new IllegalArgumentException("User login data is required.");
         }

@@ -3,7 +3,7 @@ package com.SocialMediaPlatform.Controller;
 import com.SocialMediaPlatform.Dto.UserLoginDto;
 import com.SocialMediaPlatform.Entity.User;
 import com.SocialMediaPlatform.Mapper.UserLoginMapperImpl;
-import com.SocialMediaPlatform.Service.UserLoginService;
+import com.SocialMediaPlatform.Service.JWTUserLoginServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthLoginController {
 
     private final UserLoginMapperImpl userLoginMapper;
-    private final UserLoginService userLoginService;
+    private final JWTUserLoginServiceImpl userLoginService;
 
 
-    public AuthLoginController(UserLoginMapperImpl userLoginMapper, UserLoginService userLoginService) {
+    public AuthLoginController(UserLoginMapperImpl userLoginMapper, JWTUserLoginServiceImpl userLoginService) {
         this.userLoginMapper = userLoginMapper;
         this.userLoginService = userLoginService;
     }

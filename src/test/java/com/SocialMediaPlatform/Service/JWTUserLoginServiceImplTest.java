@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-class UserLoginServiceTest {
+class JWTUserLoginServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
@@ -29,14 +29,14 @@ class UserLoginServiceTest {
     @Mock
     private JWTUtil jwtUtil;
 
-    private UserLoginService userLoginService;
+    private JWTUserLoginServiceImpl userLoginService;
     
     private PasswordService passwordService;
 
     @BeforeEach
     void setUp() {
         passwordService = mock(PasswordService.class);
-        userLoginService = new UserLoginService(userRepository, jwtUtil, passwordService);
+        userLoginService = new JWTUserLoginServiceImpl(userRepository, jwtUtil, passwordService);
     }
 
 

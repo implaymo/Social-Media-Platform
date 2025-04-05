@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import com.SocialMediaPlatform.Dto.UserLoginDto;
 import com.SocialMediaPlatform.Entity.User;
 import com.SocialMediaPlatform.Mapper.UserLoginMapperImpl;
-import com.SocialMediaPlatform.Service.UserLoginService;
+import com.SocialMediaPlatform.Service.JWTUserLoginServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 public class AuthLoginControllerTest {
 
     @Mock
-    private UserLoginService userLoginService;
+    private JWTUserLoginServiceImpl userLoginService;
 
     @Mock
     private UserLoginMapperImpl userLoginMapper;
