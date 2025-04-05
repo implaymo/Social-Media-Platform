@@ -8,13 +8,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UserRegisterMapperTest {
+class UserRegisterMapperImplTest {
 
-    private UserRegisterMapper userRegisterMapper;
+    private UserRegisterMapperImpl userRegisterMapper;
 
     @BeforeEach
     void setUp() {
-        userRegisterMapper = new UserRegisterMapper();
+        userRegisterMapper = new UserRegisterMapperImpl();
     }
 
 

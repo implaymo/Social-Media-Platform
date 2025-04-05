@@ -2,7 +2,7 @@ package com.SocialMediaPlatform.Controller;
 
 import com.SocialMediaPlatform.Dto.UserRegisterDto;
 import com.SocialMediaPlatform.Entity.User;
-import com.SocialMediaPlatform.Mapper.UserRegisterMapper;
+import com.SocialMediaPlatform.Mapper.UserRegisterMapperImpl;
 import com.SocialMediaPlatform.Service.UserRegistrationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +31,7 @@ class AuthRegistrationControllerTest {
     private UserRegistrationService userRegistrationService;
 
     @Mock
-    private UserRegisterMapper userRegisterMapper;
+    private UserRegisterMapperImpl userRegisterMapper;
 
     @InjectMocks
     private AuthRegistrationController authRegistrationController;

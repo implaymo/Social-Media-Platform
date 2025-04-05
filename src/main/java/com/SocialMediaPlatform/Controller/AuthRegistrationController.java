@@ -2,7 +2,7 @@ package com.SocialMediaPlatform.Controller;
 
 import com.SocialMediaPlatform.Dto.UserRegisterDto;
 import com.SocialMediaPlatform.Entity.User;
-import com.SocialMediaPlatform.Mapper.UserRegisterMapper;
+import com.SocialMediaPlatform.Mapper.UserRegisterMapperImpl;
 import com.SocialMediaPlatform.Service.UserRegistrationService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -17,10 +17,10 @@ import java.util.Optional;
 @RestController
 public class AuthRegistrationController {
 
-    private final UserRegisterMapper userRegisterMapper;
+    private final UserRegisterMapperImpl userRegisterMapper;
     private final UserRegistrationService userRegistrationService;
 
-    public AuthRegistrationController(UserRegisterMapper userRegisterMapper, UserRegistrationService userRegistrationService) {
+    public AuthRegistrationController(UserRegisterMapperImpl userRegisterMapper, UserRegistrationService userRegistrationService) {
         this.userRegisterMapper = userRegisterMapper;
         this.userRegistrationService = userRegistrationService;
     }

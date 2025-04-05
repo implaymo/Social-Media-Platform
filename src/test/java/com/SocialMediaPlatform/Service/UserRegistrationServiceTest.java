@@ -1,7 +1,7 @@
 package com.SocialMediaPlatform.Service;
 
 import com.SocialMediaPlatform.Entity.User;
-import com.SocialMediaPlatform.Mapper.UserRegisterMapper;
+import com.SocialMediaPlatform.Mapper.UserRegisterMapperImpl;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordHash;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordSalt;
 import com.SocialMediaPlatform.Repository.IUserRepository;
@@ -25,7 +25,7 @@ class UserRegistrationServiceTest {
     private IUserRepository userRepository;
 
     private UserRegistrationService userRegistrationService;
-    private UserRegisterMapper userRegisterMapper;
+    private UserRegisterMapperImpl userRegisterMapper;
     private PasswordHash passwordHash;
     private PasswordSalt passwordSalt;
 
@@ -33,7 +33,7 @@ class UserRegistrationServiceTest {
     void setUp() {
         passwordSalt = mock(PasswordSalt.class);
         passwordHash = mock(PasswordHash.class);
-        userRegisterMapper = mock(UserRegisterMapper.class);
+        userRegisterMapper = mock(UserRegisterMapperImpl.class);
         userRegistrationService = new UserRegistrationService(userRepository, userRegisterMapper, passwordHash, passwordSalt);
     }
 

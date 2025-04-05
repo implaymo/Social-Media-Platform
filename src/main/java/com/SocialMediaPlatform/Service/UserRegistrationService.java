@@ -1,7 +1,7 @@
 package com.SocialMediaPlatform.Service;
 
 import com.SocialMediaPlatform.Entity.User;
-import com.SocialMediaPlatform.Mapper.UserRegisterMapper;
+import com.SocialMediaPlatform.Mapper.UserRegisterMapperImpl;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordHash;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordSalt;
 import com.SocialMediaPlatform.Repository.IUserRepository;
@@ -18,7 +18,7 @@ public class UserRegistrationService {
     private final PasswordHash passwordHash;
     private final PasswordSalt passwordSalt;
 
-    public UserRegistrationService(IUserRepository userRepository, UserRegisterMapper userRegisterMapper,
+    public UserRegistrationService(IUserRepository userRepository, UserRegisterMapperImpl userRegisterMapper,
                                    PasswordHash passwordHash, PasswordSalt passwordSalt) {
         this.userRepository = userRepository;
         this.passwordHash = passwordHash;
