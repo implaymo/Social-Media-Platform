@@ -14,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mockito.ArgumentMatchers.any;
 
 import java.util.Optional;
 
@@ -44,7 +43,6 @@ class UserRegistrationServiceTest {
     void shouldReturnPresentOptionalIfUserRegistered() {
         // arrange
         User user = mock(User.class);
-        UserRegisterDto userRegisterDto = mock(UserRegisterDto.class);
         byte[] salt = "salt".getBytes();
 
         when(user.getPassword()).thenReturn("John@1234");
