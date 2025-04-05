@@ -1,5 +1,9 @@
 package com.SocialMediaPlatform.Interface;
 
-public interface IUserRegistrationService {
+import com.SocialMediaPlatform.Entity.User;
 
+import java.util.Optional;
+
+public interface IUserRegistrationService {
+    Optional<User> registerUser(User user);
 }
