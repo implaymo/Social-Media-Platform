@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UserLoginMapperTest {
+class UserLoginMapperImplTest {
 
-    private UserLoginMapper userLoginMapper;
+    private UserLoginMapperImpl userLoginMapper;
 
     @BeforeEach
     void setUp() {
-        userLoginMapper = new UserLoginMapper();
+        userLoginMapper = new UserLoginMapperImpl();
     }
 
 

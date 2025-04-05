@@ -6,7 +6,7 @@ import com.SocialMediaPlatform.Interface.IUserLoginMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserLoginMapper implements IUserLoginMapper {
+public class UserLoginMapperImpl implements IUserLoginMapper {
 
     public User toEntityForLogin(UserLoginDto userLoginDto) {
         if (userLoginDto == null) {
