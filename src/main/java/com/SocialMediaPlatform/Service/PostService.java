@@ -1,7 +1,7 @@
 package com.SocialMediaPlatform.Service;
 
 import com.SocialMediaPlatform.Entity.Post;
-import com.SocialMediaPlatform.Repository.PostRepository;
+import com.SocialMediaPlatform.Repository.IPostRepository;
 import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +10,9 @@ import java.util.Optional;
 @Service
 public class PostService {
 
-    private final PostRepository postRepository;
+    private final IPostRepository postRepository;
 
-    public PostService(PostRepository postRepository) {
+    public PostService(IPostRepository postRepository) {
         this.postRepository = postRepository;
     }
 

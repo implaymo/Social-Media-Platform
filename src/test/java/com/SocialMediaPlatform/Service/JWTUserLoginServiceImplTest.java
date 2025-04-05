@@ -1,7 +1,7 @@
 package com.SocialMediaPlatform.Service;
 
 import com.SocialMediaPlatform.Entity.User;
-import com.SocialMediaPlatform.Repository.UserRepository;
+import com.SocialMediaPlatform.Repository.IUserRepository;
 import com.SocialMediaPlatform.Security.JWTUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
 class JWTUserLoginServiceImplTest {
 
     @Mock
-    private UserRepository userRepository;
+    private IUserRepository userRepository;
 
     @Mock
     private JWTUtil jwtUtil;

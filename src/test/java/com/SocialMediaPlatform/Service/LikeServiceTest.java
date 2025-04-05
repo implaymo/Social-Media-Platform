@@ -2,7 +2,7 @@ package com.SocialMediaPlatform.Service;
 
 import com.SocialMediaPlatform.Entity.Like;
 import com.SocialMediaPlatform.Interface.ILikeFactory;
-import com.SocialMediaPlatform.Repository.LikeRepository;
+import com.SocialMediaPlatform.Repository.ILikeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 class LikeServiceTest {
 
     @Mock
-    private LikeRepository likeRepository;
+    private ILikeRepository likeRepository;
 
     @Mock
     private ILikeFactory iLikeFactory;

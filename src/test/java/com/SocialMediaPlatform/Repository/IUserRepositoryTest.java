@@ -1,7 +1,6 @@
 package com.SocialMediaPlatform.Repository;
 
 
-import com.SocialMediaPlatform.Entity.Post;
 import com.SocialMediaPlatform.Entity.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,10 +14,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataMongoTest
-class UserRepositoryTest {
+class IUserRepositoryTest {
 
     @Autowired
-    private UserRepository userRepository;
+    private IUserRepository userRepository;
 
     private User user;
 

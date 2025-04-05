@@ -1,7 +1,7 @@
 package com.SocialMediaPlatform.Service;
 
 import com.SocialMediaPlatform.Entity.Comment;
-import com.SocialMediaPlatform.Repository.CommentRepository;
+import com.SocialMediaPlatform.Repository.ICommentRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -19,7 +19,7 @@ class CommentServiceTest {
         String postID = "postId";
         String userID = "userID";
         Comment comment = mock(Comment.class);
-        CommentRepository commentRepository = mock(CommentRepository.class);
+        ICommentRepository commentRepository = mock(ICommentRepository.class);
         when(comment.getCommentID()).thenReturn(null);
         when(commentRepository.save(comment)).thenReturn(comment);
         CommentService commentService = new CommentService(commentRepository);
@@ -35,7 +35,7 @@ class CommentServiceTest {
         String postID = "postId";
         String userID = "userID";
         Comment comment = mock(Comment.class);
-        CommentRepository commentRepository = mock(CommentRepository.class);
+        ICommentRepository commentRepository = mock(ICommentRepository.class);
         CommentService commentService = new CommentService(commentRepository);
         when(comment.getCommentID()).thenReturn("commentID");
         // act
@@ -49,7 +49,7 @@ class CommentServiceTest {
         // arrange
         String userID = "userID";
         Comment comment = mock(Comment.class);
-        CommentRepository commentRepository = mock(CommentRepository.class);
+        ICommentRepository commentRepository = mock(ICommentRepository.class);
         CommentService commentService = new CommentService(commentRepository);
         // act
         Optional<Comment> result = commentService.registerComment(comment, null, userID);
@@ -62,7 +62,7 @@ class CommentServiceTest {
         // arrange
         String postID = "postId";
         Comment comment = mock(Comment.class);
-        CommentRepository commentRepository = mock(CommentRepository.class);
+        ICommentRepository commentRepository = mock(ICommentRepository.class);
         CommentService commentService = new CommentService(commentRepository);
         // act
         Optional<Comment> result = commentService.registerComment(comment, postID, null);

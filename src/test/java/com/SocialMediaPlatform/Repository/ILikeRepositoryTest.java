@@ -4,7 +4,6 @@ import com.SocialMediaPlatform.Entity.Like;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 
@@ -13,10 +12,10 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataMongoTest
-class LikeRepositoryTest {
+class ILikeRepositoryTest {
 
     @Autowired
-    LikeRepository likeRepository;
+    ILikeRepository likeRepository;
 
     private Like like;
 

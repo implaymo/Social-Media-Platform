@@ -3,8 +3,7 @@ package com.SocialMediaPlatform.Controller;
 import com.SocialMediaPlatform.Entity.Like;
 import com.SocialMediaPlatform.Entity.Post;
 import com.SocialMediaPlatform.Entity.User;
-import com.SocialMediaPlatform.Repository.LikeRepository;
-import com.SocialMediaPlatform.Repository.PostRepository;
+import com.SocialMediaPlatform.Repository.IPostRepository;
 import com.SocialMediaPlatform.Service.LikeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,16 +14,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @RestController
 public class LikeController {
 
     private final LikeService likeService;
-    private final PostRepository postRepository;
+    private final IPostRepository postRepository;
 
-    public LikeController(LikeService likeService, PostRepository postRepository) {
+    public LikeController(LikeService likeService, IPostRepository postRepository) {
         this.postRepository = postRepository;
         this.likeService = likeService;
     }

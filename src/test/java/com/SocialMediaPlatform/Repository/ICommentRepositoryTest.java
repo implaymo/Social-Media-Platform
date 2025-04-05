@@ -10,10 +10,10 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataMongoTest
-class CommentRepositoryTest {
+class ICommentRepositoryTest {
 
     @Autowired
-    CommentRepository commentRepository;
+    ICommentRepository commentRepository;
 
     @Test
     void shouldSaveCommentInDatabase() {

@@ -1,7 +1,7 @@
 package com.SocialMediaPlatform.Service;
 
 import com.SocialMediaPlatform.Entity.Post;
-import com.SocialMediaPlatform.Repository.PostRepository;
+import com.SocialMediaPlatform.Repository.IPostRepository;
 import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 class PostServiceTest {
 
     @Mock
-    PostRepository postRepository;
+    IPostRepository postRepository;
 
 
     private PostService postService;

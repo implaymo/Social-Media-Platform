@@ -1,11 +1,10 @@
 package com.SocialMediaPlatform.Service;
 
-import com.SocialMediaPlatform.Dto.UserRegisterDto;
 import com.SocialMediaPlatform.Entity.User;
 import com.SocialMediaPlatform.Mapper.UserRegisterMapper;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordHash;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordSalt;
-import com.SocialMediaPlatform.Repository.UserRepository;
+import com.SocialMediaPlatform.Repository.IUserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserRegistrationServiceTest {
 
     @Mock
-    private UserRepository userRepository;
+    private IUserRepository userRepository;
 
     private UserRegistrationService userRegistrationService;
     private UserRegisterMapper userRegisterMapper;

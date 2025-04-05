@@ -2,7 +2,7 @@ package com.SocialMediaPlatform.Service;
 
 import com.SocialMediaPlatform.Entity.User;
 import com.SocialMediaPlatform.Interface.IUserLoginService;
-import com.SocialMediaPlatform.Repository.UserRepository;
+import com.SocialMediaPlatform.Repository.IUserRepository;
 import com.SocialMediaPlatform.Security.JWTUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,11 +13,11 @@ import java.util.Optional;
 @Service
 public class JWTUserLoginServiceImpl implements IUserLoginService {
 
-    private final UserRepository userRepository;
+    private final IUserRepository userRepository;
     private final JWTUtil jwtUtil;
     private final PasswordService passwordService;
 
-    public JWTUserLoginServiceImpl(UserRepository userRepository, JWTUtil jwtUtil, PasswordService passwordService) {
+    public JWTUserLoginServiceImpl(IUserRepository userRepository, JWTUtil jwtUtil, PasswordService passwordService) {
         this.userRepository = userRepository;
         this.jwtUtil = jwtUtil;
         this.passwordService = passwordService;

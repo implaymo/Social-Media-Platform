@@ -2,7 +2,7 @@ package com.SocialMediaPlatform.Service;
 
 import com.SocialMediaPlatform.Entity.Like;
 import com.SocialMediaPlatform.Interface.ILikeFactory;
-import com.SocialMediaPlatform.Repository.LikeRepository;
+import com.SocialMediaPlatform.Repository.ILikeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -10,10 +10,10 @@ import java.util.Optional;
 @Service
 public class LikeService {
 
-    private final LikeRepository likeRepository;
+    private final ILikeRepository likeRepository;
     private final ILikeFactory iLikeFactory;
 
-    public LikeService(LikeRepository likeRepository, ILikeFactory iLikeFactory) {
+    public LikeService(ILikeRepository likeRepository, ILikeFactory iLikeFactory) {
         this.likeRepository = likeRepository;
         this.iLikeFactory = iLikeFactory;
     }

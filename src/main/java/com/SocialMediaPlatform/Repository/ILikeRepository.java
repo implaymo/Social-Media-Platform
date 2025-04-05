@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface LikeRepository extends MongoRepository<Like, String> {
+public interface ILikeRepository extends MongoRepository<Like, String> {
     Optional<Like> findByPostIDAndUserID(String postID, String userID);
 }

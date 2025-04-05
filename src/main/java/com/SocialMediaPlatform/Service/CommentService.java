@@ -1,7 +1,7 @@
 package com.SocialMediaPlatform.Service;
 
 import com.SocialMediaPlatform.Entity.Comment;
-import com.SocialMediaPlatform.Repository.CommentRepository;
+import com.SocialMediaPlatform.Repository.ICommentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -9,9 +9,9 @@ import java.util.Optional;
 @Service
 public class CommentService {
 
-    private final CommentRepository commentRepository;
+    private final ICommentRepository commentRepository;
 
-    public CommentService(CommentRepository commentRepository) {
+    public CommentService(ICommentRepository commentRepository) {
         this.commentRepository = commentRepository;
     }
 

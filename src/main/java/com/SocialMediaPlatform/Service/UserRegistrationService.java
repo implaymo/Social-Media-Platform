@@ -4,7 +4,7 @@ import com.SocialMediaPlatform.Entity.User;
 import com.SocialMediaPlatform.Mapper.UserRegisterMapper;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordHash;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordSalt;
-import com.SocialMediaPlatform.Repository.UserRepository;
+import com.SocialMediaPlatform.Repository.IUserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,11 +14,11 @@ import java.util.Optional;
 @Service
 public class UserRegistrationService {
 
-    private final UserRepository userRepository;
+    private final IUserRepository userRepository;
     private final PasswordHash passwordHash;
     private final PasswordSalt passwordSalt;
 
-    public UserRegistrationService(UserRepository userRepository, UserRegisterMapper userRegisterMapper,
+    public UserRegistrationService(IUserRepository userRepository, UserRegisterMapper userRegisterMapper,
                                    PasswordHash passwordHash, PasswordSalt passwordSalt) {
         this.userRepository = userRepository;
         this.passwordHash = passwordHash;

@@ -12,10 +12,10 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataMongoTest
-class PostRepositoryTest {
+class IPostRepositoryTest {
 
     @Autowired
-    private PostRepository postRepository;
+    private IPostRepository postRepository;
 
     private Post post;
 
