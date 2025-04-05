@@ -2,6 +2,8 @@ package com.SocialMediaPlatform.Controller;
 
 import com.SocialMediaPlatform.Dto.UserRegisterDto;
 import com.SocialMediaPlatform.Entity.User;
+import com.SocialMediaPlatform.Interface.IUserRegistrationMapper;
+import com.SocialMediaPlatform.Interface.IUserRegistrationService;
 import com.SocialMediaPlatform.Mapper.UserRegisterMapperImpl;
 import com.SocialMediaPlatform.Service.UserRegistrationServiceImpl;
 import jakarta.validation.Valid;
@@ -17,18 +19,21 @@ import java.util.Optional;
 @RestController
 public class AuthRegistrationController {
 
-    private final UserRegisterMapperImpl userRegisterMapper;
-    private final UserRegistrationServiceImpl userRegistrationServiceImpl;
+    private final IUserRegistrationMapper iUserRegistrationMapper;
+    private final IUserRegistrationService iUserRegistrationService;
 
-    public AuthRegistrationController(UserRegisterMapperImpl userRegisterMapper, UserRegistrationServiceImpl userRegistrationServiceImpl) {
-        this.userRegisterMapper = userRegisterMapper;
-        this.userRegistrationServiceImpl = userRegistrationServiceImpl;
+    public AuthRegistrationController(IUserRegistrationMapper iUserRegistrationMapper, IUserRegistrationService iUserRegistrationService) {
+        if (iUserRegistrationMapper == null || iUserRegistrationService == null) {
+            throw new IllegalArgumentException("Mapper and Service cannot be null");
+        }
+        this.iUserRegistrationMapper = iUserRegistrationMapper;
+        this.iUserRegistrationService = iUserRegistrationService;
     }
 
     @PostMapping(path = "/auth/register", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boolean> registerUser(@Valid @RequestBody UserRegisterDto userRegisterDto) {
-        User user = userRegisterMapper.toEntityForRegistration(userRegisterDto);
-        Optional<User> result = userRegistrationServiceImpl.registerUser(user);
+        User user = iUserRegistrationMapper.toEntityForRegistration(userRegisterDto);
+        Optional<User> result = iUserRegistrationService.registerUser(user);
         if (result.isEmpty()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(false);
         }
