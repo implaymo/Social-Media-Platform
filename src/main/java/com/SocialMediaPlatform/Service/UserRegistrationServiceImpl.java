@@ -1,6 +1,7 @@
 package com.SocialMediaPlatform.Service;
 
 import com.SocialMediaPlatform.Entity.User;
+import com.SocialMediaPlatform.Interface.IUserRegistrationService;
 import com.SocialMediaPlatform.Mapper.UserRegisterMapperImpl;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordHash;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordSalt;
@@ -12,7 +13,7 @@ import java.util.Base64;
 import java.util.Optional;
 
 @Service
-public class UserRegistrationServiceImpl {
+public class UserRegistrationServiceImpl implements IUserRegistrationService {
 
     private final IUserRepository iUserRepository;
     private final PasswordHash passwordHash;
