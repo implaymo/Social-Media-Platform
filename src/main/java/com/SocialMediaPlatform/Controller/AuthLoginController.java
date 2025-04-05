@@ -2,6 +2,8 @@ package com.SocialMediaPlatform.Controller;
 
 import com.SocialMediaPlatform.Dto.UserLoginDto;
 import com.SocialMediaPlatform.Entity.User;
+import com.SocialMediaPlatform.Interface.IUserLoginMapper;
+import com.SocialMediaPlatform.Interface.IUserLoginService;
 import com.SocialMediaPlatform.Mapper.UserLoginMapperImpl;
 import com.SocialMediaPlatform.Service.JWTUserLoginServiceImpl;
 import jakarta.validation.Valid;
@@ -16,11 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AuthLoginController {
 
-    private final UserLoginMapperImpl userLoginMapper;
-    private final JWTUserLoginServiceImpl userLoginService;
+    private final IUserLoginMapper userLoginMapper;
+    private final IUserLoginService userLoginService;
 
 
-    public AuthLoginController(UserLoginMapperImpl userLoginMapper, JWTUserLoginServiceImpl userLoginService) {
+    public AuthLoginController(IUserLoginMapper userLoginMapper, IUserLoginService userLoginService) {
+        if (userLoginMapper == null || userLoginService == null) {
+            throw new IllegalArgumentException("UserLoginMapper and UserLoginService cannot be null");
+        }
         this.userLoginMapper = userLoginMapper;
         this.userLoginService = userLoginService;
     }
