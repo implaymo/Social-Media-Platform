@@ -19,12 +19,12 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-class UserRegistrationServiceTest {
+class UserRegistrationServiceImplTest {
 
     @Mock
     private IUserRepository userRepository;
 
-    private UserRegistrationService userRegistrationService;
+    private UserRegistrationServiceImpl userRegistrationServiceImpl;
     private UserRegisterMapperImpl userRegisterMapper;
     private PasswordHash passwordHash;
     private PasswordSalt passwordSalt;
@@ -34,7 +34,7 @@ class UserRegistrationServiceTest {
         passwordSalt = mock(PasswordSalt.class);
         passwordHash = mock(PasswordHash.class);
         userRegisterMapper = mock(UserRegisterMapperImpl.class);
-        userRegistrationService = new UserRegistrationService(userRepository, userRegisterMapper, passwordHash, passwordSalt);
+        userRegistrationServiceImpl = new UserRegistrationServiceImpl(userRepository, userRegisterMapper, passwordHash, passwordSalt);
     }
 
     // Registration method tests
@@ -48,7 +48,7 @@ class UserRegistrationServiceTest {
         when(passwordSalt.generateRandomSalt()).thenReturn(salt);
         when(passwordHash.generateHashPassword(user.getPassword(), salt)).thenReturn("passwordHash");
         // act
-        Optional<User> registerUser = userRegistrationService.registerUser(user);
+        Optional<User> registerUser = userRegistrationServiceImpl.registerUser(user);
         // assert
         assertTrue(registerUser.isPresent());
     }
@@ -58,7 +58,7 @@ class UserRegistrationServiceTest {
         // arrange
         User user = null;
         // act
-        Optional<User> registerUser = userRegistrationService.registerUser(user);
+        Optional<User> registerUser = userRegistrationServiceImpl.registerUser(user);
         // assert
         assertTrue(registerUser.isEmpty());
     }

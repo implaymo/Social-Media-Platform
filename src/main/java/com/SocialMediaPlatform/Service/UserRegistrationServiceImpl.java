@@ -12,15 +12,15 @@ import java.util.Base64;
 import java.util.Optional;
 
 @Service
-public class UserRegistrationService {
+public class UserRegistrationServiceImpl {
 
-    private final IUserRepository userRepository;
+    private final IUserRepository iUserRepository;
     private final PasswordHash passwordHash;
     private final PasswordSalt passwordSalt;
 
-    public UserRegistrationService(IUserRepository userRepository, UserRegisterMapperImpl userRegisterMapper,
-                                   PasswordHash passwordHash, PasswordSalt passwordSalt) {
-        this.userRepository = userRepository;
+    public UserRegistrationServiceImpl(IUserRepository iUserRepository, UserRegisterMapperImpl userRegisterMapper,
+                                       PasswordHash passwordHash, PasswordSalt passwordSalt) {
+        this.iUserRepository = iUserRepository;
         this.passwordHash = passwordHash;
         this.passwordSalt = passwordSalt;
     }
@@ -40,7 +40,7 @@ public class UserRegistrationService {
             user.setSalt(base64Salt);
             String hashedPassword = passwordHash.generateHashPassword(user.getPassword(), salt);
             user.setPassword(hashedPassword);
-            userRepository.save(user);
+            iUserRepository.save(user);
             return Optional.of(user);
         } catch (Exception e) {
             return Optional.empty();
@@ -48,6 +48,6 @@ public class UserRegistrationService {
     }
 
     private Optional<User> isUserInDatabase(User user) {
-        return userRepository.findByEmail(user.getEmail());
+        return iUserRepository.findByEmail(user.getEmail());
     }
 }
