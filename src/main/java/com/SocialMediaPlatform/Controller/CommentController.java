@@ -4,7 +4,7 @@ import com.SocialMediaPlatform.Dto.CommentDto;
 import com.SocialMediaPlatform.Domain.Comment;
 import com.SocialMediaPlatform.Mapper.CommentMapper;
 import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
-import com.SocialMediaPlatform.Service.Comment.CommentService;
+import com.SocialMediaPlatform.Service.Comment.CommentServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,12 +20,12 @@ import java.util.Optional;
 @RestController
 public class CommentController {
 
-    private final CommentService commentService;
+    private final CommentServiceImpl commentServiceImpl;
     private final CommentMapper commentMapper;
 
 
-    public CommentController(CommentService commentService, CommentMapper commentMapper) {
-        this.commentService = commentService;
+    public CommentController(CommentServiceImpl commentServiceImpl, CommentMapper commentMapper) {
+        this.commentServiceImpl = commentServiceImpl;
         this.commentMapper = commentMapper;
     }
 
@@ -35,7 +35,7 @@ public class CommentController {
         if (authentication.getPrincipal() instanceof CustomUserDetails customUserDetails) {
             String userID = customUserDetails.getId();
             Comment commentMap = commentMapper.toEntity(commentDto);
-            Optional<Comment> comment = commentService.registerComment(commentMap, postID, userID);
+            Optional<Comment> comment = commentServiceImpl.registerComment(commentMap, postID, userID);
             if (comment.isPresent()) {
                 return ResponseEntity.status(HttpStatus.CREATED).body(true);
             }
