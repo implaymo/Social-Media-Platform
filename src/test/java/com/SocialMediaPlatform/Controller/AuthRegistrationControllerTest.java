@@ -2,6 +2,8 @@ package com.SocialMediaPlatform.Controller;
 
 import com.SocialMediaPlatform.Dto.UserRegisterDto;
 import com.SocialMediaPlatform.Entity.User;
+import com.SocialMediaPlatform.Interface.IUserRegistrationMapper;
+import com.SocialMediaPlatform.Interface.IUserRegistrationService;
 import com.SocialMediaPlatform.Mapper.UserRegisterMapperImpl;
 import com.SocialMediaPlatform.Service.UserRegistrationServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,10 +30,10 @@ class AuthRegistrationControllerTest {
 
 
     @Mock
-    private UserRegistrationServiceImpl userRegistrationServiceImpl;
+    private IUserRegistrationService iUserRegistrationService;
 
     @Mock
-    private UserRegisterMapperImpl userRegisterMapper;
+    private IUserRegistrationMapper iUserRegistrationMapper;
 
     @InjectMocks
     private AuthRegistrationController authRegistrationController;
@@ -39,7 +41,7 @@ class AuthRegistrationControllerTest {
 
     @BeforeEach
     void setUp() {
-        authRegistrationController = new AuthRegistrationController(userRegisterMapper, userRegistrationServiceImpl);
+        authRegistrationController = new AuthRegistrationController(iUserRegistrationMapper, iUserRegistrationService);
         mockMvc = MockMvcBuilders.standaloneSetup(authRegistrationController).build();
     }
 
@@ -58,10 +60,10 @@ class AuthRegistrationControllerTest {
                 .password("John@12345")
                 .build();
 
-        when(userRegistrationServiceImpl.registerUser(any(User.class)))
+        when(iUserRegistrationService.registerUser(any(User.class)))
                 .thenReturn(Optional.of(user));
 
-        when(userRegisterMapper.toEntityForRegistration(userRegisterDto)).thenReturn(user);
+        when(iUserRegistrationMapper.toEntityForRegistration(userRegisterDto)).thenReturn(user);
 
         // act & assert
         mockMvc.perform(post("/auth/register")
@@ -108,8 +110,8 @@ class AuthRegistrationControllerTest {
                 .email("john123@gmail.com")
                 .password("John@12345")
                 .build();
-        when(userRegisterMapper.toEntityForRegistration(userRegisterDto)).thenReturn(user);
-        when(userRegistrationServiceImpl.registerUser(any(User.class)))
+        when(iUserRegistrationMapper.toEntityForRegistration(userRegisterDto)).thenReturn(user);
+        when(iUserRegistrationService.registerUser(any(User.class)))
                 .thenReturn(Optional.empty());
 
         // act & assert
