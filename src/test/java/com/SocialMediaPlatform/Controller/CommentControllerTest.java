@@ -3,7 +3,7 @@ package com.SocialMediaPlatform.Controller;
 import com.SocialMediaPlatform.Dto.CommentDto;
 import com.SocialMediaPlatform.Domain.Comment;
 import com.SocialMediaPlatform.Domain.User;
-import com.SocialMediaPlatform.Mapper.CommentMapper;
+import com.SocialMediaPlatform.Mapper.CommentMapperImpl;
 import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
 import com.SocialMediaPlatform.Service.Comment.CommentServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -53,9 +53,9 @@ class CommentControllerTest {
         String userID = "userId";
         CommentDto commentDto = mock(CommentDto.class);
         CommentServiceImpl commentServiceImpl = mock(CommentServiceImpl.class);
-        CommentMapper commentMapper = mock(CommentMapper.class);
-        CommentController commentController = new CommentController(commentServiceImpl, commentMapper);
-        when(commentMapper.toEntity(commentDto)).thenReturn(comment);
+        CommentMapperImpl commentMapperImpl = mock(CommentMapperImpl.class);
+        CommentController commentController = new CommentController(commentServiceImpl, commentMapperImpl);
+        when(commentMapperImpl.toEntity(commentDto)).thenReturn(comment);
         when(commentServiceImpl.registerComment(comment, postID, userID)).thenReturn(Optional.of(comment));
 
         // act
@@ -82,9 +82,9 @@ class CommentControllerTest {
         Comment comment = mock(Comment.class);
         CommentDto commentDto = mock(CommentDto.class);
         CommentServiceImpl commentServiceImpl = mock(CommentServiceImpl.class);
-        CommentMapper commentMapper = mock(CommentMapper.class);
-        CommentController commentController = new CommentController(commentServiceImpl, commentMapper);
-        when(commentMapper.toEntity(commentDto)).thenReturn(comment);
+        CommentMapperImpl commentMapperImpl = mock(CommentMapperImpl.class);
+        CommentController commentController = new CommentController(commentServiceImpl, commentMapperImpl);
+        when(commentMapperImpl.toEntity(commentDto)).thenReturn(comment);
         when(commentServiceImpl.registerComment(comment, null, userID)).thenReturn(Optional.empty());
         // act
         ResponseEntity<Boolean> response = commentController.registerComment(commentDto, null);
@@ -109,9 +109,9 @@ class CommentControllerTest {
         Comment comment = mock(Comment.class);
         CommentDto commentDto = mock(CommentDto.class);
         CommentServiceImpl commentServiceImpl = mock(CommentServiceImpl.class);
-        CommentMapper commentMapper = mock(CommentMapper.class);
-        CommentController commentController = new CommentController(commentServiceImpl, commentMapper);
-        when(commentMapper.toEntity(commentDto)).thenReturn(comment);
+        CommentMapperImpl commentMapperImpl = mock(CommentMapperImpl.class);
+        CommentController commentController = new CommentController(commentServiceImpl, commentMapperImpl);
+        when(commentMapperImpl.toEntity(commentDto)).thenReturn(comment);
         when(commentServiceImpl.registerComment(comment, null, userID)).thenReturn(Optional.empty());
         // act
         ResponseEntity<Boolean> response = commentController.registerComment(null, postID);
@@ -134,9 +134,9 @@ class CommentControllerTest {
         Comment comment = mock(Comment.class);
         CommentDto commentDto = mock(CommentDto.class);
         CommentServiceImpl commentServiceImpl = mock(CommentServiceImpl.class);
-        CommentMapper commentMapper = mock(CommentMapper.class);
-        CommentController commentController = new CommentController(commentServiceImpl, commentMapper);
-        when(commentMapper.toEntity(commentDto)).thenReturn(comment);
+        CommentMapperImpl commentMapperImpl = mock(CommentMapperImpl.class);
+        CommentController commentController = new CommentController(commentServiceImpl, commentMapperImpl);
+        when(commentMapperImpl.toEntity(commentDto)).thenReturn(comment);
         when(commentServiceImpl.registerComment(comment, postID, null)).thenReturn(Optional.empty());
         // act
         ResponseEntity<Boolean> response = commentController.registerComment(commentDto, null);

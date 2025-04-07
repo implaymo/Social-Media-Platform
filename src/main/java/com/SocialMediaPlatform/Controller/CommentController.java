@@ -2,7 +2,7 @@ package com.SocialMediaPlatform.Controller;
 
 import com.SocialMediaPlatform.Dto.CommentDto;
 import com.SocialMediaPlatform.Domain.Comment;
-import com.SocialMediaPlatform.Mapper.CommentMapper;
+import com.SocialMediaPlatform.Mapper.CommentMapperImpl;
 import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
 import com.SocialMediaPlatform.Service.Comment.CommentServiceImpl;
 import jakarta.validation.Valid;
@@ -21,12 +21,12 @@ import java.util.Optional;
 public class CommentController {
 
     private final CommentServiceImpl commentServiceImpl;
-    private final CommentMapper commentMapper;
+    private final CommentMapperImpl commentMapperImpl;
 
 
-    public CommentController(CommentServiceImpl commentServiceImpl, CommentMapper commentMapper) {
+    public CommentController(CommentServiceImpl commentServiceImpl, CommentMapperImpl commentMapperImpl) {
         this.commentServiceImpl = commentServiceImpl;
-        this.commentMapper = commentMapper;
+        this.commentMapperImpl = commentMapperImpl;
     }
 
     @PostMapping("/comment/{postID}")
@@ -34,7 +34,7 @@ public class CommentController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.getPrincipal() instanceof CustomUserDetails customUserDetails) {
             String userID = customUserDetails.getId();
-            Comment commentMap = commentMapper.toEntity(commentDto);
+            Comment commentMap = commentMapperImpl.toEntity(commentDto);
             Optional<Comment> comment = commentServiceImpl.registerComment(commentMap, postID, userID);
             if (comment.isPresent()) {
                 return ResponseEntity.status(HttpStatus.CREATED).body(true);
