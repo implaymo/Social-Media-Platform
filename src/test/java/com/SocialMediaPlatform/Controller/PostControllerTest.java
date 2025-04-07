@@ -7,7 +7,7 @@ import com.SocialMediaPlatform.Domain.Post;
 import com.SocialMediaPlatform.Domain.User;
 import com.SocialMediaPlatform.Mapper.PostMapper;
 import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
-import com.SocialMediaPlatform.Service.PostService;
+import com.SocialMediaPlatform.Service.Post.PostService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

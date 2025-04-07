@@ -4,7 +4,7 @@ import com.SocialMediaPlatform.Config.TestAuthenticationPrincipalArgumentResolve
 import com.SocialMediaPlatform.Domain.Like;
 import com.SocialMediaPlatform.Domain.Post;
 import com.SocialMediaPlatform.Repository.IPostRepository;
-import com.SocialMediaPlatform.Service.LikeService;
+import com.SocialMediaPlatform.Service.Like.LikeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

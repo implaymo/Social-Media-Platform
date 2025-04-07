@@ -4,7 +4,7 @@ import com.SocialMediaPlatform.Dto.CommentDto;
 import com.SocialMediaPlatform.Domain.Comment;
 import com.SocialMediaPlatform.Mapper.CommentMapper;
 import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
-import com.SocialMediaPlatform.Service.CommentService;
+import com.SocialMediaPlatform.Service.Comment.CommentService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

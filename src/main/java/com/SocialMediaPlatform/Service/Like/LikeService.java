@@ -1,4 +1,4 @@
-package com.SocialMediaPlatform.Service;
+package com.SocialMediaPlatform.Service.Like;
 
 import com.SocialMediaPlatform.Domain.Like;
 import com.SocialMediaPlatform.Interface.Like.ILikeFactory;

@@ -1,4 +1,4 @@
-package com.SocialMediaPlatform.Service;
+package com.SocialMediaPlatform.Service.Password;
 
 import com.SocialMediaPlatform.Domain.User;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordHash;

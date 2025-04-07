@@ -3,6 +3,7 @@ package com.SocialMediaPlatform.Service;
 import com.SocialMediaPlatform.Domain.Post;
 import com.SocialMediaPlatform.Repository.IPostRepository;
 import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
+import com.SocialMediaPlatform.Service.Post.PostService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

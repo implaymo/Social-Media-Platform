@@ -4,7 +4,7 @@ import com.SocialMediaPlatform.Domain.Like;
 import com.SocialMediaPlatform.Domain.Post;
 import com.SocialMediaPlatform.Domain.User;
 import com.SocialMediaPlatform.Repository.IPostRepository;
-import com.SocialMediaPlatform.Service.LikeService;
+import com.SocialMediaPlatform.Service.Like.LikeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

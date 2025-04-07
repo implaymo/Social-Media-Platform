@@ -5,7 +5,7 @@ import com.SocialMediaPlatform.Domain.Comment;
 import com.SocialMediaPlatform.Domain.User;
 import com.SocialMediaPlatform.Mapper.CommentMapper;
 import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
-import com.SocialMediaPlatform.Service.CommentService;
+import com.SocialMediaPlatform.Service.Comment.CommentService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

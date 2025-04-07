@@ -1,4 +1,4 @@
-package com.SocialMediaPlatform.Service;
+package com.SocialMediaPlatform.Service.Comment;
 
 import com.SocialMediaPlatform.Domain.Comment;
 import com.SocialMediaPlatform.Repository.ICommentRepository;

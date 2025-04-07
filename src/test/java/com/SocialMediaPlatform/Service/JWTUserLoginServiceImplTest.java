@@ -3,6 +3,8 @@ package com.SocialMediaPlatform.Service;
 import com.SocialMediaPlatform.Domain.User;
 import com.SocialMediaPlatform.Repository.IUserRepository;
 import com.SocialMediaPlatform.Security.JWTUtil;
+import com.SocialMediaPlatform.Service.Login.JWTUserLoginServiceImpl;
+import com.SocialMediaPlatform.Service.Password.PasswordService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

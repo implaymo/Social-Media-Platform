@@ -2,6 +2,7 @@ package com.SocialMediaPlatform.Service;
 
 import com.SocialMediaPlatform.Domain.Comment;
 import com.SocialMediaPlatform.Repository.ICommentRepository;
+import com.SocialMediaPlatform.Service.Comment.CommentService;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;

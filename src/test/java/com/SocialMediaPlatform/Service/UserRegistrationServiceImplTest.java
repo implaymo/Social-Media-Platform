@@ -5,6 +5,7 @@ import com.SocialMediaPlatform.Mapper.UserRegisterMapperImpl;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordHash;
 import com.SocialMediaPlatform.PasswordEncryption.PasswordSalt;
 import com.SocialMediaPlatform.Repository.IUserRepository;
+import com.SocialMediaPlatform.Service.Registration.UserRegistrationServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

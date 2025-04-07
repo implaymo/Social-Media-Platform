@@ -1,9 +1,10 @@
-package com.SocialMediaPlatform.Service;
+package com.SocialMediaPlatform.Service.Login;
 
 import com.SocialMediaPlatform.Domain.User;
 import com.SocialMediaPlatform.Interface.Login.IUserLoginService;
 import com.SocialMediaPlatform.Repository.IUserRepository;
 import com.SocialMediaPlatform.Security.JWTUtil;
+import com.SocialMediaPlatform.Service.Password.PasswordService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
