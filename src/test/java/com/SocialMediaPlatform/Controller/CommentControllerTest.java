@@ -3,9 +3,9 @@ package com.SocialMediaPlatform.Controller;
 import com.SocialMediaPlatform.Dto.CommentDto;
 import com.SocialMediaPlatform.Domain.Comment;
 import com.SocialMediaPlatform.Domain.User;
-import com.SocialMediaPlatform.Mapper.CommentMapperImpl;
+import com.SocialMediaPlatform.Mapper.ICommentMapper;
 import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
-import com.SocialMediaPlatform.Service.Comment.CommentServiceImpl;
+import com.SocialMediaPlatform.Service.Comment.ICommentService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -52,11 +52,11 @@ class CommentControllerTest {
         String postID = "postId";
         String userID = "userId";
         CommentDto commentDto = mock(CommentDto.class);
-        CommentServiceImpl commentServiceImpl = mock(CommentServiceImpl.class);
-        CommentMapperImpl commentMapperImpl = mock(CommentMapperImpl.class);
-        CommentController commentController = new CommentController(commentServiceImpl, commentMapperImpl);
-        when(commentMapperImpl.toEntity(commentDto)).thenReturn(comment);
-        when(commentServiceImpl.registerComment(comment, postID, userID)).thenReturn(Optional.of(comment));
+        ICommentService ICommentService = mock(ICommentService.class);
+        ICommentMapper ICommentMapper = mock(ICommentMapper.class);
+        CommentController commentController = new CommentController(ICommentService, ICommentMapper);
+        when(ICommentMapper.toEntity(commentDto)).thenReturn(comment);
+        when(ICommentService.registerComment(comment, postID, userID)).thenReturn(Optional.of(comment));
 
         // act
         ResponseEntity<Boolean> response = commentController.registerComment(commentDto, postID);
@@ -81,11 +81,11 @@ class CommentControllerTest {
         String userID = "userID";
         Comment comment = mock(Comment.class);
         CommentDto commentDto = mock(CommentDto.class);
-        CommentServiceImpl commentServiceImpl = mock(CommentServiceImpl.class);
-        CommentMapperImpl commentMapperImpl = mock(CommentMapperImpl.class);
-        CommentController commentController = new CommentController(commentServiceImpl, commentMapperImpl);
-        when(commentMapperImpl.toEntity(commentDto)).thenReturn(comment);
-        when(commentServiceImpl.registerComment(comment, null, userID)).thenReturn(Optional.empty());
+        ICommentService ICommentService = mock(ICommentService.class);
+        ICommentMapper ICommentMapper = mock(ICommentMapper.class);
+        CommentController commentController = new CommentController(ICommentService, ICommentMapper);
+        when(ICommentMapper.toEntity(commentDto)).thenReturn(comment);
+        when(ICommentService.registerComment(comment, null, userID)).thenReturn(Optional.empty());
         // act
         ResponseEntity<Boolean> response = commentController.registerComment(commentDto, null);
         // assert
@@ -108,11 +108,11 @@ class CommentControllerTest {
         String postID = "postID";
         Comment comment = mock(Comment.class);
         CommentDto commentDto = mock(CommentDto.class);
-        CommentServiceImpl commentServiceImpl = mock(CommentServiceImpl.class);
-        CommentMapperImpl commentMapperImpl = mock(CommentMapperImpl.class);
-        CommentController commentController = new CommentController(commentServiceImpl, commentMapperImpl);
-        when(commentMapperImpl.toEntity(commentDto)).thenReturn(comment);
-        when(commentServiceImpl.registerComment(comment, null, userID)).thenReturn(Optional.empty());
+        ICommentService ICommentService = mock(ICommentService.class);
+        ICommentMapper ICommentMapper = mock(ICommentMapper.class);
+        CommentController commentController = new CommentController(ICommentService, ICommentMapper);
+        when(ICommentMapper.toEntity(commentDto)).thenReturn(comment);
+        when(ICommentService.registerComment(comment, null, userID)).thenReturn(Optional.empty());
         // act
         ResponseEntity<Boolean> response = commentController.registerComment(null, postID);
         // assert
@@ -133,11 +133,11 @@ class CommentControllerTest {
         String postID = "postID";
         Comment comment = mock(Comment.class);
         CommentDto commentDto = mock(CommentDto.class);
-        CommentServiceImpl commentServiceImpl = mock(CommentServiceImpl.class);
-        CommentMapperImpl commentMapperImpl = mock(CommentMapperImpl.class);
-        CommentController commentController = new CommentController(commentServiceImpl, commentMapperImpl);
-        when(commentMapperImpl.toEntity(commentDto)).thenReturn(comment);
-        when(commentServiceImpl.registerComment(comment, postID, null)).thenReturn(Optional.empty());
+        ICommentService ICommentService = mock(ICommentService.class);
+        ICommentMapper ICommentMapper = mock(ICommentMapper.class);
+        CommentController commentController = new CommentController(ICommentService, ICommentMapper);
+        when(ICommentMapper.toEntity(commentDto)).thenReturn(comment);
+        when(ICommentService.registerComment(comment, postID, null)).thenReturn(Optional.empty());
         // act
         ResponseEntity<Boolean> response = commentController.registerComment(commentDto, null);
         // assert
@@ -162,6 +162,26 @@ class CommentControllerTest {
                 )
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
 
+    }
+
+    @Test
+    void shouldThrowIllegalArgumentExceptionIfCommentServiceIsNull() throws Exception {
+        // arrange
+        ICommentMapper iCommentMapper = mock(ICommentMapper.class);
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new CommentController(null, iCommentMapper);
+        });
+    }
+
+    @Test
+    void shouldThrowIllegalArgumentExceptionIfCommentMapperIsNull() throws Exception {
+        // arrange
+        ICommentService iCommentService = mock(ICommentService.class);
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new CommentController(iCommentService, null);
+        });
     }
 
 }

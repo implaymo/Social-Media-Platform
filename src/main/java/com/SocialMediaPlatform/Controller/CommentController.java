@@ -2,9 +2,9 @@ package com.SocialMediaPlatform.Controller;
 
 import com.SocialMediaPlatform.Dto.CommentDto;
 import com.SocialMediaPlatform.Domain.Comment;
-import com.SocialMediaPlatform.Mapper.CommentMapperImpl;
+import com.SocialMediaPlatform.Interface.Comment.ICommentMapper;
+import com.SocialMediaPlatform.Interface.Comment.ICommentService;
 import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
-import com.SocialMediaPlatform.Service.Comment.CommentServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +20,16 @@ import java.util.Optional;
 @RestController
 public class CommentController {
 
-    private final CommentServiceImpl commentServiceImpl;
-    private final CommentMapperImpl commentMapperImpl;
+    private final ICommentService iCommentService;
+    private final ICommentMapper iCommentMapper;
 
 
-    public CommentController(CommentServiceImpl commentServiceImpl, CommentMapperImpl commentMapperImpl) {
-        this.commentServiceImpl = commentServiceImpl;
-        this.commentMapperImpl = commentMapperImpl;
+    public CommentController(ICommentService iCommentService, ICommentMapper iCommentMapper) {
+        if(iCommentMapper == null || iCommentService == null) {
+            throw new IllegalArgumentException("ICommentMapper or ICommentService is null");
+        }
+        this.iCommentService = iCommentService;
+        this.iCommentMapper = iCommentMapper;
     }
 
     @PostMapping("/comment/{postID}")
@@ -34,8 +37,8 @@ public class CommentController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.getPrincipal() instanceof CustomUserDetails customUserDetails) {
             String userID = customUserDetails.getId();
-            Comment commentMap = commentMapperImpl.toEntity(commentDto);
-            Optional<Comment> comment = commentServiceImpl.registerComment(commentMap, postID, userID);
+            Comment commentMap = iCommentMapper.toEntity(commentDto);
+            Optional<Comment> comment = iCommentService.registerComment(commentMap, postID, userID);
             if (comment.isPresent()) {
                 return ResponseEntity.status(HttpStatus.CREATED).body(true);
             }
