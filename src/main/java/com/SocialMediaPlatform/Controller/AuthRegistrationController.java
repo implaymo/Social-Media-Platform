@@ -1,11 +1,9 @@
 package com.SocialMediaPlatform.Controller;
 
 import com.SocialMediaPlatform.Dto.UserRegisterDto;
-import com.SocialMediaPlatform.Entity.User;
-import com.SocialMediaPlatform.Interface.IUserRegistrationMapper;
-import com.SocialMediaPlatform.Interface.IUserRegistrationService;
-import com.SocialMediaPlatform.Mapper.UserRegisterMapperImpl;
-import com.SocialMediaPlatform.Service.UserRegistrationServiceImpl;
+import com.SocialMediaPlatform.Domain.User;
+import com.SocialMediaPlatform.Interface.Registration.IUserRegistrationMapper;
+import com.SocialMediaPlatform.Interface.Registration.IUserRegistrationService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

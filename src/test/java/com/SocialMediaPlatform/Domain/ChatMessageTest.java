@@ -1,4 +1,4 @@
-package com.SocialMediaPlatform.Entity;
+package com.SocialMediaPlatform.Domain;
 
 import com.SocialMediaPlatform.Enum.MessageType;
 import jakarta.validation.ConstraintViolation;

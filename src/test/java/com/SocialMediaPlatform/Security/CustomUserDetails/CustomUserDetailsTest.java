@@ -1,6 +1,6 @@
 package com.SocialMediaPlatform.Security.CustomUserDetails;
 
-import com.SocialMediaPlatform.Entity.User;
+import com.SocialMediaPlatform.Domain.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 

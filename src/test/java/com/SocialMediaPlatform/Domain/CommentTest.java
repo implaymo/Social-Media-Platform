@@ -1,4 +1,4 @@
-package com.SocialMediaPlatform.Entity;
+package com.SocialMediaPlatform.Domain;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;

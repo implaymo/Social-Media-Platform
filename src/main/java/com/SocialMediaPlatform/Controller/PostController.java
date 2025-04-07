@@ -1,7 +1,7 @@
 package com.SocialMediaPlatform.Controller;
 
 import com.SocialMediaPlatform.Dto.PostDto;
-import com.SocialMediaPlatform.Entity.Post;
+import com.SocialMediaPlatform.Domain.Post;
 import com.SocialMediaPlatform.Mapper.PostMapper;
 import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
 import com.SocialMediaPlatform.Service.PostService;

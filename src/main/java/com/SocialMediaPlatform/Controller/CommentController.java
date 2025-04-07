@@ -1,7 +1,7 @@
 package com.SocialMediaPlatform.Controller;
 
 import com.SocialMediaPlatform.Dto.CommentDto;
-import com.SocialMediaPlatform.Entity.Comment;
+import com.SocialMediaPlatform.Domain.Comment;
 import com.SocialMediaPlatform.Mapper.CommentMapper;
 import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
 import com.SocialMediaPlatform.Service.CommentService;

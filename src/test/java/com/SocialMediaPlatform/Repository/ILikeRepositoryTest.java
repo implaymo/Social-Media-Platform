@@ -1,6 +1,6 @@
 package com.SocialMediaPlatform.Repository;
 
-import com.SocialMediaPlatform.Entity.Like;
+import com.SocialMediaPlatform.Domain.Like;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

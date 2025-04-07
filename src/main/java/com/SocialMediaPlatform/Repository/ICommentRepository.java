@@ -1,6 +1,6 @@
 package com.SocialMediaPlatform.Repository;
 
-import com.SocialMediaPlatform.Entity.Comment;
+import com.SocialMediaPlatform.Domain.Comment;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

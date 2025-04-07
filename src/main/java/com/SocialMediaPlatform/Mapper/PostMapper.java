@@ -1,7 +1,7 @@
 package com.SocialMediaPlatform.Mapper;
 
 import com.SocialMediaPlatform.Dto.PostDto;
-import com.SocialMediaPlatform.Entity.Post;
+import com.SocialMediaPlatform.Domain.Post;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,7 +1,7 @@
 package com.SocialMediaPlatform.Factory;
 
-import com.SocialMediaPlatform.Entity.Like;
-import com.SocialMediaPlatform.Interface.ILikeFactory;
+import com.SocialMediaPlatform.Domain.Like;
+import com.SocialMediaPlatform.Interface.Like.ILikeFactory;
 import org.springframework.stereotype.Component;
 
 @Component

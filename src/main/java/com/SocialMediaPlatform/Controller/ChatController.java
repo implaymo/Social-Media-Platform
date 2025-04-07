@@ -1,6 +1,6 @@
 package com.SocialMediaPlatform.Controller;
 
-import com.SocialMediaPlatform.Entity.ChatMessage;
+import com.SocialMediaPlatform.Domain.ChatMessage;
 import com.SocialMediaPlatform.Enum.MessageType;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;

@@ -1,8 +1,8 @@
 package com.SocialMediaPlatform.Controller;
 
 import com.SocialMediaPlatform.Config.TestAuthenticationPrincipalArgumentResolver;
-import com.SocialMediaPlatform.Entity.Like;
-import com.SocialMediaPlatform.Entity.Post;
+import com.SocialMediaPlatform.Domain.Like;
+import com.SocialMediaPlatform.Domain.Post;
 import com.SocialMediaPlatform.Repository.IPostRepository;
 import com.SocialMediaPlatform.Service.LikeService;
 import org.junit.jupiter.api.BeforeEach;

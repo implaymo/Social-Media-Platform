@@ -1,7 +1,7 @@
 package com.SocialMediaPlatform.Mapper;
 
 import com.SocialMediaPlatform.Dto.CommentDto;
-import com.SocialMediaPlatform.Entity.Comment;
+import com.SocialMediaPlatform.Domain.Comment;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

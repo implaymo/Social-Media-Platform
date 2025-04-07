@@ -1,8 +1,8 @@
 package com.SocialMediaPlatform.Mapper;
 
 import com.SocialMediaPlatform.Dto.UserLoginDto;
-import com.SocialMediaPlatform.Entity.User;
-import com.SocialMediaPlatform.Interface.IUserLoginMapper;
+import com.SocialMediaPlatform.Domain.User;
+import com.SocialMediaPlatform.Interface.Login.IUserLoginMapper;
 import org.springframework.stereotype.Component;
 
 @Component

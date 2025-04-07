@@ -1,8 +1,8 @@
 package com.SocialMediaPlatform.Controller;
 
-import com.SocialMediaPlatform.Entity.Like;
-import com.SocialMediaPlatform.Entity.Post;
-import com.SocialMediaPlatform.Entity.User;
+import com.SocialMediaPlatform.Domain.Like;
+import com.SocialMediaPlatform.Domain.Post;
+import com.SocialMediaPlatform.Domain.User;
 import com.SocialMediaPlatform.Repository.IPostRepository;
 import com.SocialMediaPlatform.Service.LikeService;
 import org.springframework.http.HttpStatus;

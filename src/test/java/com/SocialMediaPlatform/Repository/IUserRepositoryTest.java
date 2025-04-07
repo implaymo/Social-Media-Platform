@@ -1,7 +1,7 @@
 package com.SocialMediaPlatform.Repository;
 
 
-import com.SocialMediaPlatform.Entity.User;
+import com.SocialMediaPlatform.Domain.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

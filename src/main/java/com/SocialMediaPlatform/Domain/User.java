@@ -1,14 +1,8 @@
-package com.SocialMediaPlatform.Entity;
+package com.SocialMediaPlatform.Domain;
 
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.data.annotation.Id;
-
-import java.util.Collection;
-import java.util.List;
 
 @Document(collection = "user")
 @Data

@@ -1,4 +1,4 @@
-package com.SocialMediaPlatform.Entity;
+package com.SocialMediaPlatform.Domain;
 
 import lombok.Builder;
 import lombok.Data;
@@ -11,15 +11,15 @@ import java.time.Instant;
 
 @Data
 @Builder
-@Document(collection = "like")
-public class Like {
+@Document(collection = "post")
+public class Post {
 
     @Id
-    private String likeID;
+    private String postId;
 
-    private String postID;
-
-    private String userID;
+    private String userId;
+    private String content;
+    private String mediaUrl;
 
     @CreatedDate
     private Instant createdAt;

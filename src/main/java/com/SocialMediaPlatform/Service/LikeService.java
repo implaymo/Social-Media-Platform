@@ -1,7 +1,7 @@
 package com.SocialMediaPlatform.Service;
 
-import com.SocialMediaPlatform.Entity.Like;
-import com.SocialMediaPlatform.Interface.ILikeFactory;
+import com.SocialMediaPlatform.Domain.Like;
+import com.SocialMediaPlatform.Interface.Like.ILikeFactory;
 import com.SocialMediaPlatform.Repository.ILikeRepository;
 import org.springframework.stereotype.Service;
 

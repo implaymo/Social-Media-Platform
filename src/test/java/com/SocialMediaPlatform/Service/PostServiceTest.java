@@ -1,6 +1,6 @@
 package com.SocialMediaPlatform.Service;
 
-import com.SocialMediaPlatform.Entity.Post;
+import com.SocialMediaPlatform.Domain.Post;
 import com.SocialMediaPlatform.Repository.IPostRepository;
 import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,6 +1,6 @@
 package com.SocialMediaPlatform.Service;
 
-import com.SocialMediaPlatform.Entity.Comment;
+import com.SocialMediaPlatform.Domain.Comment;
 import com.SocialMediaPlatform.Repository.ICommentRepository;
 import org.junit.jupiter.api.Test;
 

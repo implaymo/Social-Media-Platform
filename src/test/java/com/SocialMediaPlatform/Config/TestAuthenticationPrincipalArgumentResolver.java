@@ -2,7 +2,7 @@ package com.SocialMediaPlatform.Config;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import com.SocialMediaPlatform.Entity.User;
+import com.SocialMediaPlatform.Domain.User;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

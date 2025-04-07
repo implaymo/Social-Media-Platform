@@ -1,9 +1,9 @@
 package com.SocialMediaPlatform.Controller;
 
 import com.SocialMediaPlatform.Dto.UserLoginDto;
-import com.SocialMediaPlatform.Entity.User;
-import com.SocialMediaPlatform.Interface.IUserLoginMapper;
-import com.SocialMediaPlatform.Interface.IUserLoginService;
+import com.SocialMediaPlatform.Domain.User;
+import com.SocialMediaPlatform.Interface.Login.IUserLoginMapper;
+import com.SocialMediaPlatform.Interface.Login.IUserLoginService;
 
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

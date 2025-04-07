@@ -1,7 +1,7 @@
 package com.SocialMediaPlatform.Mapper;
 
 import com.SocialMediaPlatform.Dto.CommentDto;
-import com.SocialMediaPlatform.Entity.Comment;
+import com.SocialMediaPlatform.Domain.Comment;
 import org.springframework.stereotype.Component;
 
 @Component

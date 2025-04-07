@@ -1,6 +1,6 @@
-package com.SocialMediaPlatform.Interface;
+package com.SocialMediaPlatform.Interface.Login;
 
-import com.SocialMediaPlatform.Entity.User;
+import com.SocialMediaPlatform.Domain.User;
 
 import javax.naming.AuthenticationException;
 
