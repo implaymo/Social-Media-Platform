@@ -1,17 +1,18 @@
 package com.SocialMediaPlatform.Service.Comment;
 
 import com.SocialMediaPlatform.Domain.Comment;
+import com.SocialMediaPlatform.Interface.Comment.ICommentService;
 import com.SocialMediaPlatform.Repository.ICommentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class ICommentService implements com.SocialMediaPlatform.Interface.Comment.ICommentService {
+public class CommentService implements ICommentService {
 
     private final ICommentRepository commentRepository;
 
-    public ICommentService(ICommentRepository commentRepository) {
+    public CommentService(ICommentRepository commentRepository) {
         this.commentRepository = commentRepository;
     }
 
