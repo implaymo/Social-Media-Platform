@@ -1,6 +1,5 @@
-package com.SocialMediaPlatform.Controller;
+package com.SocialMediaPlatform.Controller.Mapping;
 
-import ch.qos.logback.core.model.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
