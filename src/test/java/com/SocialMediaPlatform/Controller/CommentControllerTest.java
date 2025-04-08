@@ -3,7 +3,7 @@ package com.SocialMediaPlatform.Controller;
 import com.SocialMediaPlatform.Dto.CommentDto;
 import com.SocialMediaPlatform.Domain.Comment;
 import com.SocialMediaPlatform.Domain.User;
-import com.SocialMediaPlatform.Mapper.ICommentMapper;
+import com.SocialMediaPlatform.Interface.Comment.ICommentMapper;
 import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
 import com.SocialMediaPlatform.Service.Comment.ICommentService;
 import org.junit.jupiter.api.Test;

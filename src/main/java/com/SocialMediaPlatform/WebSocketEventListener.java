@@ -1,6 +1,6 @@
 package com.SocialMediaPlatform;
 
-import com.SocialMediaPlatform.Entity.ChatMessage;
+import com.SocialMediaPlatform.Domain.ChatMessage;
 import com.SocialMediaPlatform.Enum.MessageType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
