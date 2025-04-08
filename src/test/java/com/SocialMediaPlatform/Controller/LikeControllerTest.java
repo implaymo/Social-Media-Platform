@@ -5,7 +5,7 @@ import com.SocialMediaPlatform.Domain.Like;
 import com.SocialMediaPlatform.Domain.Post;
 import com.SocialMediaPlatform.Interface.Like.ILikeService;
 import com.SocialMediaPlatform.Repository.IPostRepository;
-import com.SocialMediaPlatform.Service.Like.LikeService;
+import com.SocialMediaPlatform.Service.Like.LikeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,7 +34,7 @@ class LikeControllerTest {
     private Like like;
 
     @Mock
-    private LikeService likeService;
+    private ILikeService iLikeService;
 
     @Mock
     private IPostRepository postRepository;
@@ -65,7 +65,7 @@ class LikeControllerTest {
     void shouldReturnCreateIfRegisterLike() throws Exception {
         // arrange
         when(postRepository.findById(post.getPostId())).thenReturn(Optional.of(post));
-        when(likeService.registerLike(post.getPostId(), userID)).thenReturn(Optional.of(like));
+        when(iLikeService.registerLike(post.getPostId(), userID)).thenReturn(Optional.of(like));
         // act
         // assert
         mockMvc.perform(post("/like/" + post.getPostId())

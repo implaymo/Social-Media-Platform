@@ -3,7 +3,7 @@ package com.SocialMediaPlatform.Service;
 import com.SocialMediaPlatform.Domain.Like;
 import com.SocialMediaPlatform.Interface.Like.ILikeFactory;
 import com.SocialMediaPlatform.Repository.ILikeRepository;
-import com.SocialMediaPlatform.Service.Like.LikeService;
+import com.SocialMediaPlatform.Service.Like.LikeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +17,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class LikeServiceTest {
+class LikeServiceImplTest {
 
     @Mock
     private ILikeRepository likeRepository;
@@ -27,11 +27,11 @@ class LikeServiceTest {
 
     private String postID;
     private String userID;
-    private LikeService likeService;
+    private LikeServiceImpl likeServiceImpl;
 
     @BeforeEach
     void setUp(){
-        likeService = new LikeService(likeRepository, iLikeFactory);
+        likeServiceImpl = new LikeServiceImpl(likeRepository, iLikeFactory);
         postID = "postID";
         userID = "userID";
     }
@@ -46,7 +46,7 @@ class LikeServiceTest {
         when(iLikeFactory.createLike(postID, userID)).thenReturn(like);
         when(likeRepository.save(like)).thenReturn(like);
         // act
-        Optional<Like> likeRegistered = likeService.registerLike(postID, userID);
+        Optional<Like> likeRegistered = likeServiceImpl.registerLike(postID, userID);
         // assert
         assertTrue(likeRegistered.isPresent());
     }
@@ -56,7 +56,7 @@ class LikeServiceTest {
         // arrange
         // act
         // assert
-        assertThrows(IllegalArgumentException.class, () -> likeService.registerLike(null, userID));
+        assertThrows(IllegalArgumentException.class, () -> likeServiceImpl.registerLike(null, userID));
     }
 
     @Test
@@ -64,7 +64,7 @@ class LikeServiceTest {
         // arrange
         // act
         // assert
-        assertThrows(IllegalArgumentException.class, () -> likeService.registerLike(postID, null));
+        assertThrows(IllegalArgumentException.class, () -> likeServiceImpl.registerLike(postID, null));
     }
 
     @Test
@@ -72,7 +72,7 @@ class LikeServiceTest {
         // arrange
         // act
         // assert
-        assertThrows(IllegalArgumentException.class, () -> likeService.registerLike(null, null));
+        assertThrows(IllegalArgumentException.class, () -> likeServiceImpl.registerLike(null, null));
     }
 
     @Test
@@ -80,7 +80,7 @@ class LikeServiceTest {
         // arrange
         ILikeFactory iLikeFactory = mock(ILikeFactory.class);
         // act & assert
-        assertThrows(IllegalArgumentException.class, () -> new LikeService(null, iLikeFactory));
+        assertThrows(IllegalArgumentException.class, () -> new LikeServiceImpl(null, iLikeFactory));
     }
 
     @Test
@@ -88,6 +88,6 @@ class LikeServiceTest {
         // arrange
         ILikeRepository iLikeRepository = mock(ILikeRepository.class);
         // act & assert
-        assertThrows(IllegalArgumentException.class, () -> new LikeService(iLikeRepository, null));
+        assertThrows(IllegalArgumentException.class, () -> new LikeServiceImpl(iLikeRepository, null));
     }
 }

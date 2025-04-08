@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class LikeService implements ILikeService {
+public class LikeServiceImpl implements ILikeService {
 
     private final ILikeRepository iLikeRepository;
     private final ILikeFactory iLikeFactory;
 
-    public LikeService(ILikeRepository iLikeRepository, ILikeFactory iLikeFactory) {
+    public LikeServiceImpl(ILikeRepository iLikeRepository, ILikeFactory iLikeFactory) {
         if(iLikeRepository == null || iLikeFactory == null) {
             throw new IllegalArgumentException("likeRepository and likeFactory is null");
         }
