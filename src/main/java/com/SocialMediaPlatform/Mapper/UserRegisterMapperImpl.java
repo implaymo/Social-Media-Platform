@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserRegisterMapperImpl implements IUserRegistrationMapper {
 
+    @Override
     public User toEntityForRegistration(UserRegisterDto userRegisterDto) {
         if (userRegisterDto == null) {
             return null;

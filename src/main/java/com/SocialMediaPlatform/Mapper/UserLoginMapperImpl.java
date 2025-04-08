@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserLoginMapperImpl implements IUserLoginMapper {
 
+    @Override
     public User toEntityForLogin(UserLoginDto userLoginDto) {
         if (userLoginDto == null) {
             return null;
