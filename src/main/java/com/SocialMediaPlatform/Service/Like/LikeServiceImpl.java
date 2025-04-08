@@ -22,6 +22,7 @@ public class LikeServiceImpl implements ILikeService {
         this.iLikeFactory = iLikeFactory;
     }
 
+    @Override
     public Optional<Like> registerLike(String postID, String userID) {
         if(postID == null || userID == null){
             throw new IllegalArgumentException("Parameters can't be null");
