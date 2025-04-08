@@ -2,7 +2,7 @@ package com.SocialMediaPlatform.Service;
 
 import com.SocialMediaPlatform.Domain.Comment;
 import com.SocialMediaPlatform.Repository.ICommentRepository;
-import com.SocialMediaPlatform.Service.Comment.CommentService;
+import com.SocialMediaPlatform.Service.Comment.CommentServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class CommentServiceTest {
+class CommentServiceImplTest {
 
 
     @Test
@@ -23,7 +23,7 @@ class CommentServiceTest {
         ICommentRepository commentRepository = mock(ICommentRepository.class);
         when(comment.getCommentID()).thenReturn(null);
         when(commentRepository.save(comment)).thenReturn(comment);
-        CommentService ICommentService = new CommentService(commentRepository);
+        CommentServiceImpl ICommentService = new CommentServiceImpl(commentRepository);
         // act
         Optional <Comment> result = ICommentService.registerComment(comment, postID, userID);
         // assert
@@ -37,7 +37,7 @@ class CommentServiceTest {
         String userID = "userID";
         Comment comment = mock(Comment.class);
         ICommentRepository commentRepository = mock(ICommentRepository.class);
-        CommentService ICommentService = new CommentService(commentRepository);
+        CommentServiceImpl ICommentService = new CommentServiceImpl(commentRepository);
         when(comment.getCommentID()).thenReturn("commentID");
         // act
         Optional<Comment> result = ICommentService.registerComment(comment, postID, userID);
@@ -51,7 +51,7 @@ class CommentServiceTest {
         String userID = "userID";
         Comment comment = mock(Comment.class);
         ICommentRepository commentRepository = mock(ICommentRepository.class);
-        CommentService ICommentService = new CommentService(commentRepository);
+        CommentServiceImpl ICommentService = new CommentServiceImpl(commentRepository);
         // act
         Optional<Comment> result = ICommentService.registerComment(comment, null, userID);
         // assert
@@ -64,7 +64,7 @@ class CommentServiceTest {
         String postID = "postId";
         Comment comment = mock(Comment.class);
         ICommentRepository commentRepository = mock(ICommentRepository.class);
-        CommentService ICommentService = new CommentService(commentRepository);
+        CommentServiceImpl ICommentService = new CommentServiceImpl(commentRepository);
         // act
         Optional<Comment> result = ICommentService.registerComment(comment, postID, null);
         // assert
