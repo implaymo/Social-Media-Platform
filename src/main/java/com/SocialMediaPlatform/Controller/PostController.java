@@ -2,9 +2,9 @@ package com.SocialMediaPlatform.Controller;
 
 import com.SocialMediaPlatform.Dto.PostDto;
 import com.SocialMediaPlatform.Domain.Post;
-import com.SocialMediaPlatform.Mapper.PostMapper;
+import com.SocialMediaPlatform.Interface.Post.IPostMapper;
+import com.SocialMediaPlatform.Interface.Post.IPostService;
 import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
-import com.SocialMediaPlatform.Service.Post.PostService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,20 +21,21 @@ import java.util.Optional;
 public class PostController {
 
 
-    private final PostMapper postMapper;
-    private final PostService postService;
+    private final IPostMapper iPostMapper;
+    private final IPostService iPostService;
 
 
-    public PostController(PostMapper postMapper, PostService postService) {
-        this.postMapper = postMapper;
-        this.postService = postService;
+    public PostController(IPostMapper iPostMapper, IPostService iPostService) {
+
+        this.iPostMapper = iPostMapper;
+        this.iPostService = iPostService;
     }
 
     @PostMapping(path = "/post/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boolean> createPost(@Valid @RequestBody PostDto postDto,
                                               @AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        Post post = postMapper.toEntity(postDto);
-        Optional<Post> postCreated = postService.createPost(post, customUserDetails);
+        Post post = iPostMapper.toEntity(postDto);
+        Optional<Post> postCreated = iPostService.createPost(post, customUserDetails);
         if(postCreated.isEmpty()){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
@@ -43,8 +44,8 @@ public class PostController {
 
     @PostMapping(path = "/post/update", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boolean> updatePost(@Valid @RequestBody PostDto postDto) {
-        Post post = postMapper.toEntity(postDto);
-        Optional<Post> postUpdated = postService.updatePost(post);
+        Post post = iPostMapper.toEntity(postDto);
+        Optional<Post> postUpdated = iPostService.updatePost(post);
         if(postUpdated.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
@@ -53,8 +54,8 @@ public class PostController {
 
     @PostMapping(path = "/post/delete", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boolean> deletePost(@Valid @RequestBody PostDto postDto) {
-        Post post = postMapper.toEntity(postDto);
-        Optional<Post> postDelete = postService.deletePost(post);
+        Post post = iPostMapper.toEntity(postDto);
+        Optional<Post> postDelete = iPostService.deletePost(post);
         if(postDelete.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }

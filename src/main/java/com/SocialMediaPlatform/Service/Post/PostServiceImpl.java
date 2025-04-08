@@ -8,15 +8,15 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class PostService {
+public class PostServiceImpl implements com.SocialMediaPlatform.Interface.Post.IPostService {
 
     private final IPostRepository postRepository;
 
-    public PostService(IPostRepository postRepository) {
+    public PostServiceImpl(IPostRepository postRepository) {
         this.postRepository = postRepository;
     }
 
-
+    @Override
     public Optional<Post> createPost(Post post, CustomUserDetails customUserDetails) {
         if(post == null || customUserDetails == null) {
             return Optional.empty();
@@ -26,6 +26,7 @@ public class PostService {
         return Optional.of(post);
     }
 
+    @Override
     public Optional<Post> updatePost(Post post) {
         if (post == null) {
             return Optional.empty();
@@ -45,6 +46,7 @@ public class PostService {
         return Optional.empty();
     }
 
+    @Override
     public Optional<Post> deletePost(Post post) {
         if (post == null) {
             return Optional.empty();

@@ -3,7 +3,7 @@ package com.SocialMediaPlatform.Service;
 import com.SocialMediaPlatform.Domain.Post;
 import com.SocialMediaPlatform.Repository.IPostRepository;
 import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
-import com.SocialMediaPlatform.Service.Post.PostService;
+import com.SocialMediaPlatform.Service.Post.PostServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,17 +16,17 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class PostServiceTest {
+class PostServiceImplTest {
 
     @Mock
     IPostRepository postRepository;
 
 
-    private PostService postService;
+    private PostServiceImpl postService;
 
     @BeforeEach
     void setUp(){
-        postService = new PostService(postRepository);
+        postService = new PostServiceImpl(postRepository);
 
     }
 

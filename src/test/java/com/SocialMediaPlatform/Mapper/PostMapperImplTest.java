@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PostMapperTest {
+class PostMapperImplTest {
 
-    private PostMapper postMapper;
+    private PostMapperImpl postMapper;
 
     @BeforeEach
     void setUp() {
-        postMapper = new PostMapper();
+        postMapper = new PostMapperImpl();
     }
 
     @Test

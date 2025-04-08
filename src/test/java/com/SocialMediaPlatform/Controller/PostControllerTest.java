@@ -5,9 +5,10 @@ import com.SocialMediaPlatform.Config.TestSecurityConfig;
 import com.SocialMediaPlatform.Dto.PostDto;
 import com.SocialMediaPlatform.Domain.Post;
 import com.SocialMediaPlatform.Domain.User;
-import com.SocialMediaPlatform.Mapper.PostMapper;
+import com.SocialMediaPlatform.Interface.Post.IPostMapper;
+import com.SocialMediaPlatform.Interface.Post.IPostService;
+import com.SocialMediaPlatform.Mapper.PostMapperImpl;
 import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
-import com.SocialMediaPlatform.Service.Post.PostService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +39,10 @@ class PostControllerTest {
     private MockMvc mockMvc;
 
     @MockitoBean
-    private PostService postService;
+    private IPostService iPostService;
 
     @MockitoBean
-    private PostMapper postMapper;
+    private IPostMapper iPostMapper;
 
     @Test
     @WithMockUser(username = "john@example.com", roles = "USER")
@@ -66,8 +67,8 @@ class PostControllerTest {
                 .content("Hello World")
                 .mediaUrl("example.jpg")
                 .build();
-        when(postMapper.toEntity(postDto)).thenReturn(post);
-        when(postService.createPost(post, userDetails))
+        when(iPostMapper.toEntity(postDto)).thenReturn(post);
+        when(iPostService.createPost(post, userDetails))
                 .thenReturn(Optional.of(post));
 
         // act + assert
@@ -111,8 +112,8 @@ class PostControllerTest {
                 .postId("postID")
                 .mediaUrl("example.mp4")
                 .build();
-        when(postMapper.toEntity(postDto)).thenReturn(post);
-        when(postService.createPost(post, userDetails))
+        when(iPostMapper.toEntity(postDto)).thenReturn(post);
+        when(iPostService.createPost(post, userDetails))
                 .thenReturn(Optional.empty());
 
         // act + assert
@@ -137,8 +138,8 @@ class PostControllerTest {
                 .content("New content")
                 .mediaUrl("exampleNewMedia.jpg")
                 .build();
-        when(postMapper.toEntity(postDto)).thenReturn(updatedPost);
-        when(postService.updatePost(updatedPost)).thenReturn(Optional.of(updatedPost));
+        when(iPostMapper.toEntity(postDto)).thenReturn(updatedPost);
+        when(iPostService.updatePost(updatedPost)).thenReturn(Optional.of(updatedPost));
 
         // act + assert
         mockMvc.perform(post("/post/update")
@@ -154,8 +155,8 @@ class PostControllerTest {
         // arrange
         PostDto postDto = mock(PostDto.class);
         Post post = mock(Post.class);
-        when(postMapper.toEntity(postDto)).thenReturn(post);
-        when(postService.updatePost(post)).thenReturn(Optional.empty());
+        when(iPostMapper.toEntity(postDto)).thenReturn(post);
+        when(iPostService.updatePost(post)).thenReturn(Optional.empty());
 
         // act + assert
         mockMvc.perform(post("/post/update")
@@ -182,8 +183,8 @@ class PostControllerTest {
                 .content("Hello World")
                 .mediaUrl("example.jpg")
                 .build();
-        when(postMapper.toEntity(postDto)).thenReturn(post);
-        when(postService.deletePost(post)).thenReturn(Optional.of(post));
+        when(iPostMapper.toEntity(postDto)).thenReturn(post);
+        when(iPostService.deletePost(post)).thenReturn(Optional.of(post));
         // act & assert
         mockMvc.perform(post("/post/delete")
                 .with(csrf())
@@ -206,8 +207,8 @@ class PostControllerTest {
                 .content("Hello World")
                 .mediaUrl("example.jpg")
                 .build();
-        when(postMapper.toEntity(postDto)).thenReturn(post);
-        when(postService.deletePost(post)).thenReturn(Optional.empty());
+        when(iPostMapper.toEntity(postDto)).thenReturn(post);
+        when(iPostService.deletePost(post)).thenReturn(Optional.empty());
         // act & assert
         mockMvc.perform(post("/post/delete")
                 .with(csrf())
