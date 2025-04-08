@@ -165,7 +165,7 @@ class CommentControllerTest {
     }
 
     @Test
-    void shouldThrowIllegalArgumentExceptionIfCommentServiceIsNull() throws Exception {
+    void shouldThrowIllegalArgumentExceptionIfCommentServiceIsNull() {
         // arrange
         ICommentMapper iCommentMapper = mock(ICommentMapper.class);
         // act & assert
@@ -175,7 +175,7 @@ class CommentControllerTest {
     }
 
     @Test
-    void shouldThrowIllegalArgumentExceptionIfCommentMapperIsNull() throws Exception {
+    void shouldThrowIllegalArgumentExceptionIfCommentMapperIsNull() {
         // arrange
         ICommentService iCommentService = mock(ICommentService.class);
         // act & assert
