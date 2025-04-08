@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class CommentMapperTest {
+class CommentMapperImplTest {
 
     @Test
     void shouldTransformCommentDtoIntoCommentEntity() {
@@ -16,7 +16,7 @@ class CommentMapperTest {
         CommentDto commentDto = mock(CommentDto.class);
         when(commentDto.getComment()).thenReturn("Test comment");
 
-        CommentMapper ICommentMapper = new CommentMapper();
+        CommentMapperImpl ICommentMapper = new CommentMapperImpl();
 
         // act
         Comment result = ICommentMapper.toEntity(commentDto);
@@ -29,7 +29,7 @@ class CommentMapperTest {
     @Test
     void shouldNotTransformCommentDtoIntoCommentEntityIfCommentDtoIsNull(){
         // arrange
-        CommentMapper ICommentMapper = new CommentMapper();
+        CommentMapperImpl ICommentMapper = new CommentMapperImpl();
         CommentDto commentDto = null;
         // act
         Comment result = ICommentMapper.toEntity(commentDto);

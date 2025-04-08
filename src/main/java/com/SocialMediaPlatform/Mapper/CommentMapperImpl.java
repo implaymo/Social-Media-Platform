@@ -6,8 +6,9 @@ import com.SocialMediaPlatform.Interface.Comment.ICommentMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CommentMapper implements ICommentMapper {
+public class CommentMapperImpl implements ICommentMapper {
 
+    @Override
     public Comment toEntity(CommentDto commentDto) {
         if (commentDto == null) {
             return null;
