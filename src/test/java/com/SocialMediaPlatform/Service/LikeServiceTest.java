@@ -74,4 +74,20 @@ class LikeServiceTest {
         // assert
         assertThrows(IllegalArgumentException.class, () -> likeService.registerLike(null, null));
     }
+
+    @Test
+    void shouldThrowIllegalArgumentExceptionIfLikeRepositoryIsNull(){
+        // arrange
+        ILikeFactory iLikeFactory = mock(ILikeFactory.class);
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> new LikeService(null, iLikeFactory));
+    }
+
+    @Test
+    void shouldThrowIllegalArgumentExceptionIfLikeFactoryIsNull(){
+        // arrange
+        ILikeRepository iLikeRepository = mock(ILikeRepository.class);
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> new LikeService(iLikeRepository, null));
+    }
 }

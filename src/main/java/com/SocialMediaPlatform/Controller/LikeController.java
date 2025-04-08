@@ -3,8 +3,8 @@ package com.SocialMediaPlatform.Controller;
 import com.SocialMediaPlatform.Domain.Like;
 import com.SocialMediaPlatform.Domain.Post;
 import com.SocialMediaPlatform.Domain.User;
+import com.SocialMediaPlatform.Interface.Like.ILikeService;
 import com.SocialMediaPlatform.Repository.IPostRepository;
-import com.SocialMediaPlatform.Service.Like.LikeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +19,15 @@ import java.util.Optional;
 @RestController
 public class LikeController {
 
-    private final LikeService likeService;
-    private final IPostRepository postRepository;
+    private final ILikeService iLikeService;
+    private final IPostRepository iPostRepository;
 
-    public LikeController(LikeService likeService, IPostRepository postRepository) {
-        this.postRepository = postRepository;
-        this.likeService = likeService;
+    public LikeController(ILikeService iLikeService, IPostRepository iPostRepository) {
+        if(iLikeService == null || iPostRepository == null) {
+            throw new IllegalArgumentException("likeService or postRepository is null");
+        }
+        this.iLikeService = iLikeService;
+        this.iPostRepository = iPostRepository;
     }
 
 
@@ -33,10 +36,10 @@ public class LikeController {
     public ResponseEntity<Boolean> registerLike(@PathVariable String postID,
                                                 @AuthenticationPrincipal User user){
         try {
-            Optional<Post> postFound = postRepository.findById(postID);
+            Optional<Post> postFound = iPostRepository.findById(postID);
             if(postFound.isPresent()) {
                 String userID = user.getId();
-                Optional<Like> likeRegistered = likeService.registerLike(postID, userID);
+                Optional<Like> likeRegistered = iLikeService.registerLike(postID, userID);
                 if (likeRegistered.isPresent()) {
                     return ResponseEntity.status(HttpStatus.CREATED).body(true);
                 }

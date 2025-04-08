@@ -1,4 +1,4 @@
-package com.SocialMediaPlatform.Controller.Mapping;
+package com.SocialMediaPlatform.Controller.SimpleMapping;
 
 
 import org.springframework.stereotype.Controller;

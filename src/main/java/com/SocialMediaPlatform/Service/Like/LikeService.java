@@ -2,19 +2,23 @@ package com.SocialMediaPlatform.Service.Like;
 
 import com.SocialMediaPlatform.Domain.Like;
 import com.SocialMediaPlatform.Interface.Like.ILikeFactory;
+import com.SocialMediaPlatform.Interface.Like.ILikeService;
 import com.SocialMediaPlatform.Repository.ILikeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class LikeService {
+public class LikeService implements ILikeService {
 
-    private final ILikeRepository likeRepository;
+    private final ILikeRepository iLikeRepository;
     private final ILikeFactory iLikeFactory;
 
-    public LikeService(ILikeRepository likeRepository, ILikeFactory iLikeFactory) {
-        this.likeRepository = likeRepository;
+    public LikeService(ILikeRepository iLikeRepository, ILikeFactory iLikeFactory) {
+        if(iLikeRepository == null || iLikeFactory == null) {
+            throw new IllegalArgumentException("likeRepository and likeFactory is null");
+        }
+        this.iLikeRepository = iLikeRepository;
         this.iLikeFactory = iLikeFactory;
     }
 
@@ -22,11 +26,11 @@ public class LikeService {
         if(postID == null || userID == null){
             throw new IllegalArgumentException("Parameters can't be null");
         }
-        if(likeRepository.findByPostIDAndUserID(postID, userID).isPresent()){
+        if(iLikeRepository.findByPostIDAndUserID(postID, userID).isPresent()){
             return Optional.empty();
         }
         Like like =  iLikeFactory.createLike(postID, userID);
-        return Optional.of(likeRepository.save(like));
+        return Optional.of(iLikeRepository.save(like));
     }
 
 }

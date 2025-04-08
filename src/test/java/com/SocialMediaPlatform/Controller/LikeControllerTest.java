@@ -3,6 +3,7 @@ package com.SocialMediaPlatform.Controller;
 import com.SocialMediaPlatform.Config.TestAuthenticationPrincipalArgumentResolver;
 import com.SocialMediaPlatform.Domain.Like;
 import com.SocialMediaPlatform.Domain.Post;
+import com.SocialMediaPlatform.Interface.Like.ILikeService;
 import com.SocialMediaPlatform.Repository.IPostRepository;
 import com.SocialMediaPlatform.Service.Like.LikeService;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,9 +15,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Optional;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -92,5 +95,25 @@ class LikeControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isConflict())
                 .andExpect(content().string("false"));
+    }
+
+    @Test
+    void shouldThrowIllegalArgumentExceptionIfLikeServiceIsNull() throws Exception {
+        // arrange
+        IPostRepository iPostRepository = mock(IPostRepository.class);
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> {
+           new LikeController(null, iPostRepository);
+        });
+    }
+
+    @Test
+    void shouldThrowIllegalArgumentExceptionIfPostRepositoryIsNull() throws Exception {
+        // arrange
+        ILikeService iLikeService = mock(ILikeService.class);
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new LikeController(iLikeService, null);
+        });
     }
 }
