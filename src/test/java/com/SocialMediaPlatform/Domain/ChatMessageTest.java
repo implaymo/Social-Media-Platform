@@ -1,6 +1,9 @@
 package com.SocialMediaPlatform.Domain;
 
 import com.SocialMediaPlatform.Enum.MessageType;
+import com.SocialMediaPlatform.ValueObjects.Content;
+import com.SocialMediaPlatform.ValueObjects.Sender;
+
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -16,9 +19,11 @@ class ChatMessageTest {
     @Test
     void shouldCreateChatMessage() {
         // arrange
+        Content content = mock(Content.class);
+        Sender sender = mock(Sender.class);
         MessageType messageType = mock(MessageType.class);
         // act
-        ChatMessage chatMessage = ChatMessage.builder().type(messageType).content("Hello").sender("user").build();
+        ChatMessage chatMessage = ChatMessage.builder().type(messageType).content(content).sender(sender).build();
         // assert
         assertNotNull(chatMessage);
     }
@@ -26,7 +31,9 @@ class ChatMessageTest {
     @Test
     void shouldFailValidationWhenTypeIsNull() {
         // arrange
-        ChatMessage chatMessage = ChatMessage.builder().type(null).content("Hello").sender("user").build();
+        Content content = mock(Content.class);
+        Sender sender = mock(Sender.class);
+        ChatMessage chatMessage = ChatMessage.builder().type(null).content(content).sender(sender).build();
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
         // act
@@ -42,7 +49,8 @@ class ChatMessageTest {
     void shouldNotCreateChatMessageIfMessageContentIsNull() {
         // arrange
         MessageType messageType = mock(MessageType.class);
-        ChatMessage chatMessage = ChatMessage.builder().type(messageType).content(null).sender("user").build();
+        Sender sender = mock(Sender.class);
+        ChatMessage chatMessage = ChatMessage.builder().type(messageType).content(null).sender(sender).build();
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
         // act
@@ -58,7 +66,9 @@ class ChatMessageTest {
     void shouldNotCreateChatMessageIfMessageContentIsEmpty() {
         // arrange
         MessageType messageType = mock(MessageType.class);
-        ChatMessage chatMessage = ChatMessage.builder().type(messageType).content("").sender("user").build();
+        Sender sender = mock(Sender.class);
+        Content emptyContent = mock(Content.class);
+        ChatMessage chatMessage = ChatMessage.builder().type(messageType).content(emptyContent).sender(sender).build();
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
         // act
@@ -74,7 +84,9 @@ class ChatMessageTest {
     void shouldNotCreateChatMessageIfSenderIsEmpty() {
         // arrange
         MessageType messageType = mock(MessageType.class);
-        ChatMessage chatMessage = ChatMessage.builder().type(messageType).content("Hello").sender("").build();
+        Content content = mock(Content.class);
+        Sender emptySender = mock(Sender.class);
+        ChatMessage chatMessage = ChatMessage.builder().type(messageType).content(content).sender(emptySender).build();
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
         // act
@@ -90,7 +102,8 @@ class ChatMessageTest {
     void shouldNotCreateChatMessageIfSenderIsNull() {
         // arrange
         MessageType messageType = mock(MessageType.class);
-        ChatMessage chatMessage = ChatMessage.builder().type(messageType).content("Hello").sender(null).build();
+        Content content = mock(Content.class);
+        ChatMessage chatMessage = ChatMessage.builder().type(messageType).content(content).sender(null).build();
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
         // act

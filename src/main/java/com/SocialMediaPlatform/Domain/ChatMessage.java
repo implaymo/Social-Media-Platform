@@ -1,8 +1,9 @@
 package com.SocialMediaPlatform.Domain;
 
-
 import com.SocialMediaPlatform.Enum.MessageType;
-import jakarta.validation.constraints.NotBlank;
+import com.SocialMediaPlatform.ValueObjects.Content;
+import com.SocialMediaPlatform.ValueObjects.Sender;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -16,9 +17,11 @@ public class ChatMessage {
     @NotNull
     private MessageType type;
 
-    @NotBlank
-    private String content;
+    @Valid
+    @NotNull
+    private Content content;
 
-    @NotBlank
-    private String sender;
+    @Valid
+    @NotNull
+    private Sender sender;
 }
