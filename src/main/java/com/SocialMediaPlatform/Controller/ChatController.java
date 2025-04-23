@@ -30,8 +30,8 @@ public class ChatController {
         headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
         return ChatMessage.builder()
                 .type(MessageType.JOIN)
-                .sender("System")
-                .content(chatMessage.getSender() + " joined!")
+                .sender(chatMessage.getSender())
+                .content(chatMessage.getContent())
                 .build();
     }
 }
