@@ -5,7 +5,6 @@ import com.SocialMediaPlatform.Domain.Like;
 import com.SocialMediaPlatform.Domain.Post;
 import com.SocialMediaPlatform.Interface.Like.ILikeService;
 import com.SocialMediaPlatform.Repository.IPostRepository;
-import com.SocialMediaPlatform.Service.Like.LikeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
