@@ -2,8 +2,6 @@ package com.SocialMediaPlatform.Controller;
 
 import com.SocialMediaPlatform.Domain.ChatMessage;
 import com.SocialMediaPlatform.Enum.MessageType;
-import com.SocialMediaPlatform.ValueObjects.Sender;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
@@ -43,8 +41,7 @@ class ChatControllerTest {
             // arrange
             SimpMessageHeaderAccessor headerAccessor = mock(SimpMessageHeaderAccessor.class);
             ChatMessage chatMessage = mock(ChatMessage.class);
-            Sender sender = mock(Sender.class);
-            when(chatMessage.getSender()).thenReturn(sender);
+            when(chatMessage.getSender()).thenReturn("testUser");
 
             Map<String, Object> sessionAttributes = new HashMap<>();
             when(headerAccessor.getSessionAttributes()).thenReturn(sessionAttributes);
