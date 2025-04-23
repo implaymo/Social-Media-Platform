@@ -1,5 +1,6 @@
 package com.SocialMediaPlatform.Controller;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -129,4 +130,24 @@ public class AuthLoginControllerTest {
                         .content("{}"))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void shouldReturnExceptionIfMapperIsNull() {
+        // arrange
+        IUserLoginMapper nullMapper = null;
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new AuthLoginController(nullMapper, iUserLoginService);
+        });
+    }
+
+    @Test
+    void shouldReturnExceptionIfServiceIsNull() {
+        // arrange
+        IUserLoginService nullService = null;
+        // act & assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            new AuthLoginController(iUserLoginMapper, nullService);
+                });     
+        }
 }
