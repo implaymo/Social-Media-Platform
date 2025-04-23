@@ -11,5 +11,19 @@ public class Content {
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Content content = (Content) obj;
+        return name.equals(content.name);
+    }
+
+    public int hashCode() {
+        return name.hashCode();
+    }
 
 }
