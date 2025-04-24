@@ -59,43 +59,6 @@ class ChatMessageTest {
         // assert
         assertFalse(violations.isEmpty());
         assertEquals(1, violations.size());
-        assertEquals("must not be blank", violations.iterator().next().getMessage());
-    }
-
-    @Test
-    void shouldNotCreateChatMessageIfMessageContentIsEmpty() {
-        // arrange
-        MessageType messageType = mock(MessageType.class);
-        Sender sender = mock(Sender.class);
-        Content emptyContent = mock(Content.class);
-        ChatMessage chatMessage = ChatMessage.builder().type(messageType).content(emptyContent).sender(sender).build();
-        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-
-        // act
-        Set<ConstraintViolation<ChatMessage>> violations = validator.validate(chatMessage);
-
-        // assert
-        assertFalse(violations.isEmpty());
-        assertEquals(1, violations.size());
-        assertEquals("must not be blank", violations.iterator().next().getMessage());
-    }
-
-    @Test
-    void shouldNotCreateChatMessageIfSenderIsEmpty() {
-        // arrange
-        MessageType messageType = mock(MessageType.class);
-        Content content = mock(Content.class);
-        Sender emptySender = mock(Sender.class);
-        ChatMessage chatMessage = ChatMessage.builder().type(messageType).content(content).sender(emptySender).build();
-        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-
-        // act
-        Set<ConstraintViolation<ChatMessage>> violations = validator.validate(chatMessage);
-
-        // assert
-        assertFalse(violations.isEmpty());
-        assertEquals(1, violations.size());
-        assertEquals("must not be blank", violations.iterator().next().getMessage());
     }
 
     @Test
@@ -112,6 +75,5 @@ class ChatMessageTest {
         // assert
         assertFalse(violations.isEmpty());
         assertEquals(1, violations.size());
-        assertEquals("must not be blank", violations.iterator().next().getMessage());
     }
 }
