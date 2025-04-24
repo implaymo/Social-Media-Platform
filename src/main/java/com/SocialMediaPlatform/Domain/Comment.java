@@ -6,6 +6,8 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.SocialMediaPlatform.ValueObjects.Message;
+
 import java.util.Objects;
 
 @Data
@@ -17,7 +19,7 @@ public class Comment {
     private String commentID;
 
 
-    private String message;
+    private Message message;
     private String postID;
     private String userID;
 

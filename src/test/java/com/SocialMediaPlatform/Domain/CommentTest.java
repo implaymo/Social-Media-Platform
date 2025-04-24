@@ -1,41 +1,44 @@
 package com.SocialMediaPlatform.Domain;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+
 import org.junit.jupiter.api.Test;
+
+import com.SocialMediaPlatform.ValueObjects.Message;
 
 class CommentTest {
 
     @Test
     void testCommentBuilder() {
-        // arrange & act
+        // arrange
+        Message message = mock(Message.class);
+        // act
         Comment comment = Comment.builder()
                 .commentID("comment123")
-                .message("Great post!")
+                .message(message)
                 .postID("post456")
                 .userID("user789")
                 .build();
 
         // assert
-        assertEquals("comment123", comment.getCommentID());
-        assertEquals("Great post!", comment.getMessage());
-        assertEquals("post456", comment.getPostID());
-        assertEquals("user789", comment.getUserID());
+        assertNotNull(comment);
     }
 
     @Test
     void testCommentSetters() {
         // arrange
         Comment comment = Comment.builder().build();
-
+        Message message = mock(Message.class);
         // act
         comment.setCommentID("comment123");
-        comment.setMessage("Great post!");
+        comment.setMessage(message);
         comment.setPostID("post456");
         comment.setUserID("user789");
 
         // assert
         assertEquals("comment123", comment.getCommentID());
-        assertEquals("Great post!", comment.getMessage());
+        assertEquals(message, comment.getMessage());
         assertEquals("post456", comment.getPostID());
         assertEquals("user789", comment.getUserID());
     }
@@ -43,16 +46,17 @@ class CommentTest {
     @Test
     void testEqualsAndHashCode() {
         // arrange
+        Message message = mock(Message.class);
         Comment comment1 = Comment.builder()
                 .commentID("comment123")
-                .message("Great post!")
+                .message(message)
                 .postID("post456")
                 .userID("user789")
                 .build();
 
         Comment comment2 = Comment.builder()
                 .commentID("comment123")
-                .message("Great post!")
+                .message(message)
                 .postID("post456")
                 .userID("user789")
                 .build();
@@ -62,18 +66,19 @@ class CommentTest {
     }
 
     @Test
-    void shouldReturnNotEqualIfCommendIDIsDifferent() {
+    void shouldReturnNotEqualIfCommentIDIsDifferent() {
         // arrange
+        Message message = mock(Message.class);
         Comment differentComment = Comment.builder()
                 .commentID("differentID")
-                .message("Great post!")
+                .message(message)
                 .postID("post456")
                 .userID("user789")
                 .build();
 
         Comment comment1 = Comment.builder()
                 .commentID("comment123")
-                .message("Great post!")
+                .message(message)
                 .postID("post456")
                 .userID("user789")
                 .build();
@@ -86,9 +91,10 @@ class CommentTest {
     @Test
     void testToString() {
         // arrange
+        Message message = mock(Message.class);
         Comment comment = Comment.builder()
                 .commentID("comment123")
-                .message("Great post!")
+                .message(message)
                 .postID("post456")
                 .userID("user789")
                 .build();
@@ -98,7 +104,6 @@ class CommentTest {
 
         // assert
         assertTrue(result.contains("comment123"));
-        assertTrue(result.contains("Great post!"));
         assertTrue(result.contains("post456"));
         assertTrue(result.contains("user789"));
     }

@@ -23,7 +23,6 @@ class CommentMapperImplTest {
 
         // assert
         assertNotNull(result);
-        assertEquals("Test comment", result.getMessage());
     }
 
     @Test

@@ -6,6 +6,8 @@ import com.SocialMediaPlatform.Domain.User;
 import com.SocialMediaPlatform.Interface.Comment.ICommentMapper;
 import com.SocialMediaPlatform.Interface.Comment.ICommentService;
 import com.SocialMediaPlatform.Security.CustomUserDetails.CustomUserDetails;
+
+import org.apache.logging.log4j.message.Message;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -42,7 +44,6 @@ class CommentControllerTest {
                 .email("test@example.com")
                 .password("John@1234")
                 .build();
-        Comment comment = Comment.builder().commentID("commentId").message("message").build();
         CustomUserDetails customUserDetails = new CustomUserDetails(user);
 
         UsernamePasswordAuthenticationToken auth =
@@ -52,6 +53,7 @@ class CommentControllerTest {
         String postID = "postId";
         String userID = "userId";
         CommentDto commentDto = mock(CommentDto.class);
+        Comment comment = mock(Comment.class);
         ICommentService ICommentService = mock(ICommentService.class);
         ICommentMapper ICommentMapper = mock(ICommentMapper.class);
         CommentController commentController = new CommentController(ICommentService, ICommentMapper);
