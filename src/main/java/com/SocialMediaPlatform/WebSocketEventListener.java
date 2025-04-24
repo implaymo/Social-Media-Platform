@@ -2,6 +2,9 @@ package com.SocialMediaPlatform;
 
 import com.SocialMediaPlatform.Domain.ChatMessage;
 import com.SocialMediaPlatform.Enum.MessageType;
+import com.SocialMediaPlatform.ValueObjects.Content;
+import com.SocialMediaPlatform.ValueObjects.Sender;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -28,13 +31,14 @@ public class WebSocketEventListener {
     public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
         String username = (String) headerAccessor.getSessionAttributes().get("username");
-
+        Sender sender = new Sender("System");
+        Content content = new Content(username + " left!");
         if (username != null) {
 
             var chatMessage = ChatMessage.builder()
                     .type(MessageType.LEAVE)
-                    .sender("System")
-                    .content(username + " left!")
+                    .sender(sender)
+                    .content(content)
                     .build();
 
             messagingTemplate.convertAndSend("/topic/public", chatMessage);
